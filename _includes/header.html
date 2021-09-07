@@ -12,12 +12,12 @@
     </nav>
     <nav class="navbar-mobile" id="nav-mobile">
         <div class="container">
-            <div class="navbar-header header-logo">
+            <div class="navbar-header">
                 <div><a href="/">Ritwik Raha | ritwikraha</a>
                 <!-- <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div> -->
                 <div class="menu-toggle" onclick="mobileBtn()">&#9776; </div>
             </div>
-            <div class="menu" id="mobile-menu">
+            <div class="menu navbar-right" id="mobile-menu">
                 {% for i in site.urls %}
                 <a class="menu-item" href="{{site.url}}{{i.url}}">{{i.text}}</a>
                 {% endfor %}
