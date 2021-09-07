@@ -17,8 +17,9 @@
                 <!-- <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div> -->
                 
             </div>
-            <div class="menu" id="mobile-menu">
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; </div>
+            <div class="menu-toggle" onclick="mobileBtn()">&#9776; </div>
+            <div class="menu navbar-right" id="mobile-menu">
+                
                 {% for i in site.urls %}
                 <a class="menu-item" href="{{site.url}}{{i.url}}">{{i.text}}</a>
                 {% endfor %}
