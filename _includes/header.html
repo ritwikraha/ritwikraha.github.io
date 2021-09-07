@@ -1,0 +1,28 @@
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Ritwik Raha | ritwikraha</a></div>
+            <div class="menu navbar-right">
+                {% for i in site.urls %}
+                <a class="menu-item" href="{{site.url}}{{i.url}}">{{i.text}}</a>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div><a href="/">Ritwik Raha | ritwikraha</a><a id="mobile-toggle-theme">·&nbsp;Light</a></div>
+                <!-- <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div> -->
+                
+
+            </div>
+            <div class="menu" id="mobile-menu">
+                {% for i in site.urls %}
+                <a class="menu-item" href="{{site.url}}{{i.url}}">{{i.text}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+</header>

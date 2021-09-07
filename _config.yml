@@ -1,0 +1,59 @@
+# For the nav bar
+urls:
+    - text: Posts
+      url: /posts
+    - text: Research
+      url: /research
+    - text: About
+      url: /about
+    - text: Resume
+      url: /assets/Ritwik_Resume.pdf
+
+title: Portfolio
+email: ritwikraha.nsec@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  This is my portfolio site.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://ritwikraha.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: ritwik_raha
+github_username:  ritwikraha
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+disqus: true
+disqus_shortname: 'ritwikraha'
+
+# For hihlighting code
+highlighter: rouge
+markdown: kramdown
+mathjax: true
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
