@@ -102,9 +102,9 @@ $$P(y \mid do(z),w)$$ = $$P(y \mid w)$$ if $$(Y \perp\perp Z \mid W)$$ for $$G_{
 
 Where removal of incoming edges to Z should result in d-separation of Y and Z and no causal association should flow from Z to Y. However instead of this simple term we end up with an expression containing Z(W). To understand this better let us consider the graph below:
 
-![example3](({{site.url}}/assets/post_images/3post/collider-1.jpg "A sample graph")
+![example3]({{site.url}}/assets/post_images/3post/collider-1.jpg "A sample graph")
 
-Now the intuitive idea is to remove incoming edges to Z ($G_{\bar{Z}}$). But if we do that then we risk changing the distribution of Y altogether through the backdoor path consisting of U and V.
+Now the intuitive idea is to remove incoming edges to Z ($$G_{\bar{Z}}$$). But if we do that then we risk changing the distribution of Y altogether through the backdoor path consisting of U and V.
 
 Instead what we can do is take a sub-node of Z say $$Z_2$$ which is not an ancestor of any node in W and then remove all the incoming edges to it ($$G_{\bar{Z_2}}$$). This is shown in the figure below.
 
