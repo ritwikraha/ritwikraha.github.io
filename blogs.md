@@ -7,8 +7,8 @@ permalink: /posts
 The following are the links to some of my blogs and reports.
 
 * ### Causal Blogging
-  1. [What do we mean when we talk about Causal Inference](https://ritwikraha.github.io/ritwik/causal%20inference/blog/2021/04/12/The-Causal-Blog-1.html)
-  2. [Studying Causality: The good, the bad, and the ugly](https://ritwikraha.github.io/ritwik/causal%20inference/blog/2021/04/28/The-Causal-Blog-2.html)
+  1. [What do we mean when we talk about Causal Inference](/causal-blog-1)
+  2. [Studying Causality: The good, the bad, and the ugly](/causal-blog-2)
   3. [A Brief Introduction to Do-Calculus](https://ritwikraha.github.io/ritwik/causal%20inference/blog/2021/08/10/The-Causal-Blog-3.html)
 
 * ### Computer Vision
