@@ -9,7 +9,7 @@ The following are the links to some of my blogs and reports.
 * ### Causal Blogging
   1. [What do we mean when we talk about Causal Inference](/causal-blog-1)
   2. [Studying Causality: The good, the bad, and the ugly](/causal-blog-2)
-  3. [A Brief Introduction to Do-Calculus](https://ritwikraha.github.io/ritwik/causal%20inference/blog/2021/08/10/The-Causal-Blog-3.html)
+  3. [A Brief Introduction to Do-Calculus](/causal-blog-3)
 
 * ### Computer Vision
   1. [3D volumetric rendering with NeRF- Keras Example](https://keras.io/examples/vision/nerf/)
