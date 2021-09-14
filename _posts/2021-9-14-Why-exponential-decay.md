@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Why model decay using exponential function"
+title:  "Why model decay using the exponential function?"
 author: "Ritwik Raha"
 prev_title: false
 prev_link: false
