@@ -36,11 +36,11 @@ $$f(x) = (5-x)$$
 
 ![decreasing]({{site.url}}/assets/post_images/5post/decreasing-function.gif)
 
-In this function, we can see that for all positive values of $x$ the function decreases from 5. However, if the interval is changed and x starts from 0 and goes till $-\inf$ then the function starts increasing from 5.
+In this function, we can see that for all positive values of $$x$$ the function decreases from 5. However, if the interval is changed and x starts from 0 and goes till $$-\infty$$ then the function starts increasing from 5.
 
 We can play around with lots of definitions and functions to see where a function would be decreasing and where it would be **strictly decreasing**.
 
-> A function would be called strictly decreasing in the rang $(a,b)$ if 
+> A function would be called strictly decreasing in the rang $$(a,b)$$ if 
 
 $$x_1,x_2 \in (a,b) : x_1 <x_2 \implies f(x_1) > f(x_2)$$
 
@@ -55,7 +55,7 @@ First, let us understand what kind of data is best modeled by exponentials. The 
 | 30 | 40 |
 | 40 | 80 |
 
-Now as we plot this data we can see that it doubles with every iteration, compounding at a constant rate. This rate of compounding is described by $e^x$.
+Now as we plot this data we can see that it doubles with every iteration, compounding at a constant rate. This rate of compounding is described by $$e^x$$.
 
 So we can go as far as to say that exponential is the natural language of growth. Now, what happens when we use this same idea but reverse it. 
 
