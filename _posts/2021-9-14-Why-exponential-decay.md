@@ -72,7 +72,7 @@ The graph for this data would be something like this:
 
 ![decreasing]({{site.url}}/assets/post_images/5post/exponential-decay.gif)
 
-This can be modeled by the equation $y= e^{-x}$
+This can be modeled by the equation $$y= e^{-x}$$
 
 But why? Why does this equation fit this data so well? To understand this better let us go back to our old friend - **rate-of-change**.
 
@@ -80,7 +80,7 @@ Now how do we describe decay through calculus? Well, we need to take a quantity 
 
 $$\frac{dN}{dx}$$
 
-We can say that this rate of change may be something as simple as $-bN$ where $b$ is a constant.
+We can say that this rate of change may be something as simple as $$-bN$$ where $$b$$ is a constant.
 
 $$\frac{dN}{dx} = -bN \\
 $$
@@ -94,11 +94,11 @@ Solving for the logarithm and ignoring the constant of integration we have
 
 $$N(x) = N_oe^{-bx}$$
 
-Where $N(x)$ is the current value of $N$ with respect to $x$ and $N_0$ is the initial value or the starting point of $N$
+Where $$N(x)$$ is the current value of $$N$$ with respect to $$x$$ and $$N_0$$ is the initial value or the starting point of $$N$$
 
 ### How does it help us model systems?
 
-Now we know that the function $A(x) = A_0e^{-bx}$ can very easily model the process of compounding decay. 
+Now we know that the function $$A(x) = A_0e^{-bx}$$ can very easily model the process of compounding decay. 
 
 The use of this equation in modeling real-world applications is numerous.
 
