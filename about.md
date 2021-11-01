@@ -6,7 +6,7 @@ permalink: /about/
 
 ![my-image]({{site.url}}/assets/site_images/cartoon-me.png)
 
-I am a machine learning from Kolkata, India. My areas of interest include computer vsion, machine learning and causal inference.
+I am a machine learning engineer from Kolkata, India. My areas of interest include computer vsion, machine learning and causal inference.
 
 I am also a committed visual designer, passionate about UX and UI, with a keen eye for design languages. My designs and blogs related to it can be found [here.](https://www.ritwikraha.com/)
 
