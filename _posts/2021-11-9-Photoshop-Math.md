@@ -45,7 +45,7 @@ The first one is always the most simple one. When two images are placed over eac
 
 $$f(x,y) = y$$
 
-This is also called [alpha-composting](https://en.wikipedia.org/wiki/Alpha_compositing). This is relatively easy to code.
+This is also called [alpha-composting](https://en.wikipedia.org/wiki/Alpha_compositing). It is relatively easy to code.
 
 ```python 
 def normal(imgA,imgB):
@@ -56,6 +56,7 @@ def normal(imgA,imgB):
   # return the blended image
   return imgOut
 ```
+
 
 **Multiply**
 
@@ -80,6 +81,55 @@ def multiply(imgA,imgB):
   # convert the image back into uint8
   imgOut=(imgBlended*255).astype(np.uint8)
   # return th blended image
+  return imgOut
+```
+
+**Screen**
+
+Now the multiply blend mode makes the composite image look darker. What if we want the composite image to be brighter instead? 
+
+Yes we can simply invert what we did in the multiply blend mode to achieve that. First we invert the two images and multiply them. Then we invert the result. The formula would look something like this:
+
+$$f(x,y) = (1-(1-x)(1-y))$$
+
+Let us see how to express this in code:
+```python 
+def screen(imgA,imgB):
+  # create a container for the blended image
+  imgBlended = np.zeros_like(imgA)
+  # apply the blending formula to the images
+  imgBlended = (1-(1-imgA)*(1-imgB))
+  # convert the image back into uint8
+  imgOut=(imgBlended*255).astype(np.uint8)
+  # return the blended image
+  return imgOut
+```
+**Overlay**
+
+Life is not seen in only light and dark and neither are images. While darkening and brightening an image are quite useful, it is also necessary to be adaptive. Overlay brings in the best of both blending modes. 
+
+When the pixels of the first image is dark the pixels of the composite image is darker, when the pixels of the first image is light the pixels of the composite image is lighter. Usually the threshold is set at 0.5. The formula can be expressed as:
+
+$$f(x,y) = \begin{cases}
+    2xy, & \text{if x<0.5}.\\
+    1-2(1-a)(1-b), & \text{otherwise}.
+  \end{cases}$$
+
+Let us see how we can code this up:
+
+```python 
+def overlay(imgA,imgB):
+  # create a mask of the image A everywhere
+  # the pixels are greater than 0.5
+  mask = imgA >= 0.5
+  # create a container for the blended image
+  imgBlended = np.zeros_like(imgA)
+  # apply the blending formula to the mask
+  imgBlended[~mask] = (2*imgA*imgB)[~mask]
+  imgBlended[mask] = (1-2*(1-imgA)*(1-imgB))[mask]
+  # convert the image back into uint8
+  imgOut=(imgBlended*255).astype(np.uint8)
+  # return the blended image
   return imgOut
 ```
 ### References
