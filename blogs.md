@@ -13,7 +13,7 @@ The following are the links to some of my blogs and reports.
 
 * ### Computer Vision
   * [Neural Style Transfer with AdaIN- Keras Example](https://keras.io/examples/generative/adain/)
-  * [Computer Graphics and Deep Learning with NeRF using TensorFlow and Keras: Part 1](https://www.pyimagesearch.com/2021/11/10/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-1/)
+  * [Breaking down Neural Radiance Fields - Part 1](https://www.pyimagesearch.com/2021/11/10/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-1/)
   * [3D volumetric rendering with NeRF- Keras Example](https://keras.io/examples/vision/nerf/)
   * [Image Segmentation using Whale Optimization Algorithm](https://nbviewer.jupyter.org/gist/ritwikraha/e02e9b04b19bc582776464062c449a2a)
   * [Image Compression using SVD](https://nbviewer.jupyter.org/gist/ritwikraha/b10fe117a4f0c816fec69f99f1061f87)
