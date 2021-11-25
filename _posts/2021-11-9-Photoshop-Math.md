@@ -48,8 +48,13 @@ $$f(x,y) = y$$
 This is also called [alpha-composting](https://en.wikipedia.org/wiki/Alpha_compositing). This is relatively easy to code.
 
 ```python 
-def(img_x,img_y):
-	return img_y
+def normal(imgA,imgB):
+  # make a copy of the second image
+  imgBlended = np.copy(imgB)
+  # convert the image back into uint8 
+  imgOut=(imgBlended*255).astype(np.uint8)
+  # return the blended image
+  return imgOut
 ```
 
 **Multiply**
@@ -67,8 +72,15 @@ $$f(x,y) = xy$$
 This is also quite easy to code up.
 
 ```python 
-def(img_x,img_y):
-	return img_x[:,:,:3]*img_y[:,:,:3]
+def multiply(imgA,imgB):
+  # create a container for the blended image
+  imgBlended = np.zeros_like(imgA)
+  # apply the blending formula to the images
+  imgBlended = imgA*imgB
+  # convert the image back into uint8
+  imgOut=(imgBlended*255).astype(np.uint8)
+  # return th blended image
+  return imgOut
 ```
 ### References
 
