@@ -76,3 +76,5 @@ def(img_x,img_y):
 - [Adobe Blend Modes Gudielines](https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdf_reference_archive/blend_modes.pdf)
 - [Blending Modes Explained - Photoshop training channel](https://photoshoptrainingchannel.com/blending-modes-explained/)
 - [The Math behind Blend Modes - Imagineer](https://imagineer.in/blog/math-behind-blend-modes/)
+- [Blend Modes in Python](https://stackoverflow.com/questions/52141987/overlay-blending-mode-in-python-efficiently-as-possible-numpy-opencv)
+- [Pillow Blend Modes](https://blend-modes.readthedocs.io/_/downloads/en/latest/pdf/)
