@@ -1,13 +1,13 @@
 ---
 
 layout: post
-title:  "The math of Photoshop Blend Modes"
+title:  "The Math of Photoshop Blend Modes"
 author: "Ritwik Raha"
 prev_title: false
 prev_link: false
 next_title: false
 next_link: false
-tags: math
+tags: math, image-processing
 permalink: /math-of-photoshop-blend-modes
 
 ---
@@ -38,6 +38,16 @@ As we devise different functions we will create different blend modes. Sounds si
 Let us go through some blend modes and understand how they work:
 
 ### Some simple blend modes
+
+In this blog we will look at four simple blend modes:
+
+1. Normal
+2. Multiply
+3. Screen
+4. Overlay
+
+We will also cover the mathematical intution for these modes and how to easily code them up using python.
+
 
 **Normal**
 
@@ -111,7 +121,7 @@ Life is not seen in only light and dark and neither are images. While darkening 
 When the pixels of the first image is dark the pixels of the composite image is darker, when the pixels of the first image is light the pixels of the composite image is lighter. Usually the threshold is set at 0.5. The formula can be expressed as:
 
 $$f(x,y) = \begin{cases}
-    2xy, & \text{if x<0.5}.\\
+    2xy, & \text{if $x<0.5$}.\\
     1-2(1-a)(1-b), & \text{otherwise}.
   \end{cases}$$
 
@@ -132,6 +142,28 @@ def overlay(imgA,imgB):
   # return the blended image
   return imgOut
 ```
+### Source Code
+
+You can download the source code of this blogpost from [here]().
+
+
+### Conclusion
+
+And it is done. Our first batch of photoshop like blend modes are now ready. And the best thing?
+
+We built them from scracth! 
+
+Let's see what our result looks like:
+
+![blend-modes-result]({{site.url}}/assets/post_images/4post/output.png)
+
+Now, needless to say this barely scratches the surface. Real image processing applications like Photoshop have a lot going on under the hood. The calculations are much more streamlined and sophisticated. 
+
+[This](https://github.com/flrs/blend_modes) repository aims to faithfully replicate these calculations to some degree. The actual literature of the blnd modes used by Adobe is also provided [here](https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdf_reference_archive/blend_modes.pdf).
+
+However what we learned here today gives us a good starting point to understand and minimally recreate blend-modes.
+
+
 ### References
 
 - [Image Blend Modes - Wikipedia](https://en.wikipedia.org/wiki/Blend_modes)
