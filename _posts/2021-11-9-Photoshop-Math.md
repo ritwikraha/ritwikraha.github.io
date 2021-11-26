@@ -33,6 +33,9 @@ $$o = f(x,y)$$
 where $$x$$ and $$y$$ are the input images, $$o$$ is the output image, and the function is the process of blending.
 ```Note: x and y represent color(RGB) values of the image```
 
+
+![blend-modes-operation]({{site.url}}/assets/post_images/4post/blend-operation.gif)
+
 As we devise different functions we will create different blend modes. Sounds simple right? 
 
 Let us go through some blend modes and understand how they work:
@@ -157,7 +160,10 @@ Let's see what our result looks like:
 
 ![blend-modes-result]({{site.url}}/assets/post_images/4post/output.png)
 
-Now, needless to say this barely scratches the surface. Real image processing applications like Photoshop have a lot going on under the hood. The calculations are much more streamlined and sophisticated. 
+Now, needless to say this barely scratches the surface. Real image processing applications like Photoshop have a lot going on under the hood. The calculations are much more streamlined and sophisticated. They also have an array of other blend modes.
+
+![blend-modes-result]({{site.url}}/assets/post_images/4post/blend-modes.png)
+
 
 [This](https://github.com/flrs/blend_modes) repository aims to faithfully replicate these calculations to some degree. The actual literature of the blnd modes used by Adobe is also provided [here](https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdf_reference_archive/blend_modes.pdf).
 
