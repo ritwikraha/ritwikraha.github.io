@@ -31,10 +31,12 @@ To begin with, let us first try to understand what is a *blend mode*. The idea i
 $$o = f(x,y)$$
 
 where $$x$$ and $$y$$ are the input images, $$o$$ is the output image, and the function is the process of blending.
-```Note: x and y represent color(RGB) values of the image```
+
 
 
 ![blend-modes-operation]({{site.url}}/assets/post_images/4post/blend-operation.gif)
+
+```Note: x and y represent color(RGB) values of the image```
 
 As we devise different functions we will create different blend modes. Sounds simple right? 
 
@@ -44,13 +46,14 @@ Let us go through some blend modes and understand how they work:
 
 In this blog we will look at four simple blend modes:
 
-1. Normal
-2. Multiply
-3. Screen
-4. Overlay
+1. **Normal**
+2. **Multiply**
+3. **Screen**
+4. **Overlay**
 
-We will also cover the mathematical intution for these modes and how to easily code them up using python.
+We will also cover the mathematical intution for these modes and how to easily code them up using python. We load and display the images using ```OpenCV``` and ```matplotlib```. For the blending operations we use ```numpy```.
 
+You can download the entire source code of this blogpost from [here](https://gist.github.com/ritwikraha/c1483e59d8501c3eca35fe0c5c8fcf86).
 
 **Normal**
 
@@ -70,6 +73,7 @@ def normal(imgA,imgB):
   return imgOut
 ```
 
+We take two images and then create a copy of the second image. This image is passed back as output.
 
 **Multiply**
 
@@ -97,6 +101,8 @@ def multiply(imgA,imgB):
   return imgOut
 ```
 
+In the above method we first create a container to hold the blended image. Then we store the product of the two images and store it in ```imgBlended```. It is then converted back into ```uint8``` format and passed back.
+
 **Screen**
 
 Now the multiply blend mode makes the composite image look darker. What if we want the composite image to be brighter instead? 
@@ -117,6 +123,8 @@ def screen(imgA,imgB):
   # return the blended image
   return imgOut
 ```
+In the above method we first create a container for the output image. Then we apply the operation to the two images and store the output in ```imgBlended```. It is then converted back into ```uint8``` format and passed back.
+
 **Overlay**
 
 Life is not seen in only light and dark and neither are images. While darkening and brightening an image are quite useful, it is also necessary to be adaptive. Overlay brings in the best of both blending modes. 
@@ -145,14 +153,16 @@ def overlay(imgA,imgB):
   # return the blended image
   return imgOut
 ```
+In the above method we create a mask for the threshold(wherever the first image has values over 0.5). Next we create a container for the blended image and store the belnd operation values in it. For everywhere other than the mask values we apply the ```multiply``` like operation and for everywhere else we apply the ```screen``` like operation.
+
 ### Source Code
 
-You can download the source code of this blogpost from [here]().
+You can download the entire source code of this blogpost from [here](https://gist.github.com/ritwikraha/c1483e59d8501c3eca35fe0c5c8fcf86).
 
 
 ### Conclusion
 
-And it is done. Our first batch of photoshop like blend modes are now ready. And the best thing?
+There we have it! Our first batch of photoshop like blend modes are now ready. And the best thing?
 
 We built them from scracth! 
 
