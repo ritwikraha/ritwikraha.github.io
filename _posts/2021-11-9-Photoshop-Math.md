@@ -16,7 +16,7 @@ Photoshop is a wonderful tool for working with images. It is a delight to work w
 
 But the most used feature of Photoshop (atleast for me) is the blend-modes. From time immemorial I have wondered how these work and how do they create beautiful combination of images.
 
-![blend-modes]({{site.url}}/assets/post_images/4post/blend-modes.png)
+![blend-modes]({{site.url}}/assets/post_images/4post/blend-modes-photoshop.gif)
 
 In this blog we will learn the following:
 
