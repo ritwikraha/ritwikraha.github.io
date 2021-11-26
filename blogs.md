@@ -28,5 +28,5 @@ The following are the links to some of my blogs and reports.
   * [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
 
 * ### Math Stuff
-    * [The Math of Photoshop Blend Modes](math-of-photoshop-blend-modes)
+  * [The Math of Photoshop Blend Modes](math-of-photoshop-blend-modes)
   * [Why model decay using the exponential function?](/why-exponential-decay)
