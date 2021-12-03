@@ -25,9 +25,9 @@ The following are the links to some of my blogs and reports.
   * [A brief history of Edge Detection](https://medium.com/@ritwikraha.nsec/a-brief-history-of-edge-detection-b2008f2ff3c4)
   * [Denoising images the Matlab Way](https://medium.com/@ritwikraha.nsec/denoising-images-the-matlab-way-5b2de6ae5efe)
 
-* ### Machine Learning
-  * [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
-
 * ### Math Stuff
   * [The Math of Photoshop Blend Modes](math-of-photoshop-blend-modes)
   * [Why model decay using the exponential function?](/why-exponential-decay)
+
+* ### Hitchhiker's Guide to ...
+  * [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
