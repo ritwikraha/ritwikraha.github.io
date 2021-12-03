@@ -17,6 +17,7 @@ The following are the links to some of my blogs and reports.
   * [Breaking down Neural Radiance Fields - Part 2](https://www.pyimagesearch.com/2021/11/17/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-2/)
   * [Breaking down Neural Radiance Fields - Part 3](https://www.pyimagesearch.com/2021/11/24/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-3/)
   * [3D volumetric rendering with NeRF- Keras Example](https://keras.io/examples/vision/nerf/)
+    * Won the [TensorFlow Community Spotlight Award 2021](https://twitter.com/TensorFlow/status/1466150113814929413)
   * [Image Segmentation using Whale Optimization Algorithm](https://nbviewer.jupyter.org/gist/ritwikraha/e02e9b04b19bc582776464062c449a2a)
   * [Image Compression using SVD](https://nbviewer.jupyter.org/gist/ritwikraha/b10fe117a4f0c816fec69f99f1061f87)
   * [Face Swapping using OpenCV](https://nbviewer.jupyter.org/gist/ritwikraha/ee9730284a33935317d78d9205304f0f)
