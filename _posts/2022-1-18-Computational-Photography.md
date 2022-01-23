@@ -8,6 +8,7 @@ prev_link: false
 next_title: false
 next_link: false
 tags: math, image-processing
+comments: true
 permalink: /what-is-computational-photography
 
 ---
