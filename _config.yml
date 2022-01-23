@@ -27,6 +27,12 @@ plugins:
 disqus: true
 disqus_shortname: 'ritwikraha'
 
+---
+layout: default
+comments: true
+# other options
+---
+
 # For hihlighting code
 highlighter: rouge
 markdown: kramdown
