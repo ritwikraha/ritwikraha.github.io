@@ -58,6 +58,12 @@ But what effect does this have on the image?
 
 Well if you have a bigger opening you have more light or more information coming through. So a smaller aperture or larger f-stop would lead to darker pictures and vice-versa.
 
+That's great, what else can we do using aperture?
+
+This is the most interesting part - The Aperture also controls Depth-Of-Field.
+
+What is Depth-Of-Field?
+
 
 
 ### The Problems
