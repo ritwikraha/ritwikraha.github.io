@@ -15,6 +15,9 @@ permalink: /what-is-computational-photography
 
 > Computational photography refers to digital image capture and processing techniques that use digital computation instead of optical processes. - [Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
 
+![blend-modes]({{site.url}}/assets/post_images/6post/apple.jpeg)
+
+
 That is a neat definition, but what does it actually mean?
 
 > If we take a picture on instagram and apply a filter on it, is that computational photography?
@@ -59,6 +62,8 @@ Something to remember here is that the lower the number is the bigger the openin
 
 Well if you have a bigger opening you have more light or more information coming through. So a smaller aperture or larger f-stop would lead to darker pictures and vice-versa.
 
+![blend-modes]({{site.url}}/assets/post_images/6post/tri-factor.png)
+
 > That's great, what else can we do using aperture?
 
 - The Aperture also controls Depth-Of-Field.
@@ -68,6 +73,13 @@ Well if you have a bigger opening you have more light or more information coming
 Depth-of-Field is simply the distance between the nearest and the farthest object in the camera's viewing field which are in acceptable focus.
 
 By acceptable focus we mean that we can make out the details of the object.
+
+> But how is this connected to aperture?
+
+Well, the bigger the aperture the more light is allowed into the sensor creating a shallow depth of field for the background and vice versa.
+
+![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
+
 
 
 ### The Problems
