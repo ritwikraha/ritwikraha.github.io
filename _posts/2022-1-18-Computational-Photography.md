@@ -17,17 +17,17 @@ permalink: /what-is-computational-photography
 
 That is a neat definition, but what does it actually mean?
 
-If we take a picture on instagram and apply a filter on it, is that computational photography?
+> If we take a picture on instagram and apply a filter on it, is that computational photography?
 
-What if we digitally enhance our photographs after we take them?
+> What if we digitally enhance our photographs after we take them?
 
-What about memes?
+> What about memes?
 
 Before understanding what computational photography means let us remember what do we mean by photography?
 
 ### A primer on Photography
 
-In simpe terms we have a device which creates images by recording light reflected from real world objects on a sensor.
+In simple terms we have a device which creates images by recording light reflected from real world objects on a sensor.
 
 This means a camera essentially records light. Every little detail in a camera is to optimize that goal perfectly.
 
@@ -55,16 +55,19 @@ It is the measure of how much the lens is opened. It is usually measured in f-st
 
 Something to remember here is that the lower the number is the bigger the opening of the lens. The higher the f-stop is the smaller the opening of the lens.
 
-But what effect does this have on the image?
+> But what effect does this have on the image?
 
 Well if you have a bigger opening you have more light or more information coming through. So a smaller aperture or larger f-stop would lead to darker pictures and vice-versa.
 
-That's great, what else can we do using aperture?
+> That's great, what else can we do using aperture?
 
-This is the most interesting part - The Aperture also controls Depth-Of-Field.
+- The Aperture also controls Depth-Of-Field.
 
-What is Depth-Of-Field?
+> What is Depth-Of-Field?
 
+Depth-of-Field is simply the distance between the nearest and the farthest object in the camera's viewing field which are in acceptable focus.
+
+By acceptable focus we mean that we can make out the details of the object.
 
 
 ### The Problems
@@ -79,24 +82,3 @@ What is Depth-Of-Field?
 - [The Math behind Blend Modes - Imagineer](https://imagineer.in/blog/math-behind-blend-modes/)
 - [Blend Modes in Python](https://stackoverflow.com/questions/52141987/overlay-blending-mode-in-python-efficiently-as-possible-numpy-opencv)
 - [Pillow Blend Modes](https://blend-modes.readthedocs.io/_/downloads/en/latest/pdf/)
-
-
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    
-    var disqus_config = function () {
-    this.page.url = what-is-computational-photography;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = 2498; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-ritwikraha-github-io.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
