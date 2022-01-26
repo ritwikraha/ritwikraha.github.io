@@ -26,7 +26,11 @@ That is a neat definition, but what does it actually mean?
 
 > What about memes?
 
-Before understanding what computational photography means let us remember what do we mean by photography?
+### TL;DR
+
+In its simplest form *computational photography* means anything leverages the power of computer vision and image processing to artificially enhance photographs. This could be anything from a snapchat filter to an extremely sophisticated piece of code stitching together the first ever image of a black hole.
+
+But before we fully understand what computational photography means let us go through a brief lesson on photography.
 
 ### A primer on Photography
 
@@ -36,9 +40,9 @@ This means a camera essentially records light. Every little detail in a camera i
 
 So if we *zoom* out a little and see the big picture, there are three main components to photography.
 
-1. How much light is entering the device (The aperture)
-2. How long we are allowing the light to enter (The shutter speed)
-3. How sensitive is the sensor to the light (ISO)
+1. How much light is entering the device? (The aperture)
+2. How long we are allowing the light to enter? (The shutter speed)
+3. How sensitive is the sensor to the light? (ISO)
 
 If you are already familiar with these terms, and have some experience in creating images with various combinations of these parameters feel free to skip to the next version.
 
@@ -80,6 +84,40 @@ Well, the bigger the aperture the more light is allowed into the sensor creating
 
 ![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
 
+#### Shutter Speed
+
+Shutter speed is exactly what the name says. It is the speed with which the camera goes *khiichiiik*. This is usually measured in a fraction of a second for example, 1/10 th of a second. We can see numbers like 1/10,1/20,1/50,1/100,...,1/640.
+
+So before I bring in the diagrams and the math, let me ask you a simple question- 
+
+> What happens if we take a low shutter speed like 1/10?
+
+The camera sensor stays open for a longer period of time right? This means we are allowing more light to enter. Our image will be brighter. 
+
+Similarly if we have a faster shutter speed, we will not give much time for the senor to be exposed to light. This means our image would be eventually darker.
+
+> This is great? Anything else?
+
+Absolutely! We want to capture a high speed race car (in all its glorious details) - we would need a faster shutter speed. 
+
+Now let us imagine that we want to capture a beautiful star trail from the Himalayas. We need to capture the movement of the stars, so we would need a low shutter speed.
+
+#### ISO
+
+> Wait, didn't we cover everything? What is ISO?
+
+ISO stands for International Organization for Standardization and it stands for sensitivity to light. 
+
+Before we go into ISO for digital cameras , let us revisit the old days.
+
+
+![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
+
+In the film camera ISO or ASA as it was known in those days defined the sensitivity of the film's material to light. This is usually expressed in numbers such as 100,200,400,..1600. Now the lower the number is the less sensitive it is to light. 
+
+Which means in a low light environment the image would not be well exposed. Similarly if the ISO is higher, then in a low light environment it would still produce well exposed images.
+
+![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
 
 
 ### The Problems
@@ -88,9 +126,6 @@ Well, the bigger the aperture the more light is allowed into the sensor creating
 
 ### References
 
-- [Image Blend Modes - Wikipedia](https://en.wikipedia.org/wiki/Blend_modes)
-- [Adobe Blend Modes Gudielines](https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdf_reference_archive/blend_modes.pdf)
-- [Blending Modes Explained - Photoshop training channel](https://photoshoptrainingchannel.com/blending-modes-explained/)
-- [The Math behind Blend Modes - Imagineer](https://imagineer.in/blog/math-behind-blend-modes/)
-- [Blend Modes in Python](https://stackoverflow.com/questions/52141987/overlay-blending-mode-in-python-efficiently-as-possible-numpy-opencv)
-- [Pillow Blend Modes](https://blend-modes.readthedocs.io/_/downloads/en/latest/pdf/)
+- [Computational Photography - Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
+- [What is Computational Photography](https://www.dpreview.com/articles/9828658229/computational-photography-part-i-what-is-computational-photography)
+- [Definition of ISO](https://www.phototraces.com/definition-of-iso-in-photography/)
