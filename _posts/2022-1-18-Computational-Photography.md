@@ -129,3 +129,4 @@ Which means in a low light environment the image would not be well exposed. Simi
 - [Computational Photography - Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
 - [What is Computational Photography](https://www.dpreview.com/articles/9828658229/computational-photography-part-i-what-is-computational-photography)
 - [Definition of ISO](https://www.phototraces.com/definition-of-iso-in-photography/)
+- [History of ISO](https://expertphotography.com/understand-iso-4-simple-steps/)
