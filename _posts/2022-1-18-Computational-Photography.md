@@ -132,7 +132,9 @@ A good photographer knows this by heart, a great photographer controls it😎.
 ### The Problems
 > But why do we need Computational Photography?
 
-Even in the best of 
+Even the best of cameras have limitations. With the dawn of the 21st Century science started challenging barriers and limitations. What was previously considered impossible is now one innovation away.
+
+
 
 
 ### References
