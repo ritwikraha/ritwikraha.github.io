@@ -126,7 +126,7 @@ The better the sensor the higher the tolerance of the gain.This means a good ses
 > Note: The ISO in a digital camera is applying computational photography. The sensor and chip applies gains to the image **after** it is captured.
 ---
 Aperture, shutter-speed and ISO are three pillars of photography. Together they control the amount of light entering the device. Here is an image commonly known as the *exposure triangle* that helps us understand the relationship between these three variables.
-
+![blend-modes]({{site.url}}/assets/post_images/6post/tri-factor.png)
 A good photographer knows this by heart, a great photographer controls it :sunglasses: .
 ### The Problems
 > This is great,but why do we need Computational Photography?
