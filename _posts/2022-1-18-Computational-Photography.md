@@ -18,7 +18,7 @@ permalink: /what-is-computational-photography
 ![blend-modes]({{site.url}}/assets/post_images/6post/apple.jpg)
 
 
-That is a neat definition, but what does it actually mean?
+That is a neat definition, but what does it mean?
 
 > If we take a picture on instagram and apply a filter on it, is that computational photography?
 
@@ -28,7 +28,7 @@ That is a neat definition, but what does it actually mean?
 
 ### TL;DR
 
-In its simplest form *computational photography* means anything leverages the power of computer vision and image processing to artificially enhance photographs. This could be anything from a snapchat filter to an extremely sophisticated piece of code stitching together the first ever image of a black hole.
+In its simplest form *computational photography* means anything that leverages the power of computer vision and image processing to artificially enhance photographs. This could be anything from a snapchat filter to an extremely sophisticated piece of code stitching together the first ever image of a black hole.
 
 But before we fully understand what computational photography means let us go through a brief lesson on photography.
 
@@ -44,9 +44,9 @@ So if we *zoom* out a little and see the big picture, there are three main compo
 2. How long we are allowing the light to enter? (The shutter speed)
 3. How sensitive is the sensor to the light? (ISO)
 
-If you are already familiar with these terms, and have some experience in creating images with various combinations of these parameters feel free to skip to the next version.
+If you are already familiar with these terms, and have some experience in creating images with various combinations of these parameters feel free to skip to the next section.
 
-And now if you are still here, let us get started with the basic components of a camera.
+And now, if you are still here, let us get started with the basic components of a camera.
 
 #### Aperture
 
@@ -119,8 +119,18 @@ Which means in a low light environment the image would not be well exposed. Simi
 
 ![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
 
+However for digital cameras ISO works differently. An image sensor is fundamentally different from a film one. Here the image is capture at a base ISO (100) always. When we select an ISO of 3200 a gain of 32X is applied to the already captured image.
 
+The better the sensor the higher the tolerance of the gain.This means a good sesnor will be able to boost the image significantly without any noise, whereas a poor sensor will show noise in the image at lower values.
+
+> Note: The ISO in a digital camera is applying computational photography. The sensor and chip applies gains to the image **after** it is captured.
+---
+Aperture, shutter-speed and ISO are three pillars of photography. Together they control the amount of light entering the device. Here is an image commonly known as the *exposure triangle* that helps us understand the relationship between these three variables.
+
+A good photographer knows this by heart, a great photographer controls it :sunglasses: .
 ### The Problems
+> This is great,but why do we need Computational Photography?
+
 
 
 
@@ -130,3 +140,4 @@ Which means in a low light environment the image would not be well exposed. Simi
 - [What is Computational Photography](https://www.dpreview.com/articles/9828658229/computational-photography-part-i-what-is-computational-photography)
 - [Definition of ISO](https://www.phototraces.com/definition-of-iso-in-photography/)
 - [History of ISO](https://expertphotography.com/understand-iso-4-simple-steps/)
+
