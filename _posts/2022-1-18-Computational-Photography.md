@@ -132,8 +132,15 @@ A good photographer knows this by heart, a great photographer controls it😎.
 ### The Problems
 > But why do we need Computational Photography?
 
-Even the best of cameras have limitations. With the dawn of the 21st Century science started challenging barriers and limitations. What was previously considered impossible is now one innovation away.
+Even the best of cameras have limitations. Some of them might be:
 
+- Creating a small aperture is costly and time consuming. However images for constricted aperture is more aesthetic. This presents a challenge: to achieve the same quality of images using larger apertures.
+
+- A small shutter speed for e.g 1/10 or 1/5 is realistically impossible for the human hand to keep still. Thus it is very difficult to take photographs for longer durations without a camera stand. 
+
+- Not all camera sensors are built the same. A camera sensor that will allow a high ISO value without passing any noise in the output would be immensely costly.  Thus low light or night photography is completely trash in low end cameras.
+
+With the dawn of the 21st Century science started challenging barriers and limitations. What was previously considered impossible is now one innovation away.
 
 
 
