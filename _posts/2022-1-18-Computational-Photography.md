@@ -142,6 +142,8 @@ Even the best of cameras have limitations. Some of them might be:
 
 With the dawn of the 21st Century science started challenging barriers and limitations. What was previously considered impossible is now one innovation away.
 
+Computational Photography aims to solve these challenges leveraging the **minimal hardware requirements** possible.
+
 
 
 ### References
@@ -151,3 +153,4 @@ With the dawn of the 21st Century science started challenging barriers and limit
 - [Definition of ISO](https://www.phototraces.com/definition-of-iso-in-photography/)
 - [History of ISO](https://expertphotography.com/understand-iso-4-simple-steps/)
 
+- [Mathemetical Expression of Noise](https://www.imatest.com/docs/noise/)
