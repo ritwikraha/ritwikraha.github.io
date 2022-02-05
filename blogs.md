@@ -10,7 +10,7 @@ permalink: /posts
     {%- if post.image -%}
           <img src="{{- post.image | relative_url -}}" alt="" class="blog-roll-image">
         {%- else -%}
-          {%- assign postImage = "/assets/images/image-default.jpg" -%}
+          {%- assign postImage = "/assets/images/site-images/icartoon-me.jpg" -%}
           <img src="{{- postImage | relative_url -}}" alt="" class="blog-roll-image">
         {%- endif -%}
       <a href="{{ post.url }}">
