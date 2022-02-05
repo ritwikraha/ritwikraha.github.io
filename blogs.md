@@ -8,9 +8,6 @@ The following are the links to some of my blogs and reports.
 
 
 <div class="posts">
-  {%- if page.title -%}
-    <h1 class="page-heading">{{ page.title }}</h1>
-  {%- endif -%}
 
   {{ content }}
 
