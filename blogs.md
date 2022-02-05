@@ -6,6 +6,18 @@ permalink: /posts
 
 The following are the links to some of my blogs and reports.
 
+{% for post in site.posts %}
+  <article>
+    <h2>
+      <a href="{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </h2>
+    <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_long_string }}</time>
+    {{ post.content }}
+  </article>
+{% endfor %}
+
 * ### Causal Blogging
   * [What do we mean when we talk about Causal Inference](/causal-blog-1)
   * [Studying Causality: The good, the bad, and the ugly](/causal-blog-2)
