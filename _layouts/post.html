@@ -16,6 +16,12 @@ layout: default
         <script>function expand_toc() { var o = document.querySelector(".tocbot-toc-expand"); tocbot.init({ tocSelector: ".tocbot-list", contentSelector: ".post-content", headingSelector: "h1, h2, h3, h4, h5", collapseDepth: 6, orderedList: !1, scrollSmooth: !0 }), o.setAttribute("onclick", "collapse_toc()"), o.innerHTML = "Collapse all" } function collapse_toc() { var o = document.querySelector(".tocbot-toc-expand"); tocbot.init({ tocSelector: ".tocbot-list", contentSelector: ".post-content", headingSelector: "h1, h2, h3, h4, h5", collapseDepth: 1, orderedList: !1, scrollSmooth: !0 }), o.setAttribute("onclick", "expand_toc()"), o.innerHTML = "Expand all" } function go_top() { window.scrollTo(0, 0) } function go_bottom() { window.scrollTo(0, document.body.scrollHeight) } document.ready(function () { tocbot.init({ tocSelector: ".tocbot-list", contentSelector: ".post-content", headingSelector: "h1, h2, h3, h4, h5", collapseDepth: 1, orderedList: !1, scrollSmooth: !0 }) })</script>
         <article class="post-wrap">
             <header class="post-header">
+                {%- if page.image -%}
+                    <img src="{{- page.image | relative_url -}}" alt="" class="featured-image-post">
+                {%- else -%}
+                    {%- assign postImage = "/assets/site-images/cartoon-me.jpg" -%}
+                    <img src="{{- postImage | relative_url -}}" alt="" class="featured-image-post">
+                {%- endif -%}
                 <h1 class="post-title">{{ page.title }}</h1>
                 <div class="post-meta">Author: <a itemprop="author" rel="author"
                         href="{{site.url}}">{{ page.author }}</a>
