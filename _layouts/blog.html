@@ -5,12 +5,6 @@ layout: default
 <div class="main">
     <div class="container">
         <article class="post-wrap page">
-            {%- if page.image -%}
-            <img src="{{- page.image | relative_url -}}" alt="" class="featured-image-post">
-        {%- else -%}
-            {%- assign postImage = "/assets/site-images/cartoon-me.jpg" -%}
-            <img src="{{- postImage | relative_url -}}" alt="" class="featured-image-post">
-        {%- endif -%}
             <h2 class="post-title">Posts</h2>
             <section class="post-content">
                 {{content}}
