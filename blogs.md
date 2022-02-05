@@ -14,7 +14,6 @@ The following are the links to some of my blogs and reports.
       </a>
     </h2>
     <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_long_string }}</time>
-    {{ post.content }}
   </article>
 {% endfor %}
 
