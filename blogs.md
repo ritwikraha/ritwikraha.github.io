@@ -7,6 +7,12 @@ permalink: /posts
 {% for post in site.posts %}
   <article>
     <h3>
+    {%- if post.image -%}
+          <img src="{{- post.image | relative_url -}}" alt="" class="blog-roll-image">
+        {%- else -%}
+          {%- assign postImage = "/assets/images/image-default.jpg" -%}
+          <img src="{{- postImage | relative_url -}}" alt="" class="blog-roll-image">
+        {%- endif -%}
       <a href="{{ post.url }}">
         {{ post.title }}
       </a>
