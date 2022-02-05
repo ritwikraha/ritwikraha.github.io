@@ -6,6 +6,45 @@ permalink: /posts
 
 The following are the links to some of my blogs and reports.
 
+
+<div class="posts">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+  {%- if site.posts.size > 0 -%}
+    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+    <ul class="post-list">
+      {%- for post in site.posts -%}
+      <li>
+        {%- if post.image -%}
+          <img src="{{- post.image | relative_url -}}" alt="" class="blog-roll-image">
+        {%- else -%}
+          {%- assign postImage = "/assets/site_images/cartoon-me.jpg" -%}
+          <img src="{{- postImage | relative_url -}}" alt="" class="blog-roll-image">
+        {%- endif -%}
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          {{ post.excerpt }}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+  {%- endif -%}
+
+</div>
+
+
 * ### Causal Blogging
   * [What do we mean when we talk about Causal Inference](/causal-blog-1)
   * [Studying Causality: The good, the bad, and the ugly](/causal-blog-2)
