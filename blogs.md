@@ -5,6 +5,7 @@ permalink: /posts
 ---
 
 {% for post in site.posts %}
+<div class="blog-roll-posts">
   <article>
       {%- if post.image -%}
           <img src="{{- post.image | relative_url -}}" alt="" class="blog-roll-image">
@@ -19,6 +20,7 @@ permalink: /posts
     </h3>
     <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_long_string }}</time>
   </article>
+  </div>
 {% endfor %}
 
 The following are the links to all of my blogs and reports.
