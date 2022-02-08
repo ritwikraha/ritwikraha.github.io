@@ -1321,14 +1321,14 @@ header label {
   }
   
   .blog-roll-image {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     float: left;
   }
   .blog-roll-posts {
-    padding-top: 20px;
-    padding-bottom: 40px;
+    padding-top: 5px;
+    padding-bottom: 25px;
 
   }
 

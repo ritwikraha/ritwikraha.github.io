@@ -9,6 +9,7 @@ next_title: false
 next_link: false
 tags: math
 permalink: /why-exponential-decay
+image: /assets/site_images/exponent.png
 
 ---
 

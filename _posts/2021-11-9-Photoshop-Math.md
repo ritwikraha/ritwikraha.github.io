@@ -9,6 +9,7 @@ next_title: false
 next_link: false
 tags: math, image-processing
 permalink: /math-of-photoshop-blend-modes
+image: /assets/site_images/blend.png
 
 ---
 
