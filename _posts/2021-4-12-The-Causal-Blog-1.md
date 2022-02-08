@@ -9,7 +9,7 @@ next_title: false
 next_link: false
 tags: causality
 permalink: /causal-blog-1
-image: /assets/post_images/1post/eg1scenario3.png
+image: /assets/site_images/causal-1.png
 
 ---
 

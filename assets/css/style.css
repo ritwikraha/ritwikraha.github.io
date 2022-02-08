@@ -1321,8 +1321,8 @@ header label {
   }
   
   .blog-roll-image {
-    width: 150px;
-    height: 150px;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
     float: left;
   }

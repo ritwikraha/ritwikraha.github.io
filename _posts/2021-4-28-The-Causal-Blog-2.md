@@ -9,6 +9,7 @@ next_title: false
 next_link: false
 tags: causality
 permalink: /causal-blog-2
+image: /assets/site_images/causal-2.png
 
 ---
 Welcome back to Part 2 of The Causal Blog. The previous one was all about introducing Causality in the briefest way possible. You can find it right [here](/causal-blog-1).
