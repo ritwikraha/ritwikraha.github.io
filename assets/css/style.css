@@ -1325,14 +1325,10 @@ header label {
     height: 200px;
     object-fit: cover;
     float: left;
-    padding-top: 80px;
-    padding-right: 30px;
-    padding-bottom: 80px;
-
   }
   .blog-roll-posts {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 220px;
+    padding-bottom: 220px;
 
   }
 
