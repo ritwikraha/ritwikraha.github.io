@@ -18,7 +18,6 @@ permalink: /posts
       </a>
     </h3>
     <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_long_string }}</time>
-    <br>
   </article>
 {% endfor %}
 
