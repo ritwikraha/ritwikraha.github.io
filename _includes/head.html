@@ -1,9 +1,9 @@
 <head>
-    {% if post.image %}
-        <meta property="og:image" content="{{ site.url }}/{{ post.image }}" />
+    {% if page.image %}
+        <meta property="og:image" content="{{ site.url }}/{{ page.image }}" />
     {% endif %}
 
-    <meta property="og:description" content="{{ post.subtitle }}" />
+    <meta property="og:description" content="{{ page.subtitle }}" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
