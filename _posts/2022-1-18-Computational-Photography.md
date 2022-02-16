@@ -16,7 +16,11 @@ image: /assets/site_images/computational-1.png
 
 > Computational photography refers to digital image capture and processing techniques that use digital computation instead of optical processes. - [Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
 
-![blend-modes]({{site.url}}/assets/post_images/6post/apple.jpg)
+| ![image fusion]({{site.url}}/assets/post_images/6post/apple.jpg) | 
+|:--:| 
+| *Source: Image Fusion* |
+
+
 
 
 That is a neat definition, but what does it mean?
@@ -145,6 +149,7 @@ With the dawn of the 21st Century science started challenging barriers and limit
 
 Computational Photography aims to solve these challenges leveraging the **minimal hardware requirements** possible.
 
+In the next blogpost we will look at some methods adopted by smartphones and industry giants like Google and Apple to cater Computational Photography at scale.
 
 
 ### References
