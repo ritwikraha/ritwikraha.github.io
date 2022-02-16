@@ -16,13 +16,9 @@ image: /assets/site_images/computational-1.png
 
 > Computational photography refers to digital image capture and processing techniques that use digital computation instead of optical processes. - [Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
 
-| ![image fusion]({{site.url}}/assets/post_images/6post/apple.jpg) | 
-|:--:| 
-| *Source: Image Fusion* |
-
 <figure>
-  <img src="{{site.url}}/assets/post_images/6post/apple.jpg" alt="image fusion"/>
-  <figcaption>This is my caption text.</figcaption>
+  <img src="{{site.url}}/assets/post_images/6post/apple.jpeg" alt="image fusion"/>
+  <figcaption style='text-align: center'>Source: Apple Computational Photography.</figcaption>
 </figure>
 
 
@@ -30,11 +26,11 @@ image: /assets/site_images/computational-1.png
 
 That is a neat definition, but what does it mean?
 
-> If we take a picture on instagram and apply a filter on it, is that computational photography?
+**"If we take a picture on instagram and apply a filter on it, is that computational photography?"**
 
-> What if we digitally enhance our photographs after we take them?
+**"What if we digitally enhance our photographs after we take them?"**
 
-> What about memes?
+**"What about instagram filters?"**
 
 ### TL;DR
 
