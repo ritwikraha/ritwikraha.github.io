@@ -20,6 +20,11 @@ image: /assets/site_images/computational-1.png
 |:--:| 
 | *Source: Image Fusion* |
 
+<figure>
+  <img src="{{site.url}}/assets/post_images/6post/apple.jpg" alt="image fusion"/>
+  <figcaption>This is my caption text.</figcaption>
+</figure>
+
 
 
 
