@@ -172,10 +172,21 @@ Even the best of cameras have limitations. Some of them might be:
 
 With the dawn of the 21st Century science started challenging barriers and limitations. What was previously considered impossible is now one innovation away.
 
-Computational Photography aims to solve these challenges leveraging the **minimal hardware requirements** possible.
+> Computational Photography aims to solve these challenges leveraging the **minimal hardware requirements** possible.
 
 In the next blogpost we will look at some methods adopted by smartphones and industry giants like Google and Apple to cater Computational Photography at scale.
 
+### Looking Back
+
+In many ways photography began and exists as an art form. The perfect instrument to capture moments. When it all began, photographs were taken and developed with care and attention in a dark room. The photographer worked hours to develop the photograph as best he could.
+
+We moved from there to digital cameras that let us take photographs and visualise them instantly. The skill dexterity of the photographer faded a little. He doesn't need a masking tape and fine toothed brush and the right mix of chemicals to bring out details. 
+
+And now we arrive at the present day, photographs are no longer taken but generated. Frames are stitched together and pixels are fused by massive algorithms to bring the best photograph on screen. The phtographer no longer cares about elements of photography like aperture or shutter speed.
+
+Maybe this is the purpose of technology - to advance science and ease our lives in the process. But photography has blossomed even in the harshest of limitations.
+
+And perhaps that is the meaning of art - beauty even in the face of adversity.
 
 ### References
 

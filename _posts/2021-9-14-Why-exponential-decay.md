@@ -107,7 +107,7 @@ The use of this equation in modeling real-world applications is numerous.
 - It is easy to determine when the decaying quantity would be half of its original amount. This is commonly known as half-tim.
 - The function is also easily differentiable with it's rate of change being the same as the function itself.
 
-The function $$y= e^{-x}$$ is a poweerful tool to have in your arsenal. But it is even more powerful when we understand when and where to use it best. Not all systems that decay gradually can be modelled using the **exponential decay function**, the trick is to use it selectively and use it best. 
+The function $$y= e^{-x}$$ is a powerful tool to have in your arsenal. But it is even more powerful when we understand when and where to use it best. Not all systems that decay gradually can be modelled using the **exponential decay function**, the trick is to use it selectively and use it best. 
 
 ### References
 
