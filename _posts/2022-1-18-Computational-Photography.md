@@ -178,15 +178,15 @@ In the next blogpost we will look at some methods adopted by smartphones and ind
 
 ### Looking Back
 
-In many ways photography began and exists as an art form. The perfect instrument to capture moments. When it all began, photographs were taken and developed with care and attention in a dark room. The photographer worked hours to develop the photograph as best he could.
+In many ways photography began as an art form. The perfect instrument to capture moments. When it all began, photographs were taken and developed with care and attention in a dark room. The photographer worked hours to develop the photograph with only his memory as reference.
 
-We moved from there to digital cameras that let us take photographs and visualise them instantly. The skill dexterity of the photographer faded a little. He doesn't need a masking tape and fine toothed brush and the right mix of chemicals to bring out details. 
+We moved from there to digital cameras that let us take photographs and visualise them instantly. The skill and dexterity of the photographer faded a little. He didn't need a masking tape and fine toothed brush and the right mix of chemicals to bring out details. 
 
-And now we arrive at the present day, photographs are no longer taken but generated. Frames are stitched together and pixels are fused by massive algorithms to bring the best photograph on screen. The phtographer no longer cares about elements of photography like aperture or shutter speed.
+And now we arrive at the present day, photographs are no longer taken but generated. Frames are stitched together and pixels are fused by massive algorithms to bring the best version of the photograph on screen. The phtographer no longer cares about elements of photography like aperture or shutter speed.
 
-Maybe this is the purpose of technology - to advance science and ease our lives in the process. But photography has blossomed even in the harshest of limitations.
+Maybe this is the purpose of technology - to advance science and ease our lives in the process. But great photographs have been taken even in the harshest of limitations.
 
-And perhaps that is the meaning of art - beauty even in the face of adversity.
+And perhaps that is the meaning of art - beauty even in great adversity.
 
 ### References
 
