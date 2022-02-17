@@ -18,7 +18,7 @@ image: /assets/site_images/computational-1.png
 
 <figure>
   <img src="{{site.url}}/assets/post_images/6post/apple.jpeg" alt="image fusion"/>
-  <figcaption style='text-align: center'>Source: Apple Computational Photography.</figcaption>
+  <figcaption style='text-align: center'>Source: <a href="https://www.eoshd.com/comments/topic/38399-lets-discuss-computational-photography/">Apple Computational Photography</a></figcaption>
 </figure>
 
 
@@ -72,7 +72,11 @@ Something to remember here is that the lower the number is the bigger the openin
 
 Well if you have a bigger opening you have more light or more information coming through. So a smaller aperture or larger f-stop would lead to darker pictures and vice-versa.
 
-![blend-modes]({{site.url}}/assets/post_images/6post/tri-factor.png)
+<figure>
+  <img src="{{site.url}}/assets/post_images/6post/f-exposure.jpeg" alt="exposure"/>
+  <figcaption style='text-align: center'>Source: <a href="https://samualross.wordpress.com/2014/11/24/a-beginners-guide-to-photography/">A Beginners Guide to Photography</a></figcaption>
+</figure>
+
 
 > That's great, what else can we do using aperture?
 
@@ -88,7 +92,11 @@ By acceptable focus we mean that we can make out the details of the object.
 
 Well, the bigger the aperture the more light is allowed into the sensor creating a shallow depth of field for the background and vice versa.
 
-![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
+<figure>
+  <img src="{{site.url}}/assets/post_images/6post/dof.png" alt="depth of field"/>
+  <figcaption style='text-align: center'>Source: <a href="https://www.adorama.com/alc/what-is-f-stop-how-to-use-it-for-photography/">What Is F-Stop & How to Use It for Photography</a></figcaption>
+</figure>
+
 
 #### Shutter Speed
 
@@ -101,6 +109,12 @@ So before I bring in the diagrams and the math, let me ask you a simple question
 The camera sensor stays open for a longer period of time right? This means we are allowing more light to enter. Our image will be brighter. 
 
 Similarly if we have a faster shutter speed, we will not give much time for the senor to be exposed to light. This means our image would be eventually darker.
+
+<figure>
+ <img src="{{site.url}}/assets/post_images/6post/shutter-speed.jpeg" alt="shutter speed"/>
+  <figcaption style='text-align: center'>Source: <a href="https://www.nfi.edu/shutter-speed/">Shutter Speed: Everything You Need To Know</a></figcaption>
+</figure>
+
 
 > This is great? Anything else?
 
@@ -116,14 +130,19 @@ ISO stands for International Organization for Standardization and it stands for 
 
 Before we go into ISO for digital cameras , let us revisit the old days.
 
-
-![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
+<figure>
+ <img src="{{site.url}}/assets/post_images/6post/asa.jpeg" alt="ASA"/>
+  <figcaption style='text-align: center'>Source: <a href="https://fineartamerica.com/featured/vintage-yashica-635-camera--asa-dial-jon-woodhams.html?product=greeting-card">Vintage Yashica 635</a></figcaption>
+</figure>
 
 In the film camera ISO or ASA as it was known in those days defined the sensitivity of the film's material to light. This is usually expressed in numbers such as 100,200,400,..1600. Now the lower the number is the less sensitive it is to light. 
 
 Which means in a low light environment the image would not be well exposed. Similarly if the ISO is higher, then in a low light environment it would still produce well exposed images.
 
-![blend-modes]({{site.url}}/assets/post_images/6post/dof.png)
+<figure>
+ <img src="{{site.url}}/assets/post_images/6post/iso.jpeg" alt="ASA"/>
+  <figcaption style='text-align: center'>Source: <a href="http://www.getoffgreenauto.com/iso-exposure-exercise/">ISO Exposure Exercise</a></figcaption>
+</figure>
 
 However for digital cameras ISO works differently. An image sensor is fundamentally different from a film one. Here the image is capture at a base ISO (100) always. When we select an ISO of 3200 a gain of 32X is applied to the already captured image.
 
@@ -132,7 +151,12 @@ The better the sensor the higher the tolerance of the gain.This means a good ses
 > Note: The ISO in a digital camera is applying computational photography. The sensor and chip applies gains to the image **after** it is captured.
 
 Aperture, shutter-speed and ISO are three pillars of photography. Together they control the amount of light entering the device. Here is an image commonly known as the *exposure triangle* that helps us understand the relationship between these three variables.
-![blend-modes]({{site.url}}/assets/post_images/6post/tri-factor.png)
+
+<figure>
+ <img src="{{site.url}}/assets/post_images/6post/tri-factor.png" alt="Triangle"/>
+  <figcaption style='text-align: center'>Source: <a href="https://www.polarprofilters.com/blogs/polarpro/the-three-elements-of-the-exposure-triangle">The Three Elements of The Exposure Triangle/a></figcaption>
+</figure>
+
 A good photographer knows this by heart, a great photographer controls it😎.
 
 ### The Problems
