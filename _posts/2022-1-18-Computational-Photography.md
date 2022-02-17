@@ -154,7 +154,7 @@ Aperture, shutter-speed and ISO are three pillars of photography. Together they 
 
 <figure>
  <img src="{{site.url}}/assets/post_images/6post/tri-factor.png" alt="Triangle"/>
-  <figcaption style='text-align: center'>Source: <a href="https://www.polarprofilters.com/blogs/polarpro/the-three-elements-of-the-exposure-triangle">The Three Elements of The Exposure Triangle/a></figcaption>
+  <figcaption style='text-align: center'>Source: <a href="https://www.polarprofilters.com/blogs/polarpro/the-three-elements-of-the-exposure-triangle">The Three Elements of The Exposure Triangle</a></figcaption>
 </figure>
 
 A good photographer knows this by heart, a great photographer controls it😎.
