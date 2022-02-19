@@ -196,3 +196,4 @@ And perhaps that is the meaning of art - beauty even in great adversity.
 - [History of ISO](https://expertphotography.com/understand-iso-4-simple-steps/)
 
 - [Mathemetical Expression of Noise](https://www.imatest.com/docs/noise/)
+{% include disqus.html %}
