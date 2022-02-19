@@ -25,7 +25,7 @@ plugins:
   - jekyll-sitemap
 
 disqus: true
-disqus_shortname: 'ritwikraha'
+disqus_shortname: 'ritwikraha-github-io'
 
 ---
 layout: default
