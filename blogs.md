@@ -57,8 +57,12 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
   </tr>
   <tr>
     <td class="tg-0lax" rowspan="11">Computer Vision</td>
+    <td class="tg-0lax"><a href="https://keras.io/examples/vision/shiftvit/" target="_blank" rel="noopener noreferrer">A Vision Transformer without Attention</a></td>
+  </tr>
+    <tr>
     <td class="tg-0lax"><a href="https://keras.io/examples/generative/adain/" target="_blank" rel="noopener noreferrer">Neural Style Transfer with AdaIN- Keras Example</a></td>
   </tr>
+
   <tr>
     <td class="tg-0lax"><a href="https://www.pyimagesearch.com/2021/11/10/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-1/" target="_blank" rel="noopener noreferrer">Breaking down Neural Radiance Fields - Part 1</a></td>
   </tr>
