@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "What is Computational Photography"
+title:  "Playing with exposure"
 author: "Ritwik Raha"
 prev_title: false
 prev_link: false
