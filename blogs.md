@@ -91,6 +91,9 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
     <td class="tg-0lax"><a href="https://medium.com/@ritwikraha.nsec/a-brief-history-of-edge-detection-b2008f2ff3c4" target="_blank" rel="noopener noreferrer">A brief history of Edge Detection</a></td>
   </tr>
   <tr>
+    <td class="tg-0lax"><a href="https://medium.com/@ritwikraha.nsec/creating-a-portrait-mode-with-opencv-60379bb295f0" target="_blank" rel="noopener noreferrer">Creating a Potrait mode with Open CV</a></td>
+  </tr>
+  <tr>
     <td class="tg-0lax"><a href="https://medium.com/@ritwikraha.nsec/denoising-images-the-matlab-way-5b2de6ae5efe" target="_blank" rel="noopener noreferrer">Denoising images the Matlab Way</a></td>
   </tr>
   <tr>
