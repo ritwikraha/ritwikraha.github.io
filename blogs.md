@@ -49,6 +49,16 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 * [A brief history of Edge Detection](https://medium.com/@ritwikraha.nsec/a-brief-history-of-edge-detection-b2008f2ff3c4)
 * [Denoising images the Matlab Way](https://medium.com/@ritwikraha.nsec/denoising-images-the-matlab-way-5b2de6ae5efe)
 
+#### NLP
+* [Introduction to RNNs with TensorFlow and Keras](https://pyimagesearch.com/2022/07/25/introduction-to-recurrent-neural-networks-with-keras-and-tensorflow/)
+* [Long Short-Term Memory Networks](https://pyimagesearch.com/2022/08/01/long-short-term-memory-networks/)
+* [Neural Machine Translation](https://pyimagesearch.com/2022/08/15/neural-machine-translation/)
+* [Neural Machine Translation with Bahdanau’s Attention Using TensorFlow and Keras](https://pyimagesearch.com/2022/08/22/neural-machine-translation-with-bahdanaus-attention-using-tensorflow-and-keras/)
+* [Neural Machine Translation with Luong’s Attention Using TensorFlow and Keras](https://pyimagesearch.com/2022/08/29/neural-machine-translation-with-luongs-attention-using-tensorflow-and-keras/)
+* [A Deep Dive into Transformers with TensorFlow and Keras: Part 3](https://pyimagesearch.com/2022/11/07/a-deep-dive-into-transformers-with-tensorflow-and-keras-part-3/)
+* [A Deep Dive into Transformers with TensorFlow and Keras: Part 2](https://pyimagesearch.com/2022/09/26/a-deep-dive-into-transformers-with-tensorflow-and-keras-part-2/)
+* [A Deep Dive into Transformers with TensorFlow and Keras: Part 1](https://pyimagesearch.com/2022/09/05/a-deep-dive-into-transformers-with-tensorflow-and-keras-part-1/)
+
 #### Math Stuff
 * [The Math of Photoshop Blend Modes](https://ritwikraha.github.io/math-of-photoshop-blend-modes)
 * [Why model decay using the exponential function?](https://ritwikraha.github.io/why-exponential-decay)
@@ -56,3 +66,5 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 #### Hitchhiker's Guide to...
 
 * [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
+* [Automatic Differentiation Part 1: Understanding the Math](https://pyimagesearch.com/2022/12/05/automatic-differentiation-part-1-understanding-the-math/)
+* [Automatic Differentiation Part 2: Implementation Using Micrograd](https://pyimagesearch.com/2022/12/26/automatic-differentiation-part-2-implementation-using-micrograd/)
