@@ -39,6 +39,7 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 
 #### Computer Vision
 
+* [Focal Modulation: A replacement for Self-Attention](https://keras.io/examples/vision/focal_modulation_network/)
 * [A Vision Transformer without Attention](https://keras.io/examples/vision/shiftvit/)
 * [Neural Style Transfer with AdaIN- Keras Example](https://keras.io/examples/generative/adain/)
 * [Breaking down Neural Radiance Fields - Part 1](https://www.pyimagesearch.com/2021/11/10/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-1/)
