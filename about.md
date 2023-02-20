@@ -15,15 +15,15 @@ When I am not studying or working, I live an alternate life as a bibliophile and
 
 ### Talks
 
-* [Introduction to Neural Radiance Fields | NYTFUG](https://www.youtube.com/watch?v=U2XS7SxOy2s&list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP&index=5)
-* [A Deep Dive into Transformers | PyImageSearch](https://youtube.com/live/FJAJKPRHZUg?feature=share)
-* [Neural Machine Translation | PyImageSearch](https://youtube.com/live/BS248CrEADM?feature=share)
-* [Introduction to RNNs | PyImageSearch](https://youtube.com/live/lAIA7l0_cf8?feature=share)
-* [Enhancing Image Resolution with GANs | PyImageSearch](https://youtube.com/live/Ottd3jBtf8Y?feature=share)
-* [OpenCV and Deep Learning Tutorial | PyImageSearch](https://youtube.com/live/xZgOJL4txRw?feature=share)
-* [Introduction to Deep Learning | PyImageSearch](https://youtube.com/live/_B3Ty8DuvSk?feature=share)
-* [Image Fusion with WOA-PCNN | ICCE 2020](https://youtu.be/vnapE3BHq04?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
-* [Causality Analysis of Emotional States from EEG Response | ICCE 2020](https://youtu.be/Gp4SF-CkYeo?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
+* [Introduction to Neural Radiance Fields - NYTFUG](https://www.youtube.com/watch?v=U2XS7SxOy2s&list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP&index=5)
+* [A Deep Dive into Transformers - PyImageSearch](https://youtube.com/live/FJAJKPRHZUg?feature=share)
+* [Neural Machine Translation - PyImageSearch](https://youtube.com/live/BS248CrEADM?feature=share)
+* [Introduction to RNNs - PyImageSearch](https://youtube.com/live/lAIA7l0_cf8?feature=share)
+* [Enhancing Image Resolution with GANs - PyImageSearch](https://youtube.com/live/Ottd3jBtf8Y?feature=share)
+* [OpenCV and Deep Learning Tutorial - PyImageSearch](https://youtube.com/live/xZgOJL4txRw?feature=share)
+* [Introduction to Deep Learning - PyImageSearch](https://youtube.com/live/_B3Ty8DuvSk?feature=share)
+* [Image Fusion with WOA-PCNN - ICCE 2020](https://youtu.be/vnapE3BHq04?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
+* [Causality Analysis of Emotional States from EEG Response - ICCE 2020](https://youtu.be/Gp4SF-CkYeo?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
 * [Intro to ML with DSC NSEC](https://youtu.be/A1CcHAiqsww?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
 
 
