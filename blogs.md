@@ -25,9 +25,12 @@ The following are the links to some of my blogs and reports.
 {% endfor %}
 
 
-The complete index of all my blogs/tutorials on various topics is listed here. Please note that the blogs published on other websites such as [PyImageSearch](https://www.pyimagesearch.com/) or [Keras](https://keras.io/examples/) belong to the respective websites and should be cited properly when needed.
+The complete index of all my blogs/tutorials on various topics is listed here. Please note that the blogs published on other websites such as [PyImageSearch](https://www.pyimagesearch.com/) or [keras.io/examples/](https://keras.io/examples/) belong to the respective websites and should be cited properly when needed.
 
 ### Index
+
+#### JAX Guide
+* [Learning JAX in 2023: Part 1](https://pyimagesearch.com/2023/02/20/learning-jax-in-2023-part-1-the-ultimate-guide-to-accelerating-numerical-computation-and-machine-learning/?utm_source=Drip&utm_medium=Email&utm_campaign=WeeklyUpdate&utm_content=20Feb2023NonUnivLink2)
 
 #### Causal Analysis
 * [What do we mean when we talk about Causal Inference](https://ritwikraha.github.io/causal-blog-1)
