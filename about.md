@@ -6,11 +6,11 @@ permalink: /about/
 
 ![my-image]({{site.url}}/assets/site_images/cartoon-me.png)
 
-I am a machine learning engineer at PyImageSearch from Kolkata, India. My areas of interest include computer vsion, machine learning and causal inference.
+I am a machine learning engineer at PyImageSearch from Kolkata, India. My areas of interest include computer vsion, deep learning and causal inference.
 
-I am also a committed visual designer, passionate about UX and UI, with a keen eye for design languages. My designs and blogs related to it can be found [here.](https://www.ritwikraha.com/)
+I am also a committed visual designer, passionate about visual storytelling. My designs and blogs related to it can be found [here.](https://www.ritwikraha.com/)
 
-When I am not studying or working, I live an alternate life as a bibliophile and a movie buff.
+When I am not working, my alter ego takes over and makes me a an avid bibliophile and a movie buff.
 
 
 ### Talks
