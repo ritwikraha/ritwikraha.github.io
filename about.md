@@ -10,7 +10,7 @@ I am a machine learning engineer at PyImageSearch from Kolkata, India. My areas 
 
 I am also a committed visual designer, passionate about visual storytelling. My designs and blogs related to it can be found [here.](https://www.ritwikraha.com/)
 
-When I am not working, my alter ego takes over and makes me a an avid bibliophile and a movie buff.
+When I am not working, my alter ego takes over and makes me an avid bibliophile and a movie buff.
 
 
 ### Talks
