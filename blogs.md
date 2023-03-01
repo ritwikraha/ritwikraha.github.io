@@ -30,6 +30,7 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 ### Index
 
 #### JAX Guide
+* [Learning JAX in 2023: Part 2](https://pyimagesearch.com/2023/02/27/learning-jax-in-2023-part-2-jaxs-power-tools-grad-jit-vmap-and-pmap/)
 * [Learning JAX in 2023: Part 1](https://pyimagesearch.com/2023/02/20/learning-jax-in-2023-part-1-the-ultimate-guide-to-accelerating-numerical-computation-and-machine-learning/?utm_source=Drip&utm_medium=Email&utm_campaign=WeeklyUpdate&utm_content=20Feb2023NonUnivLink2)
 
 #### Causal Analysis

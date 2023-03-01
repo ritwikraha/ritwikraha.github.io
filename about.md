@@ -15,6 +15,7 @@ When I am not working, my alter ego takes over and makes me an avid bibliophile 
 
 ### Talks
 
+* [Learning JAX in 2023 - JAX's Power Tools](https://www.youtube.com/watch?v=NNsYtagZocw)
 * [Introduction to Neural Radiance Fields - NYTFUG](https://www.youtube.com/watch?v=U2XS7SxOy2s&list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP&index=5)
 * [A Deep Dive into Transformers - PyImageSearch](https://youtube.com/live/FJAJKPRHZUg?feature=share)
 * [Neural Machine Translation - PyImageSearch](https://youtube.com/live/BS248CrEADM?feature=share)
