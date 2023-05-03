@@ -4,9 +4,9 @@ title: About
 permalink: /about/
 ---
 
-![my-image]({{site.url}}/assets/site_images/cartoon-me.png)
+![my-image]({{site.url}}/assets/site_images/rr-gde-badge-circle.png)
 
-I am a machine learning engineer at PyImageSearch from Kolkata, India. My areas of interest include computer vsion, deep learning and causal inference.
+I am a machine learning engineer at PyImageSearch from Kolkata and Google Developer Expert in Machine Learning, India. My areas of interest include computer vsion, deep learning and causal inference.
 
 I am also a committed visual designer, passionate about visual storytelling. My designs and blogs related to it can be found [here.](https://www.ritwikraha.com/)
 
