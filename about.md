@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-<img src="{{site.url}}/assets/site_images/rr-gde-badge-circle.png" alt="my-image" width="200" height="200"/>
+<img src="{{site.url}}/assets/site_images/rr-gde-badge-circle.png" alt="my-image" width="80" height="80"/>
 
 
 I am a machine learning engineer at PyImageSearch from Kolkata and Google Developer Expert in Machine Learning, India. My areas of interest include computer vsion, deep learning and causal inference.
@@ -15,7 +15,7 @@ When I am not working, my alter ego takes over and makes me an avid bibliophile 
 
 
 ### Talks
-
+* [Decoding DETR - TFUG Mumbai](https://www.youtube.com/watch?v=p26Ax6en0_c)
 * [A Guide to ML Workflows with JAX - TFUG Kolkata](https://www.youtube.com/watch?v=tur1P-HWdjs)
 * [Learning JAX in 2023 - JAX's Power Tools](https://www.youtube.com/watch?v=NNsYtagZocw)
 * [Introduction to Neural Radiance Fields - NYTFUG](https://www.youtube.com/watch?v=U2XS7SxOy2s&list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP&index=5)

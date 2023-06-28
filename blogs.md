@@ -29,7 +29,17 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 
 ### Index
 
+#### Paper Breakdowns
+* [DETR Breakdown Part 1](https://pyimagesearch.com/2023/05/22/detr-breakdown-part-1-introduction-to-detection-transformers/)
+
+* [DETR Breakdown Part 2](https://pyimagesearch.com/2023/06/12/detr-breakdown-part-2-methodologies-and-algorithms/)
+
+* [DETR Breakdown Part 3](https://pyimagesearch.com/2023/06/26/detr-breakdown-part-3-architecture-and-details/)
+
+
 #### JAX Guide
+* [Learning JAX in 2023: Part 3](https://pyimagesearch.com/2023/04/17/learning-jax-in-2023-part-3-a-step-by-step-guide-to-training-your-first-machine-learning-model-with-jax/)
+
 * [Learning JAX in 2023: Part 2](https://pyimagesearch.com/2023/02/27/learning-jax-in-2023-part-2-jaxs-power-tools-grad-jit-vmap-and-pmap/)
 * [Learning JAX in 2023: Part 1](https://pyimagesearch.com/2023/02/20/learning-jax-in-2023-part-1-the-ultimate-guide-to-accelerating-numerical-computation-and-machine-learning/?utm_source=Drip&utm_medium=Email&utm_campaign=WeeklyUpdate&utm_content=20Feb2023NonUnivLink2)
 
