@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-<img src="{{site.url}}/assets/site_images/rr-gde-badge-circle.png" alt="my-image" width="80" height="80"/>
+<img src="{{site.url}}/assets/site_images/rr-gde-badge-circle.png" alt="my-image" width="160" height="160"/>
 
 
 I am a machine learning engineer at PyImageSearch from Kolkata and Google Developer Expert in Machine Learning, India. My areas of interest include computer vsion, deep learning and causal inference.

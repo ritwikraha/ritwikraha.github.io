@@ -1,201 +1,245 @@
 ---
 
 layout: post
-title:  "Playing with exposure"
+title:  "Understanding AugMix"
 author: "Ritwik Raha"
 prev_title: false
 prev_link: false
 next_title: false
 next_link: false
-tags: math, image-processing
+tags: math, image-processing, paper-summary
 comments: true
-permalink: /what-is-computational-photography
-image: /assets/site_images/computational-1.png
+permalink: /understanding-augmix
+image: /assets/site_images/augmix-cover.png
 
 ---
 
-> Computational photography refers to digital image capture and processing techniques that use digital computation instead of optical processes. - [Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
-
-<figure>
-  <img src="{{site.url}}/assets/post_images/6post/apple.jpeg" alt="image fusion"/>
-  <figcaption style='text-align: center'>Source: <a href="https://www.eoshd.com/comments/topic/38399-lets-discuss-computational-photography/">Apple Computational Photography</a></figcaption>
-</figure>
-
-
-
-
-That is a neat definition, but what does it mean?
-
-**"If we take a picture on instagram and apply a filter on it, is that computational photography?"**
-
-**"What if we digitally enhance our photographs after we take them?"**
-
-**"What about instagram filters?"**
-
 ### TL;DR
 
-In its simplest form *computational photography* means anything that leverages the power of computer vision and image processing to artificially enhance photographs. This could be anything from a snapchat filter to an extremely sophisticated piece of code stitching together the first ever image of a black hole.
+In machine learning, we use a set of data (known as the "training" data) to teach an algorithm how to solve a task. In this context, we're talking about deep neural networks which are a kind of machine learning algorithm designed to classify images. An image classifier's job is to look at an image and decide which category it belongs to, like identifying whether a photo is of a cat or a dog.
 
-But before we fully understand what computational photography means let us go through a brief lesson on photography.
+When the algorithm is learning, it adjusts itself to perform well on the training data. It's then tested on separate "test" data to see how well it has learned. Ideally, the training and test data should be very similar (identically distributed) in nature. For example, if the task is to distinguish between cats and dogs, and if all the images in the training set are taken in broad daylight, we expect the test set also to have images taken in similar conditions.
 
-### A primer on Photography
+However, in real-world scenarios, there can be a mismatch between the training and test data. This could be due to a variety of factors like the lighting conditions, the angle of the camera, or the breed of the dogs and cats in the images. When this mismatch happens, the accuracy of the image classifier can drop significantly because it has not encountered these conditions during training.
 
-In simple terms we have a device which creates images by recording light reflected from real world objects on a sensor.
+Most current techniques for training these algorithms struggle when the test data is different from the training data in ways they didn't anticipate. This is where the technique called "AUGMIX" comes in.
 
-This means a camera essentially records light. Every little detail in a camera is to optimize that goal perfectly.
+AUGMIX is a method that helps improve the robustness of the model. Robustness in this context refers to the model's ability to maintain accuracy even when the test data differs from the training data in unexpected ways.
 
-So if we *zoom* out a little and see the big picture, there are three main components to photography.
+Here's how AUGMIX works: it applies a mix of augmentations (slight modifications) to the images in the training data. These might include things like adjusting the brightness or contrast, rotating the image, or zooming in slightly. By doing this, AUGMIX creates a wide range of scenarios the model might encounter. It's like showing the model not only pictures of cats and dogs taken in the day but also at twilight, from different angles, of different breeds, etc.
 
-1. How much light is entering the device? (The aperture)
-2. How long we are allowing the light to enter? (The shutter speed)
-3. How sensitive is the sensor to the light? (ISO)
+This helps in two ways:
 
-If you are already familiar with these terms, and have some experience in creating images with various combinations of these parameters feel free to skip to the next section.
+1. It makes the model more robust because it has seen a wider range of image conditions during training.
+2. It helps the model to provide better uncertainty estimates. Uncertainty estimates tell us how confident the model is about its predictions. A well-calibrated model knows when it's likely to be wrong, which is very useful when decisions based on these predictions have significant consequences.
 
-And now, if you are still here, let us get started with the basic components of a camera.
+### The Problem
 
-#### Aperture
+1. **Machine Learning Models and Training Data:** Machine learning models are like students. They learn from a book (training data) and they're expected to use that knowledge to solve problems (make predictions) in the real world (deployment). It's very important that the book is representative of the real world, otherwise, they'll struggle to solve real-world problems correctly.
 
-First we talk about Aperture. Now before we go all technical I want you to imagine something for me.
+2. **Mismatch between Training and Test Data:** Imagine if a student studied from a book about mammals but was then tested on birds. The student would likely fail because the test (test data) doesn't match what they learned (training data). The same thing can happen with machine learning models. But even though this problem is common, it's not studied enough. As a result, machine learning models often struggle when they encounter data that's different from what they were trained on.
 
-For a second, imagine that you are leaving a movie theatre. As you walk out, you are suddenly blinded by a flash of white light. You squeeze your eyes shut. It takes a couple of seconds for your eyes to readjust themselves to the brightness, and you slowly open them up again.
+3. **Data Corruption:** Just a little bit of change or "corruption" to the data (like a bird wearing a hat in the test data when the book only had birds without hats) can confuse the machine learning model (classifier). There aren't a lot of techniques available yet to make these models more resistant to such changes.
 
-Sounds familiar?
+4. **Uncertainty Quantification:** Some machine learning models (like probabilistic and Bayesian neural networks) try to also measure how sure they are about their predictions (uncertainty). But these models can also struggle when the data shifts because they weren't trained on similar examples.
 
-This is exactly what **aperture** means.
+5. **Corruption-Specific Training:** Training a model with a focus on specific corruptions (like birds wearing specific types of hats) encourages the model to only remember these specific corruptions and not learn a general ability to handle any kind of hat.
 
-It is the measure of how much the lens is opened. It is usually measured in f-stops and expressed in numbers such as 1.4,1.8,2,2.8,5.6,8,11,16.
+6. **Data Augmentation:** Some people propose aggressively changing the training data (aggressive data augmentation) to prepare the model for all kinds of changes it might encounter. But this approach can require a lot of computational resources.
 
-Something to remember here is that the lower the number is the bigger the opening of the lens. The higher the f-stop is the smaller the opening of the lens.
+7. **Trade-off between Accuracy, Robustness, and Uncertainty:** Chun et al. (2019) found that many techniques that improve the model's test score (clean accuracy) make it less able to handle data corruption (robustness). Similarly, techniques that make a model more robust often make it worse at estimating how sure it is about its predictions (uncertainty). So there's often a trade-off between accuracy, robustness, and uncertainty.
 
-> But what effect does this have on the image?
+### The Solution
 
-Well if you have a bigger opening you have more light or more information coming through. So a smaller aperture or larger f-stop would lead to darker pictures and vice-versa.
+1. **AUGMIX:** This is a new technique that manages to hit a sweet spot. It improves the model's ability to handle data corruption (robustness) and its ability to estimate how sure it is about its predictions (uncertainty), all while maintaining or even improving its test score (accuracy). And it does this on standard benchmark datasets, which are datasets commonly used to test machine learning models.
 
-<figure>
-  <img src="{{site.url}}/assets/post_images/6post/f-exposure.jpeg" alt="exposure"/>
-  <figcaption style='text-align: center'>Source: <a href="https://samualross.wordpress.com/2014/11/24/a-beginners-guide-to-photography/">A Beginners Guide to Photography</a></figcaption>
-</figure>
+2. **How AUGMIX Works:** AUGMIX uses randomness (stochasticity) and a wide variety of changes (diverse augmentations) to the training data. It also uses a special type of loss function called **Jensen-Shannon Divergence consistency loss**, which is a mathematical way to measure how different two probability distributions are. Furthermore, it mixes multiple changed versions of an image to achieve great performance. It's like showing the model different versions of the same image (like a cat in different lighting conditions, from different angles, etc.) and teaching it that they are all still the same category (a cat).
 
+3. **AUGMIX Results on ImageNet:** ImageNet is a popular benchmark dataset for image classifiers. AUGMIX achieves the best performance so far on this dataset in terms of handling data corruption. It also reduces perturbation instability from 57.2% to 37.4%. Perturbation instability is a measure of how much small changes to the input (like slightly changing the color of an image) affect the model's predictions. A high perturbation instability means the model's predictions change a lot even for small changes to the input, which is not desirable. By reducing this from 57.2% to 37.4%, AUGMIX makes the model more stable and reliable.
 
-> That's great, what else can we do using aperture?
+4. Offocial code released at : https://github.com/google-research/augmix
 
-- The Aperture also controls Depth-Of-Field.
+ 
+### AUGMIX
 
-> What is Depth-Of-Field?
+### What's the hype?
+<img width="844" alt="Screenshot 2023-06-13 at 2 54 53 AM" src="https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/57b3f737-9a72-46e9-8dc3-f810000e1cce">
 
-Depth-of-Field is simply the distance between the nearest and the farthest object in the camera's viewing field which are in acceptable focus.
+Let's try to understand why, what and how
 
-By acceptable focus we mean that we can make out the details of the object.
+1. **AUGMIX:** This is a technique used to change the training data (data augmentation) to make the model stronger (improve robustness) and better at estimating how sure it is about its predictions (uncertainty estimates). The great thing about AUGMIX is that it can be easily added to existing training procedures (training pipelines).
 
-> But how is this connected to aperture?
+2. **Components of AUGMIX:** AUGMIX is characterized by two main components. The first is the use of simple changes (augmentation operations) to the images in the training data. The second is a special mathematical measure called a consistency loss, which I'll explain later.
 
-Well, the bigger the aperture the more light is allowed into the sensor creating a shallow depth of field for the background and vice versa.
+3. **Stochastic Sampling:** AUGMIX doesn't just apply one change to an image, but layers many different changes to the same image. Which changes it applies is decided randomly (sampled stochastically). This produces a wide variety of changed versions of the same image.
 
-<figure>
-  <img src="{{site.url}}/assets/post_images/6post/dof.png" alt="depth of field"/>
-  <figcaption style='text-align: center'>Source: <a href="https://www.adorama.com/alc/what-is-f-stop-how-to-use-it-for-photography/">What Is F-Stop & How to Use It for Photography</a></figcaption>
-</figure>
+4. **Consistent Embedding:** When the model looks at an image, it converts it into a numerical representation called an embedding. AUGMIX enforces that the model produces a similar embedding for all the changed versions of the same image. This makes sense because, regardless of the changes, it's still the same image.
 
+5. **Jensen-Shannon Divergence:** This is the special mathematical measure (consistency loss) used by AUGMIX. It measures how different two probability distributions are. In this case, it's used to measure how different the model's predictions are for the different changed versions of the same image. The goal is to make this divergence as small as possible, which means the model is consistent in its predictions for the changed versions of the same image.
 
-#### Shutter Speed
+6. **Mixing Augmentations:** This refers to applying several changes (augmentations) to the same image at once. This can produce a wide range of different versions of the same image. This diversity is crucial for making the model stronger (inducing robustness). This is because a common issue with deep learning models is that they tend to memorize the specific changes they see during training (fixed augmentations), instead of learning to handle changes in general.
 
-Shutter speed is exactly what the name says. It is the speed with which the camera goes *khiichiiik*. This is usually measured in a fraction of a second for example, 1/10 th of a second. We can see numbers like 1/10,1/20,1/50,1/100,...,1/640.
+7. **Previous Methods:** Earlier techniques tried to increase this diversity by applying a series of different changes one after the other (composing augmentation primitives in a chain). But this can quickly distort the image too much (cause the image to degrade and drift off the data manifold), making it harder for the model to learn from it. You can see an illustration of this in Figure 3 (not provided here).
 
-So before I bring in the diagrams and the math, let me ask you a simple question- 
+<img width="887" alt="Screenshot 2023-06-13 at 3 01 33 AM" src="https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/e677f5d3-a676-4de5-a40e-1c6b50de6f68">
 
-> What happens if we take a low shutter speed like 1/10?
+8. **Mitigating Image Degradation:** AUGMIX has a clever solution to this issue. It maintains the diversity of changes without distorting the image too much by mixing the results of several chains of changes (augmentation chains) together. It does this by creating a blend (convex combination) of several differently changed versions of the same image. This keeps the diversity of changes high, but ensures the changed images still resemble the original image, making it easier for the model to learn from them.
 
-The camera sensor stays open for a longer period of time right? This means we are allowing more light to enter. Our image will be brighter. 
+### Algorithm
 
-Similarly if we have a faster shutter speed, we will not give much time for the senor to be exposed to light. This means our image would be eventually darker.
+```
+1. Input: Model ^p, Classification Loss L, Image xorig, Operations O={rotate,...,posterize}
+2. Function AugmentAndMix(xorig, k=3, α=1):
+    * Fill xaug with zeros.
+    * Sample mixing weights (w1, w2, ..., wk) ~ Dirichlet(α, α, ..., α).
+    * For i = 1, ..., k do:
+        * Sample operations op1, op2, op3 ~ O.
+        * Compose operations with varying depth op12 = op2◦op1 and op123 = op3◦op2◦op1.
+        * Sample uniformly from one of these operations chain ∼ {op1, op12, op123}.
+        * xaug += wi·chain(xorig) Addition is elementwise.
+    * End for.
+    * Sample weight m ~ Beta(α, α).
+    * Interpolate with rule xaugmix = mxorig + (1 - m)xaug.
+    * Return xaugmix.
+    * End function.
+3. xaugmix1 = AugmentAndMix(xorig) xaugmix1 is stochastically generated.
+4. xaugmix2 = AugmentAndMix(xorig) xaugmix1 = xaugmix2.
+5. Loss Output: L(ˆp(y|xorig), y) + λJensen-Shannon(ˆp(y|xorig); ˆp(y|xaugmix1); ˆp(y|xaugmix2))
+```
+#### What this means?
 
-<figure>
- <img src="{{site.url}}/assets/post_images/6post/shutter-speed.jpeg" alt="shutter speed"/>
-  <figcaption style='text-align: center'>Source: <a href="https://www.nfi.edu/shutter-speed/">Shutter Speed: Everything You Need To Know</a></figcaption>
-</figure>
+1. The input to the algorithm is a model ^p, a classification loss L, an image xorig, and a set of operations O.
+2. The function AugmentAndMix takes an image xorig and generates a new image xaugmix that is a mix of several augmented versions of xorig.
+3. The algorithm generates two augmented images xaugmix1 and xaugmix2.
+4. The loss function is a combination of the classification loss L and a Jensen-Shannon divergence between the predictions of the model on the original image xorig and the two augmented images xaugmix1 and xaugmix2.
 
+As stated before the algorithm is thus a data augmentation technique that can be used to improve the robustness and uncertainty estimates of machine learning models. It works by generating a diverse set of augmented images from a single input image, and then training the model on these augmented images. This helps the model to learn to generalize to unseen data, and to produce more accurate uncertainty estimates.
 
-> This is great? Anything else?
+The entire steps are visualised below:
 
-Absolutely! We want to capture a high speed race car (in all its glorious details) - we would need a faster shutter speed. 
+<img width="981" alt="Screenshot 2023-06-13 at 3 08 33 AM" src="https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/cf1dee95-71c4-4435-a411-1423351dd72d">
 
-Now let us imagine that we want to capture a beautiful star trail from the Himalayas. We need to capture the movement of the stars, so we would need a low shutter speed.
+**NOTE**: The Semantically equivalent space around an image is the image equivalent of a word being surrounded by its synonyms, in meme language think of this as the function saying copy my homework but change it a bit.
+![image](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/f14c1c91-56c9-43b9-8557-fcedf3058b6a)
 
-#### ISO
+### Drilling Down
 
-> Wait, didn't we cover everything? What is ISO?
+There are three major steps involved in AUGMIX. These are:
 
-ISO stands for International Organization for Standardization and it stands for sensitivity to light. 
+1. Augmentations
+2. Mixing
+3. Jensen-Shannon Divergence Consistency Loss 💀
 
-Before we go into ISO for digital cameras , let us revisit the old days.
+Here is what these steps entail in details:
 
-<figure>
- <img src="{{site.url}}/assets/post_images/6post/asa.jpeg" alt="ASA"/>
-  <figcaption style='text-align: center'>Source: <a href="https://fineartamerica.com/featured/vintage-yashica-635-camera--asa-dial-jon-woodhams.html?product=greeting-card">Vintage Yashica 635</a></figcaption>
-</figure>
+#### Augmentations 
 
-In the film camera ISO or ASA as it was known in those days defined the sensitivity of the film's material to light. This is usually expressed in numbers such as 100,200,400,..1600. Now the lower the number is the less sensitive it is to light. 
+This is the process of changing or altering the images in your training dataset. In the case of AUGMIX, this involves mixing together the results of several different chains of changes (augmentation chains) applied to the same image.
 
-Which means in a low light environment the image would not be well exposed. Similarly if the ISO is higher, then in a low light environment it would still produce well exposed images.
+1. **AutoAugment Operations:** AUGMIX uses a specific set of changes (operations) from something called AutoAugment, which is another data augmentation method. These operations include different ways to change an image.
 
-<figure>
- <img src="{{site.url}}/assets/post_images/6post/iso.jpeg" alt="ASA"/>
-  <figcaption style='text-align: center'>Source: <a href="http://www.getoffgreenauto.com/iso-exposure-exercise/">ISO Exposure Exercise</a></figcaption>
-</figure>
+2. **Exclusions:** Some of these operations are removed because they overlap with certain types of changes (corruptions) in the ImageNet-C dataset (a test dataset). In particular, changes that affect the image's contrast, color, brightness, sharpness, and cutout operations are removed. This is done so that the model doesn't see these changes until it's being tested. Additionally, operations that add noise to the image or blur it are also not used.
 
-However for digital cameras ISO works differently. An image sensor is fundamentally different from a film one. Here the image is capture at a base ISO (100) always. When we select an ISO of 3200 a gain of 32X is applied to the already captured image.
+3. **Rotate Operation:** Some operations can be applied with varying degrees of severity. For example, the rotate operation can rotate the image by a small amount (like 2 degrees) or a larger amount (like -15 degrees).
 
-The better the sensor the higher the tolerance of the gain.This means a good sesnor will be able to boost the image significantly without any noise, whereas a poor sensor will show noise in the image at lower values.
+4. **Sampling Severities:** For operations that have varying degrees of severity, the severity is chosen randomly each time the operation is applied.
 
-> Note: The ISO in a digital camera is applying computational photography. The sensor and chip applies gains to the image **after** it is captured.
+5. **Sampling Augmentation Chains:** Next, a number of augmentation chains are selected randomly. By default, this number (k) is 3. An augmentation chain is a sequence of one to three randomly selected operations applied to the image.
 
-Aperture, shutter-speed and ISO are three pillars of photography. Together they control the amount of light entering the device. Here is an image commonly known as the *exposure triangle* that helps us understand the relationship between these three variables.
+To put it in simpler terms, imagine you're an artist with a picture, and you want to create slightly different versions of it. You have a set of tools (operations) you can use to change the picture (like rotating it, zooming in, etc.), but some tools (like changing the color or blurring it) are off-limits. Each time you work on a picture, you can use up to three tools in a sequence (an augmentation chain), and you create three versions of the picture by default. Some tools can be used gently or aggressively (varying severities), and each time you use them, you randomly decide how gentle or aggressive to be.
 
-<figure>
- <img src="{{site.url}}/assets/post_images/6post/tri-factor.png" alt="Triangle"/>
-  <figcaption style='text-align: center'>Source: <a href="https://www.polarprofilters.com/blogs/polarpro/the-three-elements-of-the-exposure-triangle">The Three Elements of The Exposure Triangle</a></figcaption>
-</figure>
+![image](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/6ff7eb47-3100-47e1-87bb-7d3aba859043)
 
-A good photographer knows this by heart, a great photographer controls it😎.
+#### Mixing
 
-### The Problems
-> But why do we need Computational Photography?
+After the images have been changed using the augmentation chains, they're combined together. This is the mixing step. While there were other options, the method they chose was elementwise convex combinations. It's a bit like mixing paint colors: you're blending different versions of an image together.
 
-Even the best of cameras have limitations. Some of them might be:
+1. **Convex Coefficients:** The way you blend the images is determined by a set of weights (convex coefficients). This is a fancy way of saying how much of each image you take when you're blending them. These weights are chosen randomly from a type of probability distribution called a Dirichlet distribution. 
 
-- Creating a small aperture is costly and time consuming. However images for constricted aperture is more aesthetic. This presents a challenge: to achieve the same quality of images using larger apertures.
+2. **Skip Connection:** After the images have been mixed, they are combined with the original image using a skip connection. This basically means that the original image is included in the final mixed image. The way the mixed image and the original image are combined is also determined by a weight, which is randomly chosen from another type of probability distribution called a Beta distribution.
 
-- A small shutter speed for e.g 1/10 or 1/5 is realistically impossible for the human hand to keep still. Thus it is very difficult to take photographs for longer durations without a camera stand. 
+3. **Multiple Sources of Randomness:** There are several factors that are randomly decided in this process: which changes to apply to the image (choice of operations), how severe these changes are (severity of operations), how many changes to apply in a sequence (length of augmentation chains), and how the changed images are blended together (mixing weights). 
 
-- Not all camera sensors are built the same. A camera sensor that will allow a high ISO value without passing any noise in the output would be immensely costly.  Thus low light or night photography is completely trash in low end cameras.
+To simplify, think about making a smoothie. You choose a few different fruits (operations), decide how much of each to use (severity), mix a few different smoothie recipes together (augmentation chains), and then decide how much of each recipe to use in the final smoothie (mixing weights). Then, you add some of the original fruits back in (skip connection) as toppings, this helps to make sure some parts of the original taste is retained 😉.
 
-With the dawn of the 21st Century science started challenging barriers and limitations. What was previously considered impossible is now one innovation away.
+![image](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/47d7613f-b88d-454d-a6a9-0ebaf0509dcf)
 
-> Computational Photography aims to solve these challenges leveraging the **minimal hardware requirements** possible.
+#### Jensen-Shannon Divergence Consistency Loss 💀
 
-In the next blogpost we will look at some methods adopted by smartphones and industry giants like Google and Apple to cater Computational Photography at scale.
+1. **Loss and Smoother Responses:** We know that "loss" is like a penalty for the model. The higher the loss, the worse the model is doing. The aim is to get a lower penalty or "loss". In this case, they want the penalty to enforce "smoother" responses. This means that small changes to an image shouldn't result in big changes to what the model predicts about the image. 
 
-### Looking Back
+2. **Preserving Semantic Content:** With AUGMIX, even if we change an image a bit (like turning it or adding noise), the overall subject of the image (like a dog or a cat) stays the same. So, they want the model to predict similar things for the original and the changed images.
 
-In many ways photography began as an art form. The perfect instrument to capture moments. When it all began, photographs were taken and developed with care and attention in a dark room. The photographer worked hours to develop the photograph with only his memory as reference.
+3. **Minimizing Jensen-Shannon Divergence:** This is the penalty they use to make sure the model makes similar predictions for the original and changed images. Here's the formula:
 
-We moved from there to digital cameras that let us take photographs and visualise them instantly. The skill and dexterity of the photographer faded a little. He didn't need a masking tape and fine toothed brush and the right mix of chemicals to bring out details. 
+    L(porig,y) + λJS(porig; paugmix1; paugmix2)
 
-And now we arrive at the present day, photographs are no longer taken but generated. Frames are stitched together and pixels are fused by massive algorithms to bring the best version of the photograph on screen. The phtographer no longer cares about elements of photography like aperture or shutter speed.
+    Here's what it means:
 
-Maybe this is the purpose of technology - to advance science and ease our lives in the process. But great photographs have been taken even in the harshest of limitations.
+    - L(porig, y): This is how different the model's predictions for the original image (porig) are from what they should be (y).
 
-And perhaps that is the meaning of art - beauty even in great adversity.
+    - JS(porig; paugmix1; paugmix2): This is how different the model's predictions for the original and the two changed images are from each other.
+
+    - λ: This is a number that decides how much importance they give to making the predictions similar (JS part) compared to getting the predictions for the original image right (L part).
+
+4. **Interpreting the Loss:** Imagine you have three people who all look very similar. If you can't tell which is which based on how they look (porig, paugmix1, paugmix2), then the model is doing a good job. The Jensen-Shannon divergence measures this.
+
+5. **Computing the Loss:** First, they calculate an "average prediction" (M) from the predictions for the original and changed images. Then, they calculate how different each prediction is from this average.
+
+    M=(porig + paugmix1 + paugmix2) / 3
+    JS(porig; paugmix1; paugmix2)=1/3 (KL[porig||M] + KL[paugmix1||M] + KL[paugmix2||M])
+
+    Here, KL (see KL divergence) is another way to measure how different two things are (in this case, the prediction and the average prediction).
+
+6. **Upper Bounded Divergence:** The Jensen-Shannon divergence can't be bigger than the log of the number of classes (the number of different things the model can predict, like cat, dog, etc.). This means it's a good, stable measure to use.
+
+7. **Stable, Consistent, and Insensitive Model:** This fancy penalty (Jensen-Shannon Consistency Loss) encourages the model to be stable (not change predictions drastically), consistent (predict similar things for similar images), and insensitive (not overreact to small changes in the image). 
+
+In simpler terms, imagine the model as a student learning to classify animals in images. The student gets penalized (Jensen-Shannon Consistency Loss) if they drastically change their guess about the animal when they see the same image slightly altered. The aim is to teach the student to be steady and consistent in their learning and not get easily confused by minor changes in the images.
+
+![image](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/765ae340-8fd4-448e-a8b9-232d491290b8)
+
+### Implementation
+
+Keras CV provides a nice and easy implementation of AugMix that you can try in any of your existing data loading pipelines. Here is a small snippet to get you started:
+
+```
+import keras_cv
+import tensorflow_datasets as tfds
+
+# Load the dataset
+dataset = tfds.load(
+    name="oxford_iiit_pet"
+)
+
+# Build the AugMix layer and pass the images through the layer
+augmix = keras_cv.layers.preprocessing.AugMix(value_range=(0, 255))
+augmix_inputs = augmix(batch_inputs)
+
+keras_cv.visualization.plot_image_gallery(
+    images=augmix_inputs["images"],
+    value_range=(0, 255),
+)
+```
+
+
+### Conclusion
+1. **AUGMIX:** We need to think of AUGMIX like a chef's special recipe for training a model. The recipe includes creating and mixing together different versions of the same image (like a cake with different toppings), and then teaching the model to recognize these as essentially the same thing. (all chefs are whimsical)
+
+2. **State-of-the-art Performance:** This technique helps models do really well on some popular tests. These tests are CIFAR-10/100-C, ImageNet-C, CIFAR-10/100-P, and ImageNet-P. Think of them like exams in school, where the model needs to identify objects in images correctly, the different datasets are the different levels in the exams.
+
+3. **Calibration:** Calibration is like how well the model knows it's right. A well-calibrated model, when it says "I'm 70% sure this is a cat", is right about 70% of the time. With AUGMIX, models are really good at this and stay good at it, even when the images they are trying to recognize become a bit different than what they were trained on.
+
+4. **Reliable Models:** By using AUGMIX, models can be more reliable. This is important especially when models are used in situations where it's really important they don't make mistakes, like in self-driving cars or medical diagnoses.
+
+So summing up, AUGMIX is like a special training method (chef's secret recipe) that helps our models (students) do really well on their exams, keeps them confident about their answers, and makes them reliable even when faced with slightly unfamiliar questions (like an image of a shocked cat). This is especially useful when we need our students to perform tasks where mistakes can lead to serious problems, like AI taking over the world and targeting humans. Just kidding :)
+
 
 ### References
 
-- [Computational Photography - Wikipedia](https://en.wikipedia.org/wiki/Computational_photography)
-- [What is Computational Photography](https://www.dpreview.com/articles/9828658229/computational-photography-part-i-what-is-computational-photography)
-- [Definition of ISO](https://www.phototraces.com/definition-of-iso-in-photography/)
-- [History of ISO](https://expertphotography.com/understand-iso-4-simple-steps/)
+- [AugMix: A Simple Data Processing Method to Improve Robustness and Uncertainty](https://arxiv.org/abs/1912.02781)
+- [AugMix layer](https://keras.io/api/keras_cv/layers/preprocessing/aug_mix/)
 
-- [Mathemetical Expression of Noise](https://www.imatest.com/docs/noise/)
 {% if page.comments %}
 <div id="disqus_thread"></div>
 <script>
