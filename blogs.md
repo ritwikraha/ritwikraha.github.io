@@ -80,6 +80,9 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 
 #### Hitchhiker's Guide to...
 
+* [What is Keras Core?](https://pyimagesearch.com/2023/07/24/what-is-keras-core/)
 * [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
 * [Automatic Differentiation Part 1: Understanding the Math](https://pyimagesearch.com/2022/12/05/automatic-differentiation-part-1-understanding-the-math/)
 * [Automatic Differentiation Part 2: Implementation Using Micrograd](https://pyimagesearch.com/2022/12/26/automatic-differentiation-part-2-implementation-using-micrograd/)
+
+
