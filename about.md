@@ -15,6 +15,11 @@ When I am not working, my alter ego takes over and makes me an avid bibliophile 
 
 
 ### Talks
+* [AI Planet - LLM Bootcamp](https://www.youtube.com/live/Wef1-D0CoAU?si=mTRSRzXcglpu32os)
+* [ML Paper Reading Club Coimbatore - ResNets](https://youtu.be/C8UqTtyOY4g?si=jptrJSuWEmeCmNG7)
+* [Keras Community Day Kolkata - Keras Philosophy](https://www.youtube.com/watch?v=mU4Z9bs0Bxc)
+* [Keras Community Day Durg - Keras Philosophy](https://www.youtube.com/watch?v=KinLN4lA6Bg&t=13112s)
+* [Keras - The LEGO of Framework](https://www.youtube.com/watch?v=YkIW0aCExo8)
 * [Decoding DETR - TFUG Mumbai](https://www.youtube.com/watch?v=p26Ax6en0_c)
 * [A Guide to ML Workflows with JAX - TFUG Kolkata](https://www.youtube.com/watch?v=tur1P-HWdjs)
 * [Learning JAX in 2023 - JAX's Power Tools](https://www.youtube.com/watch?v=NNsYtagZocw)
