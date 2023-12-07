@@ -16,13 +16,16 @@ image: /assets/site_images/
 
 ### Mixture of Experts for Dummies
 
-#### Introduction:
+#### In the beginning...
+
 Large Language Models (LLMs) are powerful neural networks that have achieved remarkable results in various natural language processing tasks. However, their massive size and computational complexity pose challenges for training and deployment. To address these challenges, Mixture of Experts (MoE) architecture has emerged as a promising technique.
 
 #### MoE: What is it?
+
 MoE is a neural network architecture that divides a large model into smaller, specialized sub-models called experts. Each expert is trained to handle specific subtasks or input types. During inference, a gating network decides which expert(s) are best suited for each input, and only those experts are activated. This allows for more efficient computation and resource allocation compared to a single large model.
 
 #### How does a MoE work?
+
 MoE consists of three main components:
 - Expert networks: These are smaller sub-models trained on specific subtasks or input types.
 - Gating network: This network determines which expert(s) are best suited for each input. It considers features of the input and the capabilities of each expert.
@@ -35,22 +38,33 @@ Here's a simplified breakdown of the MoE process:
 - Gating network: The gating network analyzes the features and activates a small subset of experts.
 - Expert processing: Each activated expert processes the input and generates its own output.
 - Combining: The outputs from the activated experts are combined to produce the final output of the LLM.
-    - \text{Output} = \sum_{i=1}^2 \text{Expert}_i(\text{Input}) \cdot \text{Gating}(i)
+    - $\text{Output} = \sum_{i=1}^2 \text{Expert}_i(\text{Input}) \cdot \text{Gating}(i)$
 
 #### Vanilla MoE
+
 This is not difficult to understand; it is a simple MoE with all the Experts switched on.
 
+<img width="844" alt="Vanilla-MoE" src="https://imgur.com/NJKStaz">
+
 #### Sparse MoE:
+
 Imagine a team of experts working on a complex problem. Each expert has unique knowledge and skills, but it's not efficient to involve all of them for every task.
+
 Sparse MoE (Mixture of Experts):
 Google Brain proposed a solution: a network with many "experts," but only a few are active for each task. This allows for a larger model capacity while saving resources.
+
+<img width="844" alt="Sparse-MoE" src="https://imgur.com/T0uzcPj">
+
+
 Goal: Achieve "single sample single expert processing." This means the model chooses one specific expert for each input during inference, saving computation.
 Example: Imagine a team of 100 experts. The model only activates 3 experts for a specific task, significantly reducing computational cost.
+
 Winner takes all phenomenon:
 During training, the model tends to favor "earlier" experts, making them more likely to be chosen. This leads to only a few experts being used effectively.
 Problem: This is called the "Expert Balancing problem."
 
 #### Transformer MoE
+
 When models reached hundreds of billions of parameters, scaling became difficult.
 MoE (Mixture of Experts) resurfaced as an economical and practical solution.
 Google's GShard pioneered MoE integration with Transformers.
@@ -58,16 +72,29 @@ Subsequent work like Switch Transformer and GLaM further improved the technique.
 MoE reduced LLM parameters from billions to trillions.
 GLaM's architecture:
 
+<img width="844" alt="Transformer-MoE" src="https://imgur.com/98tTKfD">
+
 - MoE layers (position-wise) interweave with FFN layers in the Transformer encoder and decoder.
 - Top-2 routing in the Gating Network selects the two most likely experts.
 
 #### Lifelong-MoE
+
 To tackle Lifelong Learning Google released Lifelong-MoE in May 2023. The model's Lifelong learning strategy includes the following steps:
 - Expand the number of Experts and the corresponding Gating dimensions.
 - Freeze the old Expert and the corresponding Gating dimension, and only train the new Expert.
-- Use the Output Regularization method to ensure that the new Expert inherits the knowledge learned in the pas
+- Use the Output Regularization method to ensure that the new Expert inherits the knowledge learned in the past
 
-#### So in Conclusion...
+#### Quiz Time!
+
+<iframe
+  src="https://itempool.com/AlertAntelope519172/c/wjhVIvDe8lz"
+  style="width:100%; height:300px;"
+></iframe>
+
+#### Wrapping Up...
+
+Think of MoE as a group of specialists working on a complex project. Each specialist has their own expertise and focuses on a specific task. This allows the project to be completed more efficiently and effectively.
+MoE is a relatively new technique in the field of LLMs, so research is still ongoing. However, its potential benefits are significant, and it is expected to play a major role in the future development of LLMs.
 
 #### References
 - The Next LLMs Development: Mixture-of-Experts with ... - AIFT: https://zhuanlan.zhihu.com/p/650394454
