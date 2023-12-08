@@ -40,13 +40,13 @@ Here's a simplified breakdown of the MoE process:
 - Gating network: The gating network analyzes the features and activates a small subset of experts.
 - Expert processing: Each activated expert processes the input and generates its own output.
 - Combining: The outputs from the activated experts are combined to produce the final output of the LLM.
-    - $\text{Output} = \sum_{i=1}^2 \text{Expert}_i(\text{Input}) \cdot \text{Gating}(i)$
+    - $$ \text{Output} = \sum_{i=1}^N \text{Expert}_i(\text{Input}) \cdot \text{Gating}(i) $$
 
 #### Vanilla MoE
 
 A Vanilla MoE is the simplest form of the architecture; it is a simple MoE with all the Experts switched on. We can get a brief idea from the image shown here:
 
-<img width="844" alt="Vanilla-MoE" src="https://imgur.com/NJKStaz">
+![vanilla-moe](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/64ae9bab-3a6f-433d-94c7-2dcff4b5f262)
 
 #### Sparse MoE:
 
@@ -55,7 +55,7 @@ Imagine a team of experts working on a complex problem. Each expert has unique k
 Sparse MoE (Mixture of Experts):
 Google Brain proposed a solution: a network with many "experts," but only a few are active for each task. This allows for a larger model capacity while saving resources.
 
-<img width="844" alt="Sparse-MoE" src="https://imgur.com/T0uzcPj">
+![sparse-moe](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/5641e470-3dc6-4de2-858c-f1279eef5846)
 
 
 Goal: Achieve "single sample single expert processing." This means the model chooses one specific expert for each input during inference, saving computation.
@@ -72,7 +72,7 @@ Subsequent work like Switch Transformer and GLaM further improved the technique.
 MoE reduced LLM parameters from billions to trillions.
 GLaM's architecture:
 
-<img width="844" alt="Transformer-MoE" src="https://imgur.com/98tTKfD">
+![transformer-moe](https://github.com/ritwikraha/Notes-on-Papers/assets/44690292/b949af5e-895f-4cd0-bc2e-ab9719299228)
 
 - MoE layers (position-wise) interweave with FFN layers in the Transformer encoder and decoder.
 - Top-2 routing in the Gating Network selects the two most likely experts.
