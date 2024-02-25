@@ -18,6 +18,8 @@ url: "https://ritwikraha.github.io" # the base hostname & protocol for your site
 twitter_username: ritwik_raha
 github_username:  ritwikraha
 
+style: dark
+
 # Build settings
 # theme: minima
 remote_theme: b2a3e8/jekyll-theme-console
