@@ -6,8 +6,8 @@ urls:
       url: /research
     - text: About
       url: /about
-    - text: Resume
-      url: /assets/Ritwik_Resume_2.pdf
+    # - text: Resume
+      # url: /assets/Ritwik_Resume_2.pdf
 
 title: Portfolio
 email: ritwikraha.nsec@gmail.com
@@ -19,7 +19,8 @@ twitter_username: ritwik_raha
 github_username:  ritwikraha
 
 # Build settings
-theme: minima
+# theme: minima
+remote_theme: b2a3e8/jekyll-theme-console
 plugins:
   - jekyll-feed
   - jekyll-sitemap
