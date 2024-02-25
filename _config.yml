@@ -26,6 +26,7 @@ remote_theme: b2a3e8/jekyll-theme-console-demo-dark
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-remote-theme 
 
 disqus: true
 disqus_shortname: 'ritwikraha-github-io'
