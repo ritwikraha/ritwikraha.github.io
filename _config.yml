@@ -14,7 +14,7 @@ email: ritwikraha.nsec@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   This is my portfolio site.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://ritwikraha.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://ritwikraha.dev" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ritwik_raha
 github_username:  ritwikraha
 
