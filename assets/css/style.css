@@ -222,12 +222,8 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 body {
-    font-size: 13pt;
-    font-weight: normal;
-    line-height: 2em;
     background-color: #0c0c0c;
-    color: #00ff00;
-    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    color: #00cc00;
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -251,7 +247,7 @@ body.dark-theme {
 }
 
 a {
-    color: #00ff00;
+    color: #00cc00;
     text-decoration: none;
     transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
     cursor: pointer;
@@ -303,7 +299,7 @@ table {
 }
 
 .navbar .menu a {
-    color: #00ff00;
+    color: #00cc00;
 }
 
 .navbar .menu a:hover {
@@ -328,7 +324,7 @@ table {
     line-height: 4rem;
     padding-top: 2em;
     background-color: #1c1c1c;
-    color: #00ff00;
+    color: #00cc00;
 }
 
 @charset "utf-8";
@@ -697,7 +693,6 @@ header label {
     font-weight: normal;
     color: #ffffff;
     font-family: 'Courier New', monospace;
-    text-shadow: 0 0 10px #00ff00;
 }
 
 .links a {
@@ -723,20 +718,20 @@ header label {
 .post-wrap .archive-item {
     margin-left: 2rem;
     margin-bottom: 1rem;
-    border-bottom: 1px solid #00ff00;
+    border-bottom: 1px solid #00cc00;
 }
 
 .dark-theme .post-wrap .archive-item {
     margin-left: 2rem;
     margin-bottom: 1rem;
-    border-bottom: 1px solid #00ff00;
+    border-bottom: 1px solid #00cc00;
 }
 
 .archive-item-link {
     display: inline-block;
     text-decoration: none;
     overflow: hidden;
-    color: #00ff00;
+    color: #00cc00;
 }
 
 .archive-item-link:hover {
@@ -745,7 +740,7 @@ header label {
 }
 
 .dark-theme .archive-item-link {
-    color: #00ff00;
+    color: #00cc00;
     text-decoration: none;
     transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
@@ -759,12 +754,12 @@ header label {
 .archive-item-date {
     float: right;
     text-align: right;
-    color: #00ff00;
+    color: #00cc00;
     display: none;
 }
 
 .dark-theme .archive-item-date {
-    color: #00ff00;
+    color: #00cc00;
 }
 
 .post-wrap .categories-card {
@@ -808,7 +803,7 @@ header label {
     transition-duration: 0.3s;
     transition-property: transform;
     transition-timing-function: ease-out;
-    color: #00ff00;
+    color: #00cc00;
 }
 
 .tag-cloud-tags a:active,
