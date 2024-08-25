@@ -47,37 +47,37 @@ document.ready(
         }
         _Blog.toggleTheme = function () {
             if (isDark) {
-                document.getElementsByTagName('body')[0].classList.add('dark-theme');
+                document.getElementsByTagName('body')[0].classList.add('hacker-theme');
                 // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+                document.getElementById("mobile-toggle-theme").innerText = "· Hacker"
             } else {
-                document.getElementsByTagName('body')[0].classList.remove('dark-theme');
+                document.getElementsByTagName('body')[0].classList.remove('hacker-theme');
                 // mobile
                 document.getElementById("mobile-toggle-theme").innerText = "· Light"
             }
             document.getElementsByClassName('toggleBtn')[0].addEventListener('click', () => {
-                if (document.getElementsByTagName('body')[0].classList.contains('dark-theme')) {
-                    document.getElementsByTagName('body')[0].classList.remove('dark-theme');
+                if (document.getElementsByTagName('body')[0].classList.contains('hacker-theme')) {
+                    document.getElementsByTagName('body')[0].classList.remove('hacker-theme');
                 } else {
-                    document.getElementsByTagName('body')[0].classList.add('dark-theme');
+                    document.getElementsByTagName('body')[0].classList.add('hacker-theme');
                 }
                 window.localStorage &&
-                window.localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light',)
+                window.localStorage.setItem('theme', document.body.classList.contains('hacker-theme') ? 'hacker' : 'light',)
             })
             // moblie
             document.getElementById('mobile-toggle-theme').addEventListener('click', () => {
-                if (document.getElementsByTagName('body')[0].classList.contains('dark-theme')) {
-                    document.getElementsByTagName('body')[0].classList.remove('dark-theme');
+                if (document.getElementsByTagName('body')[0].classList.contains('hacker-theme')) {
+                    document.getElementsByTagName('body')[0].classList.remove('hacker-theme');
                     // mobile
                     document.getElementById("mobile-toggle-theme").innerText = "· Light"
 
                 } else {
-                    document.getElementsByTagName('body')[0].classList.add('dark-theme');
+                    document.getElementsByTagName('body')[0].classList.add('hacker-theme');
                     // mobile
-                    document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+                    document.getElementById("mobile-toggle-theme").innerText = "· Hacker"
                 }
                 window.localStorage &&
-                window.localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light',)
+                window.localStorage.setItem('theme', document.body.classList.contains('hacker-theme') ? 'hacker' : 'light',)
             })
         };
         _Blog.toggleTheme();
