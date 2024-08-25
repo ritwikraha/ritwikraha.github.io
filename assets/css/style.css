@@ -716,13 +716,11 @@ header label {
 }
 
 .post-wrap .archive-item {
-    margin-left: 2rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid #00cc00;
 }
 
 .dark-theme .post-wrap .archive-item {
-    margin-left: 2rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid #00cc00;
 }
@@ -1686,3 +1684,4 @@ a.toc-link {
 .highlight .vi { color: #3333BB } /* Name.Variable.Instance */
 .highlight .vm { color: #996633 } /* Name.Variable.Magic */
 .highlight .il { color: #0000DD; font-weight: bold } /* Literal.Number.Integer.Long */
+.highlight .vc { color: #336699 } /* Name.Variable.Class */
