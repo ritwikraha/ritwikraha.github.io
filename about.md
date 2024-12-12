@@ -6,12 +6,10 @@ permalink: /about/
 
 <img src="{{site.url}}/assets/site_images/rr-gde-badge-circle.png" alt="my-image" width="160" height="160"/>
 
+I'm a Machine Learning Engineer previously at PyImageSearch (2022-2024) and a Google Developer Expert in Machine Learning, based in Kolkata, India. My passion lies in bridging the gap between cutting-edge research and practical applications, specializing in Computer Vision, Deep Learning, and Causal Inference. At PyImageSearch, I've consulted for 8+ clients, translating their challenges into effective ML solutions, deploying models ranging from CNNs and RNNs to Transformers for both CV and NLP tasks. I've also designed and implemented 5+ end-to-end courses on advanced topics like NeRFs, Transformers, JAX, and Causal Analysis, and contribute regularly to research-oriented content. Prior to PyImageSearch, I developed and deployed a production-ready ML model at Tata Consultancy Services (Feb 2021 - Feb 2022) that improved trailer fill rate by 28% with a <3% error margin. I regularly share my expertise through talks and tutorials as a Machine Learning Research Advocate. 
 
-I am a machine learning engineer at PyImageSearch from Kolkata and Google Developer Expert in Machine Learning, India. My areas of interest include computer vsion, deep learning and causal inference.
 
-I am also a committed visual designer, passionate about visual storytelling. My designs and blogs related to it can be found [here.](https://www.ritwikraha.com/)
-
-When I am not working, my alter ego takes over and makes me an avid bibliophile and a movie buff.
+I'm also a visual designer and storyteller ([portfolio](https://www.ritwikraha.com/)) and enjoy books and movies in my free time.
 
 
 ### Talks
