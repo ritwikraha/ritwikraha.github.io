@@ -10,7 +10,7 @@ next_link: false
 tags: math, technical writing, tutorial
 comments: true
 permalink: /technical-writing
-image: /assets/site_images/
+image: /assets/site_images/technical-writing.png
 
 ---
 ### Notes on  Technical Writer
@@ -83,7 +83,7 @@ Leverage Large Language Models (LLMs) such as ChatGPT, Claude and others to:
 
 #### Tools to Elevate Your Writing
 
-Here’s a curated list of tools to boost your technical writing:
+Here’s a curated list of tools (that I personally use) to boost your technical writing:
 
 1. **[Slides Code Highlighter](https://romannurik.github.io/SlidesCodeHighlighter/)**  
    Highlight code elegantly in Google Slides.
@@ -130,8 +130,6 @@ Mastering technical writing is a journey, but with practice and empathy for your
 ---
 
 
-
-
 {% if page.comments %}
 <div id="disqus_thread"></div>
 <script>
@@ -152,3 +150,4 @@ Mastering technical writing is a journey, but with practice and empathy for your
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 {% endif %}
+
