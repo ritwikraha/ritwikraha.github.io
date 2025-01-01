@@ -64,5 +64,6 @@ The complete index of all my blogs/tutorials on various topics is listed here. P
 * [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
 * [Automatic Differentiation Part 1: Understanding the Math](https://pyimagesearch.com/2022/12/05/automatic-differentiation-part-1-understanding-the-math/)
 * [Automatic Differentiation Part 2: Implementation Using Micrograd](https://pyimagesearch.com/2022/12/26/automatic-differentiation-part-2-implementation-using-micrograd/)
+* [Notes on  Technical Writing](https://ritwikraha.github.io/technical-writing)
 
 

@@ -13,7 +13,7 @@ permalink: /technical-writing
 image: /assets/site_images/technical-writing.png
 
 ---
-### Notes on  Technical Writer
+### Notes on  Technical Writing
 
 
 Since the very start of my career, I have viewed technical writing as more than just a means of communication—it’s a powerful tool for both teaching and learning. 
