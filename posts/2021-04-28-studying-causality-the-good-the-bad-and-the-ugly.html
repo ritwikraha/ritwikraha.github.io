@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ritwik Raha">
+<meta name="dcterms.date" content="2021-04-28">
+
+<title>Studying Causality: The good, the bad, and the ugly. – Ritwik Raha</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a14e3238c51140e99ccc48519b6ed9ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Ritwik Raha</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ritwikraha"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ritwik_raha"> <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.youtube.com/@ritwikraha"> <i class="bi bi-youtube" role="img" aria-label="YouTube">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Studying Causality: The good, the bad, and the ugly.</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ritwik Raha </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 28, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Welcome back to Part 2 of The Causal Blog. The previous one was all about introducing Causality in the briefest way possible. You can find it right <a href="../causal-blog-1">here</a>.</p>
+<p>Picking up where we left off let us revise what we learned in Part 1.</p>
+<ul>
+<li>Ignoring hidden causes in data can mean death for your model</li>
+<li>Counterfactual thinking is a must</li>
+<li>Randomization, Natural Experiments and Conditioning are the tools of the trade</li>
+</ul>
+<p>Right. Now that we have got that sorted, let us start with those three vague terms. Randomization, natural experiments, and conditioning, what are they? How do we use them with our data and why do we need to care?</p>
+<p>Well let us start scratching the list one item at a time.</p>
+<section id="randomization" class="level3">
+<h3 class="anchored" data-anchor-id="randomization">Randomization</h3>
+<p>So what do we mean when we talk about Randomization in the context of Causality. Well at the very core of it causal knowledge, prefers intervention, in fact, it demands it. What do I mean by that?</p>
+<p>In very simple terms if you say A causes B, you must be able to show to some degree that in the absence of A and all other parameters staying constant B will not occur.</p>
+<p>Now that is a fairly straightforward statement but the implications go deeper. Say suppose you want to prove that ads by ads on Netflix will cause users to delete accounts. That’s a decent assumption, and you start trying to prove it. You remove the cause, (Netflix ads) and try to study the behavior of the user, but here’s the catch, you are not exactly studying user behavior. The other parameters are not kept constant. You are not looking at a parallel world where a doppelganger of the user is not shown an ad when they open Netflix.</p>
+<p>This is exactly what randomization tries to solve. It basically tells us that in the context of our experiment (ads on Netflix) if we create a set of users and then randomly assign a user to a group (one group gets shown ads and the other group doesn’t) then we are essentially keeping the “other parameters” constant.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/2post/netflix_random.jpg" class="img-fluid figure-img"></p>
+<figcaption>example1</figcaption>
+</figure>
+</div>
+<p>Two ways we can achieve randomization are:</p>
+<ul>
+<li>A/B testing</li>
+<li>Multi-armed bandits</li>
+</ul>
+<section id="ab-test" class="level4">
+<h4 class="anchored" data-anchor-id="ab-test">A/B Test</h4>
+<p>This is exactly what we were talking about a second back. Create two groups of subjects (A &amp; B group) and treat them differently (ads vs no ads) and see which one of the groups meets the target (cancellation of subscription). So in summary the steps to be followed are :</p>
+<ul>
+<li>Create two groups of subjects</li>
+<li>Expose each of the groups to two different experiments</li>
+<li>Find out which meets the target</li>
+</ul>
+<p>The Causal Estimate (CE) for this methodology is the difference in outcome due to option 1 and option 2.</p>
+<p><span class="math display">\[
+CE = Y_{option1} - Y_{option2}
+\]</span></p>
+<blockquote class="blockquote">
+<p>Check out how Netflix actually uses A/B testing in <a href="https://www.youtube.com/watch?v=XRd6Ddn4ZSY">this video</a>.</p>
+</blockquote>
+</section>
+<section id="multi-armed-bandits" class="level4">
+<h4 class="anchored" data-anchor-id="multi-armed-bandits">Multi-armed bandits</h4>
+<p>The second and a little less famous of the randomization strategy is multi-armed bandits. This methodology derives its name from the arms of slot machines. Historically, the infamous problem goes as such:</p>
+<p>Given multiple slot machines, a gambler has to decide which arms to pull and how many times in order to maximize profit. Needless to say, countless have been slain by this problem, purely to quench their mathematical curiosity. 😉</p>
+<p>This method relies on a very interesting strategy known as <strong>Explore &amp; Exploit. Explore</strong> as in explore all possible options in the given context of the problem and <strong>Exploit</strong> as in figure out the best option and keep repeating it to maximize target outcome.</p>
+<p>One example of this would if you had to figure out which Baskin Robbin’s ice cream would give you the maximum satisfaction (target outcome). The steps listed down below are some of the ways to carry out Exploration &amp; Exploitation while maximizing satisfaction.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/2post/explore_exploit.jpg" class="img-fluid figure-img"></p>
+<figcaption>example2</figcaption>
+</figure>
+</div>
+<ul>
+<li>Explore only. This basically means everyday you go to Baskin Robbins and select a new flavor and try it out and see if it gives you maximum satisfaction.</li>
+<li>Exploit only. On the first 10 days, you go to Baskin Robbins and try out 10 different flavors. From the 11th day, you keep buying that one flavor that gave you maximum satisfaction from those 10 previously tested ones.
+<ul>
+<li>Epsilon - greedy.
+<ul>
+<li>Strike a balance between explore an exploit</li>
+<li>Set an initial epsilon (indicator)</li>
+<li>Based on the value of epsilon (randomly picked) we will either explore or exploit.</li>
+<li>If we exploit, then we pick the best ice cream from already gathered data, if we explore then we randomly pick an ice cream from the counter.</li>
+</ul>
+<span class="math display">\[Y_b\]</span> = target outcome is the best possible, <span class="math display">\[Y_c\]</span> = current target outcome and <span class="math display">\[CE\]</span> = Causal Estimate</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
+CE = Y_b - Y_c
+\]</span></p>
+<ul>
+<li>Use multi-armed bandits only and only if you have a good number of options to test.</li>
+</ul>
+<blockquote class="blockquote">
+<p>The verdict?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Use Randomization even it means staying up a couple of nights and designing an experiment in which you have to create a parallel universe. In all seriousness, the two methods shown above actually gives us a good structure through which we can shape randomized experiments that give us a sense of causal direction.</p>
+</blockquote>
+</section>
+</section>
+<section id="natural-experiments" class="level3">
+<h3 class="anchored" data-anchor-id="natural-experiments">Natural Experiments</h3>
+<p>Yep, randomization is hard and if there is absolutely no way for you to intervene, then that ship has sailed. So let us have a look at what the next best option is. Natural Experiments is a way to test causality by shaping naturally occurring phenomenon as an experiment. Its kind of like cheating but in a scientific way. 🤣</p>
+<p>The two most prevalent ways to do this are as follows:</p>
+<ul>
+<li>Regression Discontinuity</li>
+<li>Instrumental Variables</li>
+</ul>
+<section id="regression-discontinuity" class="level4">
+<h4 class="anchored" data-anchor-id="regression-discontinuity">Regression Discontinuity</h4>
+<p>Let us imagine that we are the top-secret evil society that controls the funding for academic labs. We want to check if granting more funds will cause an increase in lab performance, but there is a catch funding is also dependent on the number of papers published i.e.&nbsp;number of papers published will have to be above a certain threshold (theta) for the lab to qualify for funding.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/2post/regression_graph.jpg" class="img-fluid figure-img"></p>
+<figcaption>example2</figcaption>
+</figure>
+</div>
+<p><span class="math display">\[
+y = B_0 +B_1x +B_2(x&gt;x_t)+e
+\]</span></p>
+<p>Use the linear regression model to estimate the outcome however and this may be counter-intuitive if there is a discontinuous jump at the point where <span class="math inline">\(x =x_t\)</span> or when your threshold is reached. The measure of this discontinuity is your Causal Estimate. If there is a small jump it means funding probably does not play a big role in lab performance and we can continue to be greedy evil super-villains. If the jump is huge enough, then we have got problems and might have to release some of our super-villain money as research grants.</p>
+</section>
+<section id="instrumental-variable" class="level4">
+<h4 class="anchored" data-anchor-id="instrumental-variable">Instrumental Variable</h4>
+<p>Before we dive deep into this particular let us revise some of the concepts we glided past previously.</p>
+<p>Outcome Variable. This is a notation (almost always Y) used to denote the final outcome of our causal experiments.</p>
+<p>Treatment Variable. This is another useful notation (almost always t) used to denote the treatment in our causal experiments. In the context of the Netflix ads problem t = showing ads on Netflix or t = not showing ads on Netflix.</p>
+<p>Instrumental Variable = This is used to denote the variable which affects our outcome through our treatment variable. This variable does not have the scope to affect the outcome directly but influences the treatment variable and thereby indirectly affects the outcome.</p>
+<p>Confused? Let’s take a look at an example:</p>
+<p>Imagine we have now joined a publishing company as a data scientist. A strange rumor is abuzz in the marketing department. It is believed that more Twitter mentions will always cause more book sales. As data scientists only we can debunk or solidify this rumor.</p>
+<p><img src="../assets/images/2post/simple_causal.jpg" class="img-fluid" alt="graph1"> Graph for scenario 1</p>
+<p><img src="../assets/images/2post/causal_instrumental.jpg" class="img-fluid" alt="graph2"> Graph for scenario 2</p>
+<p>Consider the following:</p>
+<p>Let us try to model the two causal graphs shown above using simple regression equations. A list of notations is given below:</p>
+<ul>
+<li><span class="math display">\[bs_{orig}\]</span> = Original figure for book sales.</li>
+<li><span class="math display">\[tm\]</span> = Original number of twitter mentions.</li>
+<li><span class="math display">\[\hat{tm}\]</span> = Generated number of twitter mentions from regression equations.</li>
+<li><span class="math display">\[bs\]</span> = Generated number of book sales from regression equations.</li>
+<li><span class="math display">\[CE\]</span> = Causal Estimate from the experiment</li>
+<li>The terms <span class="math display">\[B_0\]</span>, <span class="math display">\[B_1\]</span>, <span class="math display">\[B_2\]</span>, <span class="math display">\[B_3\]</span>, <span class="math display">\[B_4\]</span> and <span class="math display">\[e\]</span> are regression co-effecients and error terms.</li>
+</ul>
+<p>Now let us see how a regression equation for the first figure will look like.</p>
+<p><span class="math display">\[
+bs_{orig} = B_0 + B_1(tm) + e
+\]</span></p>
+<p>Now as author tweeting is going to be our instrumental variable let us frame a different regression equation.</p>
+<p><span class="math display">\[
+tm = B_1 + B_2(at)+e
+\]</span></p>
+<p><span class="math display">\[B_o\]</span>, <span class="math display">\[B_1\]</span> and <span class="math display">\[e\]</span> is used through a method of least squares to generate <span class="math inline">\(\hat{tm}\)</span>. This is different from <span class="math inline">\(tm\)</span> as this has been generated specifically using the variable of author tweeting excerpts. This <span class="math inline">\(\hat{tm}\)</span> will now be used in anothe regression equation to generate the new figure for book sales.</p>
+<p><span class="math display">\[
+bs = B_3 + B_4(\hat{tm}) + e
+\]</span></p>
+<p><span class="math display">\[
+CE = bs - bs_{orig}
+\]</span></p>
+<blockquote class="blockquote">
+<p>The verdict?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>If you have a scenario like the ones we presented and there are naturally occurring experiments like academic grants for labs above a certain threshold and author tweeting excerpts from their books, do go for methodologies that leverage these occurrences. This will always give us a better edge and in the end present a better rounded picture of cause and effect.</p>
+</blockquote>
+</section>
+</section>
+<section id="observational-data" class="level3">
+<h3 class="anchored" data-anchor-id="observational-data">Observational Data</h3>
+<p>Now comes the hard part. You can’t intervene and create randomized experiments. You can’t find occurences in your data that qualify as natural experiments. All you are left with cold hard observational data from 2 years back. This is the most explored and most complex part of causal analysis.</p>
+<p>TLDR;</p>
+<p>You are doomed.</p>
+<p>Largely speaking to estimate causality from observational data only there are 3 major steps.</p>
+<ol type="1">
+<li>Assume a graphical model</li>
+<li>Make stratifications (different groups)</li>
+<li>Compare the treatment across stratifications</li>
+</ol>
+<p>How do we do this? Again we have 2 strategies that are quite failproof and widely used.</p>
+<ul>
+<li>A lot of these methods are more theoretical, which means you’ll probably have to spend more time with a notebook figuring out all the variables before jumping into code/math.</li>
+</ul>
+<section id="backdoor-criterion" class="level4">
+<h4 class="anchored" data-anchor-id="backdoor-criterion">Backdoor Criterion</h4>
+<p>Block all the backdoor paths i.e.&nbsp;block all the non-causal associations and study the final outcome based on the treatment. So what is a backdoor criterion again?</p>
+<p>A set of variables W satisfies the backdoor criteria if the following are true:</p>
+<ol type="1">
+<li>W blocks all the backdoor paths from treatment (t) to outcome (Y)</li>
+<li>W does not contain any descendants of treatment (t).</li>
+</ol>
+<p>Wait, so what is a backdoor?</p>
+<p>Well there are a lot of mathematical jargon available to define it but the general thumb-rule is</p>
+<ul>
+<li><p>Arrows pointing away from treatment (t) are front doors.</p></li>
+<li><p>Arrows pointing towards treatment (t) are backdoors.</p></li>
+</ul>
+<p><img src="../assets/images/2post/frontdoor.jpg" class="img-fluid" alt="graph1fd"> Graph with only frontdoor</p>
+<p><img src="../assets/images/2post/backdoor.jpg" class="img-fluid" alt="graph2bd"> Graph with both front door and backdoor</p>
+<p>Now if we simply hold W or any other variable like W which is on a backdoor path as constant we will effectively close that backdoor path. Allowing us to measure the effect of treatment (t) on the outcome (Y).</p>
+<blockquote class="blockquote">
+<p><strong>Test 1</strong>:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Let’s try a little test of knowledge shall we? Given the graphical model down below, explain how you’ll use Backdoor Criterion to estimate causal effect. You can write your explanation in the comments.</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/2post/test_01.jpg" class="img-fluid figure-img"></p>
+<figcaption>graph3bd</figcaption>
+</figure>
+</div>
+</section>
+<section id="propensity-score-matching" class="level4">
+<h4 class="anchored" data-anchor-id="propensity-score-matching">Propensity Score Matching</h4>
+<p>This is another strategy that proves really useful when finding out causal effects from observational data. The steps to perform Propensity Score Matching are a bit complicated, but let’s break them down into chunks. We will also use an example to better understand the strategy.</p>
+<p>Let us suppose we are a multi-national bank and we are trying to find out if winning a lottery causes people to invest more into stocks.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/2post/propensity_score.jpg" class="img-fluid figure-img"></p>
+<figcaption>graph4fd</figcaption>
+</figure>
+</div>
+<ol type="1">
+<li>First, we find the propensity score i.e.&nbsp;the probability/likelihood that the individual receives a certain treatment. In the above example, this will be the probability that a certain individual wins the lottery.</li>
+<li>Match the individuals that have matching propensity scores. If we have a matching probability score of two individuals then we match them together. Nearest neighbor matching and greedy optimal matching are some of the techniques.</li>
+<li>Verify the quality of matches. So if two individuals having a similar chance of winning a lottery is matched, we verify the matching using statistical methods. These methods are t-test, standardized bias and can also be done using graphical representations.</li>
+<li>Outcome Analysis. Check how many of those matches(groups) won the lottery. In this step we try to find the mean outcome across matches and study the trend. This gives us an estimate of the causal effect over a number of groups.</li>
+</ol>
+<blockquote class="blockquote">
+<p>The verdict?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>This is the toughest of the lot. Remember causal connections are heavily dependent on counterfactual thinking but shaping existing data and conditioning on particular parameters and variables to prove a hypotheses can be a tiresome and sometimes thankless job.</p>
+</blockquote>
+</section>
+</section>
+<section id="final-thoughts" class="level3">
+<h3 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h3>
+<p>I realize this was quite bigger than I promised. My hope was to provide a sense of the various methodologies and examples in one place so that it can be used as a reference in times of need. From the next blog onwards we will focus on each of these segments and try to look at some examples and notebooks (python codes) to understand causality. If you have any constructive feedback do let me know in the comments.</p>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<ul>
+<li><a href="http://www.amitsharma.in/talk/causal-inference-online-systems/">Causal Inference in Online Systems by Amit Sharma</a></li>
+<li><a href="https://youtube.com/playlist?list=PLT3sJRyVaw-m9YBy3KRavOYuKyXikO4f6">An awesome playlist for Causal Learning</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
