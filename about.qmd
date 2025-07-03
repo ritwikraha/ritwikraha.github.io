@@ -1,0 +1,13 @@
+---
+title: "Blog"
+listing:
+  type: default
+  contents: posts
+  sort: "date desc"
+---
+
+<!-- Blog carousel/listing will render here first -->
+
+Welcome to the blog! Here you'll find posts on technical writing, machine learning, and more.
+
+

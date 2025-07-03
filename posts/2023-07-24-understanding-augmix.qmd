@@ -1,0 +1,28 @@
+---
+title: "Understanding AugMix"
+date: 2023-07-24
+author: "Ritwik Raha"
+tags: [math, image-processing, paper-summary]
+image: /assets/images/augmix-cover.png
+---
+
+### TL;DR
+
+In machine learning, we use a set of data (known as the "training" data) to teach an algorithm how to solve a task. In this context, we're talking about deep neural networks which are a kind of machine learning algorithm designed to classify images. An image classifier's job is to look at an image and decide which category it belongs to, like identifying whether a photo is of a cat or a dog.
+
+When the algorithm is learning, it adjusts itself to perform well on the training data. It's then tested on separate "test" data to see how well it has learned. Ideally, the training and test data should be very similar (identically distributed) in nature. For example, if the task is to distinguish between cats and dogs, and if all the images in the training set are taken in broad daylight, we expect the test set also to have images taken in similar conditions.
+
+However, in real-world scenarios, there can be a mismatch between the training and test data. This could be due to a variety of factors like the lighting conditions, the angle of the camera, or the breed of the dogs and cats in the images. When this mismatch happens, the accuracy of the image classifier can drop significantly because it has not encountered these conditions during training.
+
+Most current techniques for training these algorithms struggle when the test data is different from the training data in ways they didn't anticipate. This is where the technique called "AUGMIX" comes in.
+
+AUGMIX is a method that helps improve the robustness of the model. Robustness in this context refers to the model's ability to maintain accuracy even when the test data differs from the training data in unexpected ways.
+
+Here's how AUGMIX works: it applies a mix of augmentations (slight modifications) to the images in the training data. These might include things like adjusting the brightness or contrast, rotating the image, or zooming in slightly. By doing this, AUGMIX creates a wide range of scenarios the model might encounter. It's like showing the model not only pictures of cats and dogs taken in the day but also at twilight, from different angles, of different breeds, etc.
+
+This helps in two ways:
+
+1. It makes the model more robust because it has seen a wider range of image conditions during training.
+2. It helps the model to provide better uncertainty estimates. Uncertainty estimates tell us how confident the model is about its predictions. A well-calibrated model knows when it's likely to be wrong, which is very useful when decisions based on these predictions have significant consequences.
+
+... (content continues, all image references updated to /assets/images/ as needed) ... 

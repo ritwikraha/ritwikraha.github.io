@@ -1,0 +1,35 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Ritwik Raha"
+  favicon: favicon.ico
+  # The CNAME file in the repo should contain 'ritwikraha.dev' for custom domain
+  # GitHub Pages will use this to serve the site at https://ritwikraha.dev
+  # Make sure CNAME is not in .gitignore
+  # For deployment, use 'quarto publish gh-pages' or GitHub Actions
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Blog
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/ritwikraha
+        aria-label: GitHub
+      - icon: twitter
+        href: https://twitter.com/ritwik_raha
+        aria-label: Twitter
+      - icon: youtube
+        href: https://www.youtube.com/@ritwikraha
+        aria-label: YouTube
+
+format:
+  html:
+    css: styles.css
+    toc: false
+
+
+

@@ -1,0 +1,148 @@
+---
+title: "Ritwik Raha"
+---
+
+::: {style="display: flex; align-items: flex-start; gap: 2rem;"}
+<div style="flex: 0 0 160px; max-width: 160px; display: flex; flex-direction: column; align-items: center;">
+  <img src="/assets/images/rr-portfolio-img.png" alt="Ritwik Raha" style="width: 100%; border-radius: 8px; margin-bottom: 0.75em;" />
+  <!-- Google Calendar Appointment Scheduling begin -->
+  <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+  <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+  <script>
+  (function() {
+    var target = document.currentScript;
+    window.addEventListener('load', function() {
+      calendar.schedulingButton.load({
+        url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3zI7PGhwNB9wVBSchC7MwxVfFJF0oawlS_iN0pGlwVINsamCOkHEpHw3OoatyIG2G2EOosBzx6?gv=true',
+        color: '#039BE5',
+        label: 'Book an appointment',
+        target,
+      });
+    });
+  })();
+  </script>
+  <!-- end Google Calendar Appointment Scheduling -->
+</div>
+<div style="flex: 1;">
+Hi, I'm Ritwik Raha, Machine Learning Engineer at Google by job title, professional neural network whisperer by life choice. I spend my time thinking about post-training, RL, and whether LLMs can be taught to reason, or at least fake it convincingly.
+
+When I'm not wrangling models, I'm either making semi-coherent ML videos on [YouTube](https://www.youtube.com/@ritwikraha) or committing mild acts of chaos on [X](https://x.com/ritwik_raha) under the noble banner of shitposting.
+
+This site is my corner of the internet, equal parts portfolio, thought-dump, and polite flex.
+
+Oh, and I am also a very <strong>human</strong> artist, invested in ["Artists against AI"](https://www.conceptartassociation.com/advocacy) movement. Yeah I know, paradox! Go check out some of my [artwork](https://www.ritwikraha.com/) here.
+</div>
+:::
+
+<hr style="border: none; border-top: 1px solid #bbb; margin: 1.5rem 0 2.5rem 0; height: 1px;" />
+
+### Work and News
+
+<div style="max-height: 4.5em; overflow-y: auto; font-size: 0.92em; border-radius: 6px; border: 1px solid #eee; padding: 0.5em 1em; background: #fafbfc; width: fit-content; min-width: 260px; margin-bottom: 1.5em;">
+  <ul style="margin: 0; padding-left: 1.2em; list-style: disc inside;">
+    <li><strong>14 Jan 2025</strong> — Joined Google as a MLE</li>
+    <li><strong>22 Apr 2023</strong> — ML and Vibes as a GDE in ML (Keras)</li>
+    <li><strong>6 Feb 2022</strong> — Joined PyImageSearch as a MLE</li>
+    <li><strong>6 Feb 2021</strong> — Joined TCS as a MLE</li>
+    <li><strong>20 Jan 2020</strong> — Published papers in ICCE 2020</li>
+    <li><strong>20 Jul 2020</strong> — Graduated as an Instrumentation Engineer</li>
+  </ul>
+</div>
+
+<details>
+<summary><strong>Talks</strong></summary>
+
+* [AI Planet - LLM Bootcamp](https://www.youtube.com/live/Wef1-D0CoAU?si=mTRSRzXcglpu32os)
+* [ML Paper Reading Club Coimbatore - ResNets](https://youtu.be/C8UqTtyOY4g?si=jptrJSuWEmeCmNG7)
+* [Keras Community Day Kolkata - Keras Philosophy](https://www.youtube.com/watch?v=mU4Z9bs0Bxc)
+* [Keras Community Day Durg - Keras Philosophy](https://www.youtube.com/watch?v=KinLN4lA6Bg&t=13112s)
+* [Keras - The LEGO of Framework](https://www.youtube.com/watch?v=YkIW0aCExo8)
+* [Decoding DETR - TFUG Mumbai](https://www.youtube.com/watch?v=p26Ax6en0_c)
+* [A Guide to ML Workflows with JAX - TFUG Kolkata](https://www.youtube.com/watch?v=tur1P-HWdjs)
+* [Learning JAX in 2023 - JAX's Power Tools](https://www.youtube.com/watch?v=NNsYtagZocw)
+* [Introduction to Neural Radiance Fields - NYTFUG](https://www.youtube.com/watch?v=U2XS7SxOy2s&list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP&index=5)
+* [A Deep Dive into Transformers - PyImageSearch](https://youtube.com/live/FJAJKPRHZUg?feature=share)
+* [Neural Machine Translation - PyImageSearch](https://youtube.com/live/BS248CrEADM?feature=share)
+* [Introduction to RNNs - PyImageSearch](https://youtube.com/live/lAIA7l0_cf8?feature=share)
+* [Enhancing Image Resolution with GANs - PyImageSearch](https://youtube.com/live/Ottd3jBtf8Y?feature=share)
+* [OpenCV and Deep Learning Tutorial - PyImageSearch](https://youtube.com/live/xZgOJL4txRw?feature=share)
+* [Introduction to Deep Learning - PyImageSearch](https://youtube.com/live/_B3Ty8DuvSk?feature=share)
+* [Image Fusion with WOA-PCNN - ICCE 2020](https://youtu.be/vnapE3BHq04?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
+* [Causality Analysis of Emotional States from EEG Response - ICCE 2020](https://youtu.be/Gp4SF-CkYeo?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
+* [Intro to ML with DSC NSEC](https://youtu.be/A1CcHAiqsww?list=PLT3sJRyVaw-nP-t9F0yJe3wwklbzLNoGP)
+
+</details>
+
+<details>
+<summary><strong>Tutorials</strong></summary>
+
+##### Recent Deep Dives
+* [Can we really scale RL?](https://blog.ritwikraha.dev/can-we-really-scale-rl)
+* [DDPM Explained for Dummies](https://blog.ritwikraha.dev/ddpm-explained-for-dummies)
+* [Choosing between SigLIP and CLIP for Language-Image Pretraining](https://blog.ritwikraha.dev/choosing-between-siglip-and-clip-for-language-image-pretraining)
+* [Understanding PaLI-Gemma in 50 Minutes or Less](https://blog.ritwikraha.dev/understanding-paligemma-in-50-minutes-or-less)
+
+##### Paper Breakdowns
+* [DETR Breakdown Part 1](https://pyimagesearch.com/2023/05/22/detr-breakdown-part-1-introduction-to-detection-transformers/)
+* [DETR Breakdown Part 2](https://pyimagesearch.com/2023/06/12/detr-breakdown-part-2-methodologies-and-algorithms/)
+* [DETR Breakdown Part 3](https://pyimagesearch.com/2023/06/26/detr-breakdown-part-3-architecture-and-details/)
+
+##### JAX Guide
+* [Learning JAX in 2023: Part 3](https://pyimagesearch.com/2023/04/17/learning-jax-in-2023-part-3-a-step-by-step-guide-to-training-your-first-machine-learning-model-with-jax/)
+* [Learning JAX in 2023: Part 2](https://pyimagesearch.com/2023/02/27/learning-jax-in-2023-part-2-jaxs-power-tools-grad-jit-vmap-and-pmap/)
+* [Learning JAX in 2023: Part 1](https://pyimagesearch.com/2023/02/20/learning-jax-in-2023-part-1-the-ultimate-guide-to-accelerating-numerical-computation-and-machine-learning/?utm_source=Drip&utm_medium=Email&utm_campaign=WeeklyUpdate&utm_content=20Feb2023NonUnivLink2)
+
+##### Computer Vision
+* [Focal Modulation: A replacement for Self-Attention - Keras Example](https://keras.io/examples/vision/focal_modulation_network/)
+* [A Vision Transformer without Attention - Keras Example](https://keras.io/examples/vision/shiftvit/)
+* [Neural Style Transfer with AdaIN- Keras Example](https://keras.io/examples/generative/adain/)
+* [Breaking down Neural Radiance Fields - Part 1](https://www.pyimagesearch.com/2021/11/10/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-1/)
+* [Breaking down Neural Radiance Fields - Part 2](https://www.pyimagesearch.com/2021/11/17/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-2/)
+* [Breaking down Neural Radiance Fields - Part 3](https://www.pyimagesearch.com/2021/11/24/computer-graphics-and-deep-learning-with-nerf-using-tensorflow-and-keras-part-3/)
+* [3D volumetric rendering with NeRF- Keras Example](https://keras.io/examples/vision/nerf/)
+* [Image Segmentation using Whale Optimization Algorithm](https://nbviewer.jupyter.org/gist/ritwikraha/e02e9b04b19bc582776464062c449a2a)
+* [Image Compression using SVD](https://nbviewer.jupyter.org/gist/ritwikraha/b10fe117a4f0c816fec69f99f1061f87)
+* [Face Swapping using OpenCV](https://nbviewer.jupyter.org/gist/ritwikraha/ee9730284a33935317d78d9205304f0f)
+* [Creating a Potrait mode with Open CV](https://medium.com/@ritwikraha.nsec/creating-a-portrait-mode-with-opencv-60379bb295f0)
+* [A brief history of Edge Detection](https://medium.com/@ritwikraha.nsec/a-brief-history-of-edge-detection-b2008f2ff3c4)
+* [Denoising images the Matlab Way](https://medium.com/@ritwikraha.nsec/denoising-images-the-matlab-way-5b2de6ae5efe)
+
+##### NLP
+* [Introduction to RNNs with TensorFlow and Keras](https://pyimagesearch.com/2022/07/25/introduction-to-recurrent-neural-networks-with-keras-and-tensorflow/)
+* [Long Short-Term Memory Networks](https://pyimagesearch.com/2022/08/01/long-short-term-memory-networks/)
+* [Neural Machine Translation](https://pyimagesearch.com/2022/08/15/neural-machine-translation/)
+* [Neural Machine Translation with Bahdanau's Attention Using TensorFlow and Keras](https://pyimagesearch.com/2022/08/22/neural-machine-translation-with-bahdanaus-attention-using-tensorflow-and-keras/)
+* [Neural Machine Translation with Luong's Attention Using TensorFlow and Keras](https://pyimagesearch.com/2022/08/29/neural-machine-translation-with-luongs-attention-using-tensorflow-and-keras/)
+* [A Deep Dive into Transformers with TensorFlow and Keras: Part 3](https://pyimagesearch.com/2022/11/07/a-deep-dive-into-transformers-with-tensorflow-and-keras-part-3/)
+* [A Deep Dive into Transformers with TensorFlow and Keras: Part 2](https://pyimagesearch.com/2022/09/26/a-deep-dive-into-transformers-with-tensorflow-and-keras-part-2/)
+* [A Deep Dive into Transformers with TensorFlow and Keras: Part 1](https://pyimagesearch.com/2022/09/05/a-deep-dive-into-transformers-with-tensorflow-and-keras-part-1/)
+
+##### Hitchhiker's Guide to...
+* [What is Keras Core?](https://pyimagesearch.com/2023/07/24/what-is-keras-core/)
+* [A Hello World to Deep Learning in Matlab](https://medium.com/@ritwikraha.nsec/a-hello-world-to-deep-learning-in-matlab-20f0f87acfa9)
+* [Automatic Differentiation Part 1: Understanding the Math](https://pyimagesearch.com/2022/12/05/automatic-differentiation-part-1-understanding-the-math/)
+* [Automatic Differentiation Part 2: Implementation Using Micrograd](https://pyimagesearch.com/2022/12/26/automatic-differentiation-part-2-implementation-using-micrograd/)
+
+
+</details>
+
+### Education 
+
+Some of the formal and *slightly* informal education that I have recieved.
+
+* Graduation - B.Tech Electronics and Instrumentation, Netaji Subhash Engg. College 2016-2020
+* High School - Sri Aurobindo Institute of Education, 2014- 2016
+* School - Sri Aurbindo Institte of Education, 2009-2014
+
+
+### Research
+
+The following are the links to some of my research publications.
+
+* R. Raha, A. Sengupta and A. Saha, ["Causality Analysis of Emotional States from EEG Response,"](https://ieeexplore.ieee.org/document/9290546) 2020 IEEE 1st International Conference for Convergence in Engineering (ICCE), Kolkata, India, 2020, pp. 410-415, doi: 10.1109/ICCE50343.2020.9290546.
+
+* R. Raha, A. Sengupta and S. Dhabal, ["Medical Image Fusion using PCNN Optimized by Whale Optimization Algorithm,"](https://ieeexplore.ieee.org/abstract/document/9290504) 2020 IEEE 1st International Conference for Convergence in Engineering (ICCE), Kolkata, India, 2020, pp. 374-378, doi: 10.1109/ICCE50343.2020.9290504.
+
+[Google Scholar Profile](https://scholar.google.com/citations?user=JjuZOvwAAAAJ&hl=en)
+
+
