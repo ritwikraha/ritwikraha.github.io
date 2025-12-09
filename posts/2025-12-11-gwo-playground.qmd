@@ -156,3 +156,4 @@ html`<canvas id="gwoCanvas" width="600" height="600" style="border:1px solid #cc
     await new Promise(r => setTimeout(r, 1000 / speed));
   }
 }
+```
