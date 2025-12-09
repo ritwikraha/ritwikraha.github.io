@@ -267,44 +267,47 @@ ul.task-list li input[type="checkbox"] {
     margin-right: 5px;
   }
 </style>
+
 <div class="gwo-wrapper">
-<div class="gwo-container">
-<pre><code>&lt;div class="gwo-controls"&gt;
-  &lt;div class="control-group"&gt;
-    &lt;label&gt;Population Size &lt;span id="val-pop"&gt;30&lt;/span&gt;&lt;/label&gt;
-    &lt;input type="range" id="popSize" min="5" max="100" value="30"&gt;
-  &lt;/div&gt;
-  
-  &lt;div class="control-group"&gt;
-    &lt;label&gt;Max Iterations &lt;span id="val-iter"&gt;500&lt;/span&gt;&lt;/label&gt;
-    &lt;input type="range" id="maxIter" min="100" max="1000" step="10" value="500"&gt;
-  &lt;/div&gt;
-  
-  &lt;div class="control-group"&gt;
-    &lt;label&gt;Speed (FPS) &lt;span id="val-speed"&gt;30&lt;/span&gt;&lt;/label&gt;
-    &lt;input type="range" id="speed" min="1" max="60" value="30"&gt;
-  &lt;/div&gt;
+  <div class="gwo-container">
+    
+    <div class="gwo-controls">
+      <div class="control-group">
+        <label>Population Size <span id="val-pop">30</span></label>
+        <input type="range" id="popSize" min="5" max="100" value="30">
+      </div>
+      
+      <div class="control-group">
+        <label>Max Iterations <span id="val-iter">500</span></label>
+        <input type="range" id="maxIter" min="100" max="1000" step="10" value="500">
+      </div>
+      
+      <div class="control-group">
+        <label>Speed (FPS) <span id="val-speed">30</span></label>
+        <input type="range" id="speed" min="1" max="60" value="30">
+      </div>
 
-  &lt;button id="restartBtn" class="btn-restart"&gt;Restart Simulation&lt;/button&gt;
+      <button id="restartBtn" class="btn-restart">Restart Simulation</button>
 
-  &lt;div class="stats-display"&gt;
-    &lt;div&gt;&lt;strong&gt;Best Fitness:&lt;/strong&gt; &lt;span id="bestScore" style="color:#d32f2f;"&gt;Infinity&lt;/span&gt;&lt;/div&gt;
-    &lt;div style="margin-top:5px;"&gt;&lt;strong&gt;Iteration:&lt;/strong&gt; &lt;span id="currentIter"&gt;0&lt;/span&gt;&lt;/div&gt;
-  &lt;/div&gt;
+      <div class="stats-display">
+        <div><strong>Best Fitness:</strong> <span id="bestScore" style="color:#d32f2f;">Infinity</span></div>
+        <div style="margin-top:5px;"><strong>Iteration:</strong> <span id="currentIter">0</span></div>
+      </div>
 
-  &lt;div class="legend-box"&gt;
-    &lt;div&gt;&lt;span class="dot" style="background:red;"&gt;&lt;/span&gt;Alpha (Best)&lt;/div&gt;
-    &lt;div&gt;&lt;span class="dot" style="background:orange;"&gt;&lt;/span&gt;Beta (2nd)&lt;/div&gt;
-    &lt;div&gt;&lt;span class="dot" style="background:gold;"&gt;&lt;/span&gt;Delta (3rd)&lt;/div&gt;
-    &lt;div&gt;&lt;span class="dot" style="background:rgba(100,100,100,0.5);"&gt;&lt;/span&gt;Omega (Pack)&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+      <div class="legend-box">
+        <div><span class="dot" style="background:red;"></span>Alpha (Best)</div>
+        <div><span class="dot" style="background:orange;"></span>Beta (2nd)</div>
+        <div><span class="dot" style="background:gold;"></span>Delta (3rd)</div>
+        <div><span class="dot" style="background:rgba(100,100,100,0.5);"></span>Omega (Pack)</div>
+      </div>
+    </div>
 
-&lt;div class="gwo-canvas-box"&gt;
-  &lt;canvas id="simCanvas" width="500" height="500"&gt;&lt;/canvas&gt;
-&lt;/div&gt;</code></pre>
+    <div class="gwo-canvas-box">
+      <canvas id="simCanvas" width="500" height="500"></canvas>
+    </div>
+  </div>
 </div>
-</div>
+
 <script>
 // Encapsulate in IIFE to avoid global scope pollution
 (function() {
