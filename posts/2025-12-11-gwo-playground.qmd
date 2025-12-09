@@ -7,7 +7,7 @@ format:
 
 ## Interactive GWO Simulation
 
-This playground visualizes the **Grey Wolf Optimization (GWO)** algorithm. The wolves (particles) attempt to find the global minimum of the **Rastrigin Function** (located at `[0, 0]`).
+This playground visualizes the **Grey Wolf Optimization (GWO)** algorithm. The wolves (particles) attempt to find the global minimum of the infamous **Rastrigin Function** (located at `[0, 0]`).
 
 - <span style="color: red; font-weight: bold;">Red Dot</span>: Alpha (Best solution)
 - <span style="color: orange; font-weight: bold;">Orange Dot</span>: Beta (2nd Best)
