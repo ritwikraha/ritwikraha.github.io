@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ritwik Raha">
+<meta name="dcterms.date" content="2025-12-12">
 
-<title>Grey Wolf Optimization Playground – Ritwik Raha</title>
+<title>Interactive Grey Wolf Optimization – Ritwik Raha</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,8 +70,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
-<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -169,14 +134,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Grey Wolf Optimization Playground</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<h1 class="title">Interactive Grey Wolf Optimization</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ritwik Raha </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 12, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -186,219 +163,260 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="interactive-gwo-simulation" class="level2">
-<h2 class="anchored" data-anchor-id="interactive-gwo-simulation">Interactive GWO Simulation</h2>
-<div class="panel-grid layout-sidebar ms-md-0 layout-sidebar-right">
-<div class="panel-fill g-col-24 g-col-lg-17 pt-3 pt-lg-0">
-<p>This playground visualizes the <strong>Grey Wolf Optimization (GWO)</strong> algorithm. The wolves (particles) attempt to find the global minimum of the infamous <strong>Rastrigin Function</strong> (located at <code>[0, 0]</code>).</p>
-<ul>
-<li><span style="color: red; font-weight: bold;">Red Dot</span>: Alpha (Best solution)</li>
-<li><span style="color: orange; font-weight: bold;">Orange Dot</span>: Beta (2nd Best)</li>
-<li><span style="color: gold; font-weight: bold;">Yellow Dot</span>: Delta (3rd Best)</li>
-<li><span style="color: gray;">Gray Dots</span>: Omega (Rest of the pack)</li>
-</ul>
-</div>
-<div class="cell panel-sidebar card bg-light p-2 g-col-24 g-col-lg-7">
-<div class="sourceCode cell-code" id="cb1" data-startfrom="19" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 18;"><span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>viewof popSize <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">5</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Population Size"</span>})</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>viewof maxIter <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">100</span><span class="op">,</span> <span class="dv">1000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Max Iterations"</span>})</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>viewof speed <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">60</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Speed (FPS)"</span>})</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>viewof restart <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">"Restart Simulation"</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">//| echo: false</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">// Main Simulation Canvas</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;canvas id="gwoCanvas" width="600" height="600" style="border:1px solid #ccc; background: #f9f9f9;"&gt;&lt;/canvas&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-1" data-nodetype="declaration">
+<p>This is an interactive simulation of the Grey Wolf Optimizer (GWO) algorithm attempting to solve the <strong>Rastrigin Function</strong>. The global optimum is at the center <code>(0,0)</code>.</p>
+<style>
+  .gwo-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+  .gwo-controls {
+    flex: 1;
+    min-width: 280px;
+  }
+  .gwo-canvas {
+    flex: 0 0 auto;
+    width: 100%; 
+    max-width: 500px;
+  }
+  canvas {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .control-group { margin-bottom: 15px; }
+  .control-group label { display: block; font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
+  .control-group input { width: 100%; }
+  
+  .btn-restart {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+  .btn-restart:hover { background-color: #0056b3; }
+  
+  .stats-box {
+    margin-top: 15px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
+</style>
+<div class="gwo-container">
+<div class="gwo-controls">
+<pre><code>&lt;div class="control-group"&gt;
+  &lt;label&gt;Population Size: &lt;span id="val-pop"&gt;30&lt;/span&gt;&lt;/label&gt;
+  &lt;input type="range" id="popSize" min="5" max="100" value="30"&gt;
+&lt;/div&gt;
+&lt;div class="control-group"&gt;
+  &lt;label&gt;Max Iterations: &lt;span id="val-iter"&gt;500&lt;/span&gt;&lt;/label&gt;
+  &lt;input type="range" id="maxIter" min="100" max="1000" step="10" value="500"&gt;
+&lt;/div&gt;
+&lt;div class="control-group"&gt;
+  &lt;label&gt;Speed (FPS): &lt;span id="val-speed"&gt;30&lt;/span&gt;&lt;/label&gt;
+  &lt;input type="range" id="speed" min="1" max="60" value="30"&gt;
+&lt;/div&gt;
 
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-2" data-nodetype="declaration">
+&lt;button id="restartBtn" class="btn-restart"&gt;Restart Simulation&lt;/button&gt;
 
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-3" data-nodetype="declaration">
+&lt;div class="stats-box"&gt;
+  &lt;div&gt;Best Fitness: &lt;span id="bestScore" style="color:red; font-weight:bold;"&gt;Infinity&lt;/span&gt;&lt;/div&gt;
+  &lt;div&gt;Iteration: &lt;span id="currentIter"&gt;0&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
 
+&lt;div style="margin-top:15px; font-size:0.85rem; color:#666;"&gt;
+  &lt;strong&gt;Legend:&lt;/strong&gt;&lt;br&gt;
+  &lt;span style="color:red"&gt;●&lt;/span&gt; Alpha (1st)&lt;br&gt;
+  &lt;span style="color:orange"&gt;●&lt;/span&gt; Beta (2nd)&lt;br&gt;
+  &lt;span style="color:gold"&gt;●&lt;/span&gt; Delta (3rd)&lt;br&gt;
+  &lt;span style="color:grey"&gt;●&lt;/span&gt; Omega (Pack)
+&lt;/div&gt;</code></pre>
+</div>
+<div class="gwo-canvas">
+<pre><code>&lt;canvas id="simCanvas" width="500" height="500"&gt;&lt;/canvas&gt;</code></pre>
 </div>
 </div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-4" data-nodetype="declaration">
+<script>
+(function() {
+  const canvas = document.getElementById('simCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  // State
+  let wolves = [];
+  let alpha = { score: Infinity, x: 0, y: 0 };
+  let beta = { score: Infinity, x: 0, y: 0 };
+  let delta = { score: Infinity, x: 0, y: 0 };
+  let iter = 0;
+  let animId;
+  
+  // Config
+  const bounds = 5.12; // Rastrigin bounds
+  let params = { pop: 30, maxIter: 500, fps: 30 };
+  
+  // UI Refs
+  const ui = {
+    pop: document.getElementById('popSize'),
+    iter: document.getElementById('maxIter'),
+    speed: document.getElementById('speed'),
+    restart: document.getElementById('restartBtn'),
+    vPop: document.getElementById('val-pop'),
+    vIter: document.getElementById('val-iter'),
+    vSpeed: document.getElementById('val-speed'),
+    score: document.getElementById('bestScore'),
+    cIter: document.getElementById('currentIter')
+  };
 
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-5" data-nodetype="expression">
+  // Rastrigin Function
+  function fitness(x, y) {
+    const A = 10;
+    return A * 2 + (x * x - A * Math.cos(2 * Math.PI * x)) + (y * y - A * Math.cos(2 * Math.PI * y));
+  }
 
-</div>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb2" data-startfrom="28" data-source-offset="-518"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 27;"><span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Dependency on restart button to reset</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  restart<span class="op">;</span> </span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'gwoCanvas'</span>)<span class="op">;</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">'2d'</span>)<span class="op">;</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> width <span class="op">=</span> canvas<span class="op">.</span><span class="at">width</span><span class="op">;</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> height <span class="op">=</span> canvas<span class="op">.</span><span class="at">height</span><span class="op">;</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Problem Bounds (Rastrigin function usually -5.12 to 5.12)</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> minX <span class="op">=</span> <span class="op">-</span><span class="fl">5.12</span><span class="op">,</span> maxX <span class="op">=</span> <span class="fl">5.12</span><span class="op">;</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> minY <span class="op">=</span> <span class="op">-</span><span class="fl">5.12</span><span class="op">,</span> maxY <span class="op">=</span> <span class="fl">5.12</span><span class="op">;</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Helper to map coordinates to canvas</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">toCanvas</span>(x<span class="op">,</span> y) {</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> cx <span class="op">=</span> ((x <span class="op">-</span> minX) <span class="op">/</span> (maxX <span class="op">-</span> minX)) <span class="op">*</span> width<span class="op">;</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> cy <span class="op">=</span> height <span class="op">-</span> ((y <span class="op">-</span> minY) <span class="op">/</span> (maxY <span class="op">-</span> minY)) <span class="op">*</span> height<span class="op">;</span> <span class="co">// Invert Y</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [cx<span class="op">,</span> cy]<span class="op">;</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Objective Function: Rastrigin</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">fitness</span>(x<span class="op">,</span> y) {</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> A <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> (x <span class="op">*</span> x <span class="op">-</span> A <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> x)) <span class="op">+</span> (y <span class="op">*</span> y <span class="op">-</span> A <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> y))<span class="op">;</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Initialize Wolves</span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wolves <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> popSize<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    wolves<span class="op">.</span><span class="fu">push</span>({</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> (maxX <span class="op">-</span> minX) <span class="op">+</span> minX<span class="op">,</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> (maxY <span class="op">-</span> minY) <span class="op">+</span> minY<span class="op">,</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>      <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Best wolves</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> alpha <span class="op">=</span> { <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">;</span></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> beta  <span class="op">=</span> { <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">;</span></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> delta <span class="op">=</span> { <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">;</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> iter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> running <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Animation Loop</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (running <span class="op">&amp;&amp;</span> iter <span class="op">&lt;</span> maxIter) {</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 1. Calculate Fitness &amp; Update Hierarchy</span></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> wolf <span class="kw">of</span> wolves) {</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Boundary clamping</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(minX<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(maxX<span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>))<span class="op">;</span></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(minY<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(maxY<span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>))<span class="op">;</span></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> f <span class="op">=</span> <span class="fu">fitness</span>(wolf<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">score</span> <span class="op">=</span> f<span class="op">;</span></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (f <span class="op">&lt;</span> alpha<span class="op">.</span><span class="at">score</span>) {</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>        alpha <span class="op">=</span> { <span class="op">...</span>wolf }<span class="op">;</span> <span class="co">// Copy object</span></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (f <span class="op">&gt;</span> alpha<span class="op">.</span><span class="at">score</span> <span class="op">&amp;&amp;</span> f <span class="op">&lt;</span> beta<span class="op">.</span><span class="at">score</span>) {</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>        beta <span class="op">=</span> { <span class="op">...</span>wolf }<span class="op">;</span></span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (f <span class="op">&gt;</span> alpha<span class="op">.</span><span class="at">score</span> <span class="op">&amp;&amp;</span> f <span class="op">&gt;</span> beta<span class="op">.</span><span class="at">score</span> <span class="op">&amp;&amp;</span> f <span class="op">&lt;</span> delta<span class="op">.</span><span class="at">score</span>) {</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>        delta <span class="op">=</span> { <span class="op">...</span>wolf }<span class="op">;</span></span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 2. Draw Frame</span></span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">clearRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Draw grid/optimum</span></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> [optX<span class="op">,</span> optY] <span class="op">=</span> <span class="fu">toCanvas</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(optX<span class="op">,</span> optY<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"black"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span> </span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">fillText</span>(<span class="st">"Optimum"</span><span class="op">,</span> optX <span class="op">+</span> <span class="dv">8</span><span class="op">,</span> optY)<span class="op">;</span></span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Draw Wolves</span></span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> wolf <span class="kw">of</span> wolves) {</span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> [cx<span class="op">,</span> cy] <span class="op">=</span> <span class="fu">toCanvas</span>(wolf<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">arc</span>(cx<span class="op">,</span> cy<span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span></span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"rgba(100, 100, 100, 0.6)"</span><span class="op">;</span></span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Highlight Leaders</span></span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> [ax<span class="op">,</span> ay] <span class="op">=</span> <span class="fu">toCanvas</span>(alpha<span class="op">.</span><span class="at">x</span><span class="op">,</span> alpha<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(ax<span class="op">,</span> ay<span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(beta<span class="op">.</span><span class="at">score</span> <span class="op">!==</span> <span class="kw">Infinity</span>) {</span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> [bx<span class="op">,</span> by] <span class="op">=</span> <span class="fu">toCanvas</span>(beta<span class="op">.</span><span class="at">x</span><span class="op">,</span> beta<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(bx<span class="op">,</span> by<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"orange"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(delta<span class="op">.</span><span class="at">score</span> <span class="op">!==</span> <span class="kw">Infinity</span>) {</span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> [dx<span class="op">,</span> dy] <span class="op">=</span> <span class="fu">toCanvas</span>(delta<span class="op">.</span><span class="at">x</span><span class="op">,</span> delta<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(dx<span class="op">,</span> dy<span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"gold"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"black"</span><span class="op">;</span></span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">fillText</span>(<span class="vs">`Iteration: </span><span class="sc">${</span>iter<span class="sc">}</span><span class="vs"> / </span><span class="sc">${</span>maxIter<span class="sc">}</span><span class="vs">`</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">fillText</span>(<span class="vs">`Best Fitness: </span><span class="sc">${</span>alpha<span class="op">.</span><span class="at">score</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">5</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">35</span>)<span class="op">;</span></span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 3. Update Positions (GWO Logic)</span></span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> a <span class="op">=</span> <span class="dv">2</span> <span class="op">-</span> iter <span class="op">*</span> (<span class="dv">2</span> <span class="op">/</span> maxIter)<span class="op">;</span> <span class="co">// decreases linearly from 2 to 0</span></span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> wolf <span class="kw">of</span> wolves) {</span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>      <span class="kw">function</span> <span class="fu">getUpdate</span>(leader<span class="op">,</span> current) {</span>
-<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> r1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> r2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
-<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> A <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> a <span class="op">*</span> r1 <span class="op">-</span> a<span class="op">;</span></span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> C <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> r2<span class="op">;</span></span>
-<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> D <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(C <span class="op">*</span> leader <span class="op">-</span> current)<span class="op">;</span></span>
-<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> leader <span class="op">-</span> A <span class="op">*</span> D<span class="op">;</span></span>
-<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> X1 <span class="op">=</span> <span class="fu">getUpdate</span>(alpha<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>)<span class="op">;</span></span>
-<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> Y1 <span class="op">=</span> <span class="fu">getUpdate</span>(alpha<span class="op">.</span><span class="at">y</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> X2 <span class="op">=</span> <span class="fu">getUpdate</span>(beta<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>)<span class="op">;</span></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> Y2 <span class="op">=</span> <span class="fu">getUpdate</span>(beta<span class="op">.</span><span class="at">y</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> X3 <span class="op">=</span> <span class="fu">getUpdate</span>(delta<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>)<span class="op">;</span></span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> Y3 <span class="op">=</span> <span class="fu">getUpdate</span>(delta<span class="op">.</span><span class="at">y</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">x</span> <span class="op">=</span> (X1 <span class="op">+</span> X2 <span class="op">+</span> X3) <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">y</span> <span class="op">=</span> (Y1 <span class="op">+</span> Y2 <span class="op">+</span> Y3) <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>    iter<span class="op">++;</span></span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Control speed</span></span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>(r <span class="kw">=&gt;</span> <span class="pp">setTimeout</span>(r<span class="op">,</span> <span class="dv">1000</span> <span class="op">/</span> speed))<span class="op">;</span></span>
-<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-6" data-nodetype="expression">
+  // Coord Mapping
+  function toCanvas(x, y) {
+    const nx = (x + bounds) / (2 * bounds);
+    const ny = (y + bounds) / (2 * bounds);
+    return {
+      x: nx * canvas.width,
+      y: canvas.height - (ny * canvas.height) // Flip Y
+    };
+  }
 
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- -->
+  function init() {
+    wolves = [];
+    for(let i=0; i<params.pop; i++) {
+      wolves.push({
+        x: (Math.random() * 2 * bounds) - bounds,
+        y: (Math.random() * 2 * bounds) - bounds,
+        score: Infinity
+      });
+    }
+    alpha = { score: Infinity };
+    beta = { score: Infinity };
+    delta = { score: Infinity };
+    iter = 0;
+  }
+
+  function update() {
+    // 1. Evaluate
+    for(let w of wolves) {
+      // Clamp
+      w.x = Math.max(-bounds, Math.min(bounds, w.x));
+      w.y = Math.max(-bounds, Math.min(bounds, w.y));
+      
+      const f = fitness(w.x, w.y);
+      w.score = f;
+      
+      if(f < alpha.score) {
+        alpha = {...w};
+      } else if(f < beta.score) {
+        beta = {...w};
+      } else if(f < delta.score) {
+        delta = {...w};
+      }
+    }
+    
+    ui.score.innerText = alpha.score.toFixed(5);
+    ui.cIter.innerText = iter + " / " + params.maxIter;
+
+    // 2. Move (Standard GWO Math)
+    const a = 2 - iter * (2 / params.maxIter);
+    
+    for(let w of wolves) {
+      function solveDim(current, lA, lB, lD) {
+        const calc = (leader) => {
+          const r1 = Math.random(), r2 = Math.random();
+          const A = 2 * a * r1 - a;
+          const C = 2 * r2;
+          const D = Math.abs(C * leader - current);
+          return leader - A * D;
+        };
+        return (calc(lA) + calc(lB) + calc(lD)) / 3;
+      }
+      
+      w.x = solveDim(w.x, alpha.x, beta.x, delta.x);
+      w.y = solveDim(w.y, alpha.y, beta.y, delta.y);
+    }
+    
+    iter++;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Grid/Center
+    const center = toCanvas(0,0);
+    ctx.strokeStyle = "#eee";
+    ctx.beginPath(); ctx.moveTo(center.x, 0); ctx.lineTo(center.x, canvas.height); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, center.y); ctx.lineTo(canvas.width, center.y); ctx.stroke();
+
+    // Wolves
+    for(let w of wolves) {
+      const p = toCanvas(w.x, w.y);
+      ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, 2*Math.PI);
+      ctx.fillStyle = "rgba(100,100,100,0.5)"; ctx.fill();
+    }
+    
+    // Leaders
+    const drawL = (w, c, s) => {
+      if(w.score === Infinity) return;
+      const p = toCanvas(w.x, w.y);
+      ctx.beginPath(); ctx.arc(p.x, p.y, s, 0, 2*Math.PI);
+      ctx.fillStyle = c; ctx.fill();
+      ctx.strokeStyle = "#333"; ctx.lineWidth=1; ctx.stroke();
+    };
+    
+    drawL(delta, "gold", 5);
+    drawL(beta, "orange", 6);
+    drawL(alpha, "red", 8);
+  }
+
+  function loop() {
+    setTimeout(() => {
+      if(iter < params.maxIter) {
+        update();
+        draw();
+      }
+      animId = requestAnimationFrame(loop);
+    }, 1000 / params.fps);
+  }
+
+  // Listeners
+  ui.pop.oninput = (e) => { params.pop = +e.target.value; ui.vPop.innerText = params.pop; };
+  ui.iter.oninput = (e) => { params.maxIter = +e.target.value; ui.vIter.innerText = params.maxIter; };
+  ui.speed.oninput = (e) => { params.fps = +e.target.value; ui.vSpeed.innerText = params.fps; };
+  ui.restart.onclick = () => {
+    cancelAnimationFrame(animId);
+    init();
+    loop();
+  };
+
+  // Start
+  init();
+  loop();
+})();
+</script>
 
 
-
-</section>
 
 </main> <!-- /main -->
-<script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBwb3BTaXplID0gSW5wdXRzLnJhbmdlKFs1LCAxMDBdLCB7dmFsdWU6IDMwLCBzdGVwOiAxLCBsYWJlbDogXCJQb3B1bGF0aW9uIFNpemVcIn0pXG52aWV3b2YgbWF4SXRlciA9IElucHV0cy5yYW5nZShbMTAwLCAxMDAwXSwge3ZhbHVlOiA1MDAsIHN0ZXA6IDEwLCBsYWJlbDogXCJNYXggSXRlcmF0aW9uc1wifSlcbnZpZXdvZiBzcGVlZCA9IElucHV0cy5yYW5nZShbMSwgNjBdLCB7dmFsdWU6IDMwLCBzdGVwOiAxLCBsYWJlbDogXCJTcGVlZCAoRlBTKVwifSlcbnZpZXdvZiByZXN0YXJ0ID0gSW5wdXRzLmJ1dHRvbihcIlJlc3RhcnQgU2ltdWxhdGlvblwiKVxuLy98IGVjaG86IGZhbHNlXG4vLyBNYWluIFNpbXVsYXRpb24gQ2FudmFzXG5odG1sYDxjYW52YXMgaWQ9XCJnd29DYW52YXNcIiB3aWR0aD1cIjYwMFwiIGhlaWdodD1cIjYwMFwiIHN0eWxlPVwiYm9yZGVyOjFweCBzb2xpZCAjY2NjOyBiYWNrZ3JvdW5kOiAjZjlmOWY5O1wiPjwvY2FudmFzPmBcbi8vfCBvdXRwdXQ6IGZhbHNlXG4vLyBMb2dpYyBhbmQgUmVuZGVyaW5nIExvb3BcbntcbiAgLy8gRGVwZW5kZW5jeSBvbiByZXN0YXJ0IGJ1dHRvbiB0byByZXNldFxuICByZXN0YXJ0OyBcbiAgXG4gIGNvbnN0IGNhbnZhcyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdnd29DYW52YXMnKTtcbiAgY29uc3QgY3R4ID0gY2FudmFzLmdldENvbnRleHQoJzJkJyk7XG4gIGNvbnN0IHdpZHRoID0gY2FudmFzLndpZHRoO1xuICBjb25zdCBoZWlnaHQgPSBjYW52YXMuaGVpZ2h0O1xuICBcbiAgLy8gUHJvYmxlbSBCb3VuZHMgKFJhc3RyaWdpbiBmdW5jdGlvbiB1c3VhbGx5IC01LjEyIHRvIDUuMTIpXG4gIGNvbnN0IG1pblggPSAtNS4xMiwgbWF4WCA9IDUuMTI7XG4gIGNvbnN0IG1pblkgPSAtNS4xMiwgbWF4WSA9IDUuMTI7XG4gIFxuICAvLyBIZWxwZXIgdG8gbWFwIGNvb3JkaW5hdGVzIHRvIGNhbnZhc1xuICBmdW5jdGlvbiB0b0NhbnZhcyh4LCB5KSB7XG4gICAgY29uc3QgY3ggPSAoKHggLSBtaW5YKSAvIChtYXhYIC0gbWluWCkpICogd2lkdGg7XG4gICAgY29uc3QgY3kgPSBoZWlnaHQgLSAoKHkgLSBtaW5ZKSAvIChtYXhZIC0gbWluWSkpICogaGVpZ2h0OyAvLyBJbnZlcnQgWVxuICAgIHJldHVybiBbY3gsIGN5XTtcbiAgfVxuXG4gIC8vIE9iamVjdGl2ZSBGdW5jdGlvbjogUmFzdHJpZ2luXG4gIGZ1bmN0aW9uIGZpdG5lc3MoeCwgeSkge1xuICAgIGNvbnN0IEEgPSAxMDtcbiAgICByZXR1cm4gQSAqIDIgKyAoeCAqIHggLSBBICogTWF0aC5jb3MoMiAqIE1hdGguUEkgKiB4KSkgKyAoeSAqIHkgLSBBICogTWF0aC5jb3MoMiAqIE1hdGguUEkgKiB5KSk7XG4gIH1cblxuICAvLyBJbml0aWFsaXplIFdvbHZlc1xuICBsZXQgd29sdmVzID0gW107XG4gIGZvcihsZXQgaSA9IDA7IGkgPCBwb3BTaXplOyBpKyspIHtcbiAgICB3b2x2ZXMucHVzaCh7XG4gICAgICB4OiBNYXRoLnJhbmRvbSgpICogKG1heFggLSBtaW5YKSArIG1pblgsXG4gICAgICB5OiBNYXRoLnJhbmRvbSgpICogKG1heFkgLSBtaW5ZKSArIG1pblksXG4gICAgICBzY29yZTogSW5maW5pdHlcbiAgICB9KTtcbiAgfVxuXG4gIC8vIEJlc3Qgd29sdmVzXG4gIGxldCBhbHBoYSA9IHsgc2NvcmU6IEluZmluaXR5LCB4OiAwLCB5OiAwIH07XG4gIGxldCBiZXRhICA9IHsgc2NvcmU6IEluZmluaXR5LCB4OiAwLCB5OiAwIH07XG4gIGxldCBkZWx0YSA9IHsgc2NvcmU6IEluZmluaXR5LCB4OiAwLCB5OiAwIH07XG5cbiAgbGV0IGl0ZXIgPSAwO1xuICBsZXQgcnVubmluZyA9IHRydWU7XG5cbiAgLy8gQW5pbWF0aW9uIExvb3BcbiAgd2hpbGUgKHJ1bm5pbmcgJiYgaXRlciA8IG1heEl0ZXIpIHtcbiAgICAvLyAxLiBDYWxjdWxhdGUgRml0bmVzcyAmIFVwZGF0ZSBIaWVyYXJjaHlcbiAgICBmb3IobGV0IHdvbGYgb2Ygd29sdmVzKSB7XG4gICAgICAvLyBCb3VuZGFyeSBjbGFtcGluZ1xuICAgICAgd29sZi54ID0gTWF0aC5tYXgobWluWCwgTWF0aC5taW4obWF4WCwgd29sZi54KSk7XG4gICAgICB3b2xmLnkgPSBNYXRoLm1heChtaW5ZLCBNYXRoLm1pbihtYXhZLCB3b2xmLnkpKTtcbiAgICAgIFxuICAgICAgY29uc3QgZiA9IGZpdG5lc3Mod29sZi54LCB3b2xmLnkpO1xuICAgICAgd29sZi5zY29yZSA9IGY7XG5cbiAgICAgIGlmIChmIDwgYWxwaGEuc2NvcmUpIHtcbiAgICAgICAgYWxwaGEgPSB7IC4uLndvbGYgfTsgLy8gQ29weSBvYmplY3RcbiAgICAgIH1cbiAgICAgIGlmIChmID4gYWxwaGEuc2NvcmUgJiYgZiA8IGJldGEuc2NvcmUpIHtcbiAgICAgICAgYmV0YSA9IHsgLi4ud29sZiB9O1xuICAgICAgfVxuICAgICAgaWYgKGYgPiBhbHBoYS5zY29yZSAmJiBmID4gYmV0YS5zY29yZSAmJiBmIDwgZGVsdGEuc2NvcmUpIHtcbiAgICAgICAgZGVsdGEgPSB7IC4uLndvbGYgfTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICAvLyAyLiBEcmF3IEZyYW1lXG4gICAgY3R4LmNsZWFyUmVjdCgwLCAwLCB3aWR0aCwgaGVpZ2h0KTtcbiAgICBcbiAgICAvLyBEcmF3IGdyaWQvb3B0aW11bVxuICAgIGNvbnN0IFtvcHRYLCBvcHRZXSA9IHRvQ2FudmFzKDAsIDApO1xuICAgIGN0eC5iZWdpblBhdGgoKTsgY3R4LmFyYyhvcHRYLCBvcHRZLCA1LCAwLCAyKk1hdGguUEkpOyBjdHguZmlsbFN0eWxlID0gXCJibGFja1wiOyBjdHguZmlsbCgpOyBcbiAgICBjdHguZmlsbFRleHQoXCJPcHRpbXVtXCIsIG9wdFggKyA4LCBvcHRZKTtcblxuICAgIC8vIERyYXcgV29sdmVzXG4gICAgZm9yKGxldCB3b2xmIG9mIHdvbHZlcykge1xuICAgICAgY29uc3QgW2N4LCBjeV0gPSB0b0NhbnZhcyh3b2xmLngsIHdvbGYueSk7XG4gICAgICBjdHguYmVnaW5QYXRoKCk7XG4gICAgICBjdHguYXJjKGN4LCBjeSwgMywgMCwgMipNYXRoLlBJKTtcbiAgICAgIGN0eC5maWxsU3R5bGUgPSBcInJnYmEoMTAwLCAxMDAsIDEwMCwgMC42KVwiO1xuICAgICAgY3R4LmZpbGwoKTtcbiAgICB9XG4gICAgXG4gICAgLy8gSGlnaGxpZ2h0IExlYWRlcnNcbiAgICBjb25zdCBbYXgsIGF5XSA9IHRvQ2FudmFzKGFscGhhLngsIGFscGhhLnkpO1xuICAgIGN0eC5iZWdpblBhdGgoKTsgY3R4LmFyYyhheCwgYXksIDYsIDAsIDIqTWF0aC5QSSk7IGN0eC5maWxsU3R5bGUgPSBcInJlZFwiOyBjdHguZmlsbCgpO1xuICAgIFxuICAgIGlmKGJldGEuc2NvcmUgIT09IEluZmluaXR5KSB7XG4gICAgICBjb25zdCBbYngsIGJ5XSA9IHRvQ2FudmFzKGJldGEueCwgYmV0YS55KTtcbiAgICAgIGN0eC5iZWdpblBhdGgoKTsgY3R4LmFyYyhieCwgYnksIDUsIDAsIDIqTWF0aC5QSSk7IGN0eC5maWxsU3R5bGUgPSBcIm9yYW5nZVwiOyBjdHguZmlsbCgpO1xuICAgIH1cbiAgICBpZihkZWx0YS5zY29yZSAhPT0gSW5maW5pdHkpIHtcbiAgICAgIGNvbnN0IFtkeCwgZHldID0gdG9DYW52YXMoZGVsdGEueCwgZGVsdGEueSk7XG4gICAgICBjdHguYmVnaW5QYXRoKCk7IGN0eC5hcmMoZHgsIGR5LCA0LCAwLCAyKk1hdGguUEkpOyBjdHguZmlsbFN0eWxlID0gXCJnb2xkXCI7IGN0eC5maWxsKCk7XG4gICAgfVxuXG4gICAgY3R4LmZpbGxTdHlsZSA9IFwiYmxhY2tcIjtcbiAgICBjdHguZmlsbFRleHQoYEl0ZXJhdGlvbjogJHtpdGVyfSAvICR7bWF4SXRlcn1gLCAxMCwgMjApO1xuICAgIGN0eC5maWxsVGV4dChgQmVzdCBGaXRuZXNzOiAke2FscGhhLnNjb3JlLnRvRml4ZWQoNSl9YCwgMTAsIDM1KTtcblxuICAgIC8vIDMuIFVwZGF0ZSBQb3NpdGlvbnMgKEdXTyBMb2dpYylcbiAgICBjb25zdCBhID0gMiAtIGl0ZXIgKiAoMiAvIG1heEl0ZXIpOyAvLyBkZWNyZWFzZXMgbGluZWFybHkgZnJvbSAyIHRvIDBcbiAgICBcbiAgICBmb3IobGV0IHdvbGYgb2Ygd29sdmVzKSB7XG4gICAgICBmdW5jdGlvbiBnZXRVcGRhdGUobGVhZGVyLCBjdXJyZW50KSB7XG4gICAgICAgIGNvbnN0IHIxID0gTWF0aC5yYW5kb20oKTtcbiAgICAgICAgY29uc3QgcjIgPSBNYXRoLnJhbmRvbSgpO1xuICAgICAgICBjb25zdCBBID0gMiAqIGEgKiByMSAtIGE7XG4gICAgICAgIGNvbnN0IEMgPSAyICogcjI7XG4gICAgICAgIGNvbnN0IEQgPSBNYXRoLmFicyhDICogbGVhZGVyIC0gY3VycmVudCk7XG4gICAgICAgIHJldHVybiBsZWFkZXIgLSBBICogRDtcbiAgICAgIH1cblxuICAgICAgY29uc3QgWDEgPSBnZXRVcGRhdGUoYWxwaGEueCwgd29sZi54KTtcbiAgICAgIGNvbnN0IFkxID0gZ2V0VXBkYXRlKGFscGhhLnksIHdvbGYueSk7XG4gICAgICBcbiAgICAgIGNvbnN0IFgyID0gZ2V0VXBkYXRlKGJldGEueCwgd29sZi54KTtcbiAgICAgIGNvbnN0IFkyID0gZ2V0VXBkYXRlKGJldGEueSwgd29sZi55KTtcbiAgICAgIFxuICAgICAgY29uc3QgWDMgPSBnZXRVcGRhdGUoZGVsdGEueCwgd29sZi54KTtcbiAgICAgIGNvbnN0IFkzID0gZ2V0VXBkYXRlKGRlbHRhLnksIHdvbGYueSk7XG4gICAgICBcbiAgICAgIHdvbGYueCA9IChYMSArIFgyICsgWDMpIC8gMztcbiAgICAgIHdvbGYueSA9IChZMSArIFkyICsgWTMpIC8gMztcbiAgICB9XG5cbiAgICBpdGVyKys7XG4gICAgLy8gQ29udHJvbCBzcGVlZFxuICAgIGF3YWl0IG5ldyBQcm9taXNlKHIgPT4gc2V0VGltZW91dChyLCAxMDAwIC8gc3BlZWQpKTtcbiAgfVxufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdwb3BTaXplJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ21heEl0ZXInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc3BlZWQnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgncmVzdGFydCcpIn1dfQ==
-</script>
-<script type="module">
-if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
-window._ojs.paths.runtimeToDoc = "../../posts";
-window._ojs.paths.runtimeToRoot = "../..";
-window._ojs.paths.docToRoot = "..";
-window._ojs.selfContained = false;
-window._ojs.runtime.interpretFromScriptTags();
-</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -468,57 +486,6 @@ window._ojs.runtime.interpretFromScriptTags();
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
-    }
-    const viewSource = window.document.getElementById('quarto-view-source') ||
-                       window.document.getElementById('quarto-code-tools-source');
-    if (viewSource) {
-      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-      viewSource.addEventListener("click", function(e) {
-        if (sourceUrl) {
-          // rstudio viewer pane
-          if (/\bcapabilities=\b/.test(window.location)) {
-            window.open(sourceUrl);
-          } else {
-            window.location.href = sourceUrl;
-          }
-        } else {
-          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-          modal.show();
-        }
-        return false;
-      });
-    }
-    function toggleCodeHandler(show) {
-      return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
-          if (show) {
-            details.open = true;
-          } else {
-            details.removeAttribute("open");
-          }
-        }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-        const fromCls = show ? "hidden" : "unhidden";
-        const toCls = show ? "unhidden" : "hidden";
-        for (let i=0; i<cellCodeDivs.length; i++) {
-          const codeDiv = cellCodeDivs[i];
-          if (codeDiv.classList.contains(fromCls)) {
-            codeDiv.classList.remove(fromCls);
-            codeDiv.classList.add(toCls);
-          } 
-        }
-        return false;
-      }
-    }
-    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-    if (hideAllCode) {
-      hideAllCode.addEventListener("click", toggleCodeHandler(false));
-    }
-    const showAllCode = window.document.getElementById("quarto-show-all-code");
-    if (showAllCode) {
-      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -848,168 +815,7 @@ window._ojs.runtime.interpretFromScriptTags();
       }
     }
   });
-  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Grey Wolf Optimization Playground"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interactive GWO Simulation</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>This playground visualizes the **Grey Wolf Optimization (GWO)** algorithm. The wolves (particles) attempt to find the global minimum of the infamous **Rastrigin Function** (located at <span class="in">`[0, 0]`</span>).</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">"color: red; font-weight: bold;"</span><span class="dt">&gt;</span>Red Dot<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span>: Alpha (Best solution)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">"color: orange; font-weight: bold;"</span><span class="dt">&gt;</span>Orange Dot<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span>: Beta (2nd Best)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">"color: gold; font-weight: bold;"</span><span class="dt">&gt;</span>Yellow Dot<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span>: Delta (3rd Best)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">"color: gray;"</span><span class="dt">&gt;</span>Gray Dots<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span>: Omega (Rest of the pack)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="in">```{ojs}</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">//| panel: sidebar</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>viewof popSize <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">5</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Population Size"</span>})</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>viewof maxIter <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">100</span><span class="op">,</span> <span class="dv">1000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Max Iterations"</span>})</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>viewof speed <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">60</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Speed (FPS)"</span>})</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>viewof restart <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">"Restart Simulation"</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">//| echo: false</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">// Main Simulation Canvas</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;canvas id="gwoCanvas" width="600" height="600" style="border:1px solid #ccc; background: #f9f9f9;"&gt;&lt;/canvas&gt;`</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">//| output: false</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">// Logic and Rendering Loop</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Dependency on restart button to reset</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  restart<span class="op">;</span> </span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'gwoCanvas'</span>)<span class="op">;</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">'2d'</span>)<span class="op">;</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> width <span class="op">=</span> canvas<span class="op">.</span><span class="at">width</span><span class="op">;</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> height <span class="op">=</span> canvas<span class="op">.</span><span class="at">height</span><span class="op">;</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Problem Bounds (Rastrigin function usually -5.12 to 5.12)</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> minX <span class="op">=</span> <span class="op">-</span><span class="fl">5.12</span><span class="op">,</span> maxX <span class="op">=</span> <span class="fl">5.12</span><span class="op">;</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> minY <span class="op">=</span> <span class="op">-</span><span class="fl">5.12</span><span class="op">,</span> maxY <span class="op">=</span> <span class="fl">5.12</span><span class="op">;</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Helper to map coordinates to canvas</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">toCanvas</span>(x<span class="op">,</span> y) {</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> cx <span class="op">=</span> ((x <span class="op">-</span> minX) <span class="op">/</span> (maxX <span class="op">-</span> minX)) <span class="op">*</span> width<span class="op">;</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> cy <span class="op">=</span> height <span class="op">-</span> ((y <span class="op">-</span> minY) <span class="op">/</span> (maxY <span class="op">-</span> minY)) <span class="op">*</span> height<span class="op">;</span> <span class="co">// Invert Y</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [cx<span class="op">,</span> cy]<span class="op">;</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Objective Function: Rastrigin</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">fitness</span>(x<span class="op">,</span> y) {</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> A <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> (x <span class="op">*</span> x <span class="op">-</span> A <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> x)) <span class="op">+</span> (y <span class="op">*</span> y <span class="op">-</span> A <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> y))<span class="op">;</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Initialize Wolves</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wolves <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> popSize<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    wolves<span class="op">.</span><span class="fu">push</span>({</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> (maxX <span class="op">-</span> minX) <span class="op">+</span> minX<span class="op">,</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> (maxY <span class="op">-</span> minY) <span class="op">+</span> minY<span class="op">,</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>      <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Best wolves</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> alpha <span class="op">=</span> { <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">;</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> beta  <span class="op">=</span> { <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">;</span></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> delta <span class="op">=</span> { <span class="dt">score</span><span class="op">:</span> <span class="kw">Infinity</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">;</span></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> iter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> running <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Animation Loop</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (running <span class="op">&amp;&amp;</span> iter <span class="op">&lt;</span> maxIter) {</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 1. Calculate Fitness &amp; Update Hierarchy</span></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> wolf <span class="kw">of</span> wolves) {</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Boundary clamping</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(minX<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(maxX<span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>))<span class="op">;</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(minY<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(maxY<span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>))<span class="op">;</span></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> f <span class="op">=</span> <span class="fu">fitness</span>(wolf<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">score</span> <span class="op">=</span> f<span class="op">;</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (f <span class="op">&lt;</span> alpha<span class="op">.</span><span class="at">score</span>) {</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>        alpha <span class="op">=</span> { <span class="op">...</span>wolf }<span class="op">;</span> <span class="co">// Copy object</span></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (f <span class="op">&gt;</span> alpha<span class="op">.</span><span class="at">score</span> <span class="op">&amp;&amp;</span> f <span class="op">&lt;</span> beta<span class="op">.</span><span class="at">score</span>) {</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>        beta <span class="op">=</span> { <span class="op">...</span>wolf }<span class="op">;</span></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (f <span class="op">&gt;</span> alpha<span class="op">.</span><span class="at">score</span> <span class="op">&amp;&amp;</span> f <span class="op">&gt;</span> beta<span class="op">.</span><span class="at">score</span> <span class="op">&amp;&amp;</span> f <span class="op">&lt;</span> delta<span class="op">.</span><span class="at">score</span>) {</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>        delta <span class="op">=</span> { <span class="op">...</span>wolf }<span class="op">;</span></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 2. Draw Frame</span></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">clearRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Draw grid/optimum</span></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> [optX<span class="op">,</span> optY] <span class="op">=</span> <span class="fu">toCanvas</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(optX<span class="op">,</span> optY<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"black"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span> </span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">fillText</span>(<span class="st">"Optimum"</span><span class="op">,</span> optX <span class="op">+</span> <span class="dv">8</span><span class="op">,</span> optY)<span class="op">;</span></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Draw Wolves</span></span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> wolf <span class="kw">of</span> wolves) {</span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> [cx<span class="op">,</span> cy] <span class="op">=</span> <span class="fu">toCanvas</span>(wolf<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">arc</span>(cx<span class="op">,</span> cy<span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span></span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"rgba(100, 100, 100, 0.6)"</span><span class="op">;</span></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Highlight Leaders</span></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> [ax<span class="op">,</span> ay] <span class="op">=</span> <span class="fu">toCanvas</span>(alpha<span class="op">.</span><span class="at">x</span><span class="op">,</span> alpha<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(ax<span class="op">,</span> ay<span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(beta<span class="op">.</span><span class="at">score</span> <span class="op">!==</span> <span class="kw">Infinity</span>) {</span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> [bx<span class="op">,</span> by] <span class="op">=</span> <span class="fu">toCanvas</span>(beta<span class="op">.</span><span class="at">x</span><span class="op">,</span> beta<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(bx<span class="op">,</span> by<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"orange"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(delta<span class="op">.</span><span class="at">score</span> <span class="op">!==</span> <span class="kw">Infinity</span>) {</span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> [dx<span class="op">,</span> dy] <span class="op">=</span> <span class="fu">toCanvas</span>(delta<span class="op">.</span><span class="at">x</span><span class="op">,</span> delta<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span> ctx<span class="op">.</span><span class="fu">arc</span>(dx<span class="op">,</span> dy<span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span> ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"gold"</span><span class="op">;</span> ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"black"</span><span class="op">;</span></span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">fillText</span>(<span class="vs">`Iteration: </span><span class="sc">${</span>iter<span class="sc">}</span><span class="vs"> / </span><span class="sc">${</span>maxIter<span class="sc">}</span><span class="vs">`</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">fillText</span>(<span class="vs">`Best Fitness: </span><span class="sc">${</span>alpha<span class="op">.</span><span class="at">score</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">5</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">35</span>)<span class="op">;</span></span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 3. Update Positions (GWO Logic)</span></span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> a <span class="op">=</span> <span class="dv">2</span> <span class="op">-</span> iter <span class="op">*</span> (<span class="dv">2</span> <span class="op">/</span> maxIter)<span class="op">;</span> <span class="co">// decreases linearly from 2 to 0</span></span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> wolf <span class="kw">of</span> wolves) {</span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>      <span class="kw">function</span> <span class="fu">getUpdate</span>(leader<span class="op">,</span> current) {</span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> r1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> r2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> A <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> a <span class="op">*</span> r1 <span class="op">-</span> a<span class="op">;</span></span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> C <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> r2<span class="op">;</span></span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> D <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(C <span class="op">*</span> leader <span class="op">-</span> current)<span class="op">;</span></span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> leader <span class="op">-</span> A <span class="op">*</span> D<span class="op">;</span></span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> X1 <span class="op">=</span> <span class="fu">getUpdate</span>(alpha<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>)<span class="op">;</span></span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> Y1 <span class="op">=</span> <span class="fu">getUpdate</span>(alpha<span class="op">.</span><span class="at">y</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> X2 <span class="op">=</span> <span class="fu">getUpdate</span>(beta<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>)<span class="op">;</span></span>
-<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> Y2 <span class="op">=</span> <span class="fu">getUpdate</span>(beta<span class="op">.</span><span class="at">y</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> X3 <span class="op">=</span> <span class="fu">getUpdate</span>(delta<span class="op">.</span><span class="at">x</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">x</span>)<span class="op">;</span></span>
-<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> Y3 <span class="op">=</span> <span class="fu">getUpdate</span>(delta<span class="op">.</span><span class="at">y</span><span class="op">,</span> wolf<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">x</span> <span class="op">=</span> (X1 <span class="op">+</span> X2 <span class="op">+</span> X3) <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>      wolf<span class="op">.</span><span class="at">y</span> <span class="op">=</span> (Y1 <span class="op">+</span> Y2 <span class="op">+</span> Y3) <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>    iter<span class="op">++;</span></span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Control speed</span></span>
-<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>(r <span class="kw">=&gt;</span> <span class="pp">setTimeout</span>(r<span class="op">,</span> <span class="dv">1000</span> <span class="op">/</span> speed))<span class="op">;</span></span>
-<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
+  </script>
 </div> <!-- /content -->
 
 
