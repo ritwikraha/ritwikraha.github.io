@@ -1,0 +1,158 @@
+---
+title: "Grey Wolf Optimization Playground"
+format:
+  html:
+    code-tools: true
+---
+
+## Interactive GWO Simulation
+
+This playground visualizes the **Grey Wolf Optimization (GWO)** algorithm. The wolves (particles) attempt to find the global minimum of the **Rastrigin Function** (located at `[0, 0]`).
+
+- <span style="color: red; font-weight: bold;">Red Dot</span>: Alpha (Best solution)
+- <span style="color: orange; font-weight: bold;">Orange Dot</span>: Beta (2nd Best)
+- <span style="color: gold; font-weight: bold;">Yellow Dot</span>: Delta (3rd Best)
+- <span style="color: gray;">Gray Dots</span>: Omega (Rest of the pack)
+
+```{ojs}
+//| panel: sidebar
+viewof popSize = Inputs.range([5, 100], {value: 30, step: 1, label: "Population Size"})
+viewof maxIter = Inputs.range([100, 1000], {value: 500, step: 10, label: "Max Iterations"})
+viewof speed = Inputs.range([1, 60], {value: 30, step: 1, label: "Speed (FPS)"})
+viewof restart = Inputs.button("Restart Simulation")
+//| echo: false
+// Main Simulation Canvas
+html`<canvas id="gwoCanvas" width="600" height="600" style="border:1px solid #ccc; background: #f9f9f9;"></canvas>`
+//| output: false
+// Logic and Rendering Loop
+{
+  // Dependency on restart button to reset
+  restart; 
+  
+  const canvas = document.getElementById('gwoCanvas');
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  
+  // Problem Bounds (Rastrigin function usually -5.12 to 5.12)
+  const minX = -5.12, maxX = 5.12;
+  const minY = -5.12, maxY = 5.12;
+  
+  // Helper to map coordinates to canvas
+  function toCanvas(x, y) {
+    const cx = ((x - minX) / (maxX - minX)) * width;
+    const cy = height - ((y - minY) / (maxY - minY)) * height; // Invert Y
+    return [cx, cy];
+  }
+
+  // Objective Function: Rastrigin
+  function fitness(x, y) {
+    const A = 10;
+    return A * 2 + (x * x - A * Math.cos(2 * Math.PI * x)) + (y * y - A * Math.cos(2 * Math.PI * y));
+  }
+
+  // Initialize Wolves
+  let wolves = [];
+  for(let i = 0; i < popSize; i++) {
+    wolves.push({
+      x: Math.random() * (maxX - minX) + minX,
+      y: Math.random() * (maxY - minY) + minY,
+      score: Infinity
+    });
+  }
+
+  // Best wolves
+  let alpha = { score: Infinity, x: 0, y: 0 };
+  let beta  = { score: Infinity, x: 0, y: 0 };
+  let delta = { score: Infinity, x: 0, y: 0 };
+
+  let iter = 0;
+  let running = true;
+
+  // Animation Loop
+  while (running && iter < maxIter) {
+    // 1. Calculate Fitness & Update Hierarchy
+    for(let wolf of wolves) {
+      // Boundary clamping
+      wolf.x = Math.max(minX, Math.min(maxX, wolf.x));
+      wolf.y = Math.max(minY, Math.min(maxY, wolf.y));
+      
+      const f = fitness(wolf.x, wolf.y);
+      wolf.score = f;
+
+      if (f < alpha.score) {
+        alpha = { ...wolf }; // Copy object
+      }
+      if (f > alpha.score && f < beta.score) {
+        beta = { ...wolf };
+      }
+      if (f > alpha.score && f > beta.score && f < delta.score) {
+        delta = { ...wolf };
+      }
+    }
+
+    // 2. Draw Frame
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw grid/optimum
+    const [optX, optY] = toCanvas(0, 0);
+    ctx.beginPath(); ctx.arc(optX, optY, 5, 0, 2*Math.PI); ctx.fillStyle = "black"; ctx.fill(); 
+    ctx.fillText("Optimum", optX + 8, optY);
+
+    // Draw Wolves
+    for(let wolf of wolves) {
+      const [cx, cy] = toCanvas(wolf.x, wolf.y);
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3, 0, 2*Math.PI);
+      ctx.fillStyle = "rgba(100, 100, 100, 0.6)";
+      ctx.fill();
+    }
+    
+    // Highlight Leaders
+    const [ax, ay] = toCanvas(alpha.x, alpha.y);
+    ctx.beginPath(); ctx.arc(ax, ay, 6, 0, 2*Math.PI); ctx.fillStyle = "red"; ctx.fill();
+    
+    if(beta.score !== Infinity) {
+      const [bx, by] = toCanvas(beta.x, beta.y);
+      ctx.beginPath(); ctx.arc(bx, by, 5, 0, 2*Math.PI); ctx.fillStyle = "orange"; ctx.fill();
+    }
+    if(delta.score !== Infinity) {
+      const [dx, dy] = toCanvas(delta.x, delta.y);
+      ctx.beginPath(); ctx.arc(dx, dy, 4, 0, 2*Math.PI); ctx.fillStyle = "gold"; ctx.fill();
+    }
+
+    ctx.fillStyle = "black";
+    ctx.fillText(`Iteration: ${iter} / ${maxIter}`, 10, 20);
+    ctx.fillText(`Best Fitness: ${alpha.score.toFixed(5)}`, 10, 35);
+
+    // 3. Update Positions (GWO Logic)
+    const a = 2 - iter * (2 / maxIter); // decreases linearly from 2 to 0
+    
+    for(let wolf of wolves) {
+      function getUpdate(leader, current) {
+        const r1 = Math.random();
+        const r2 = Math.random();
+        const A = 2 * a * r1 - a;
+        const C = 2 * r2;
+        const D = Math.abs(C * leader - current);
+        return leader - A * D;
+      }
+
+      const X1 = getUpdate(alpha.x, wolf.x);
+      const Y1 = getUpdate(alpha.y, wolf.y);
+      
+      const X2 = getUpdate(beta.x, wolf.x);
+      const Y2 = getUpdate(beta.y, wolf.y);
+      
+      const X3 = getUpdate(delta.x, wolf.x);
+      const Y3 = getUpdate(delta.y, wolf.y);
+      
+      wolf.x = (X1 + X2 + X3) / 3;
+      wolf.y = (Y1 + Y2 + Y3) / 3;
+    }
+
+    iter++;
+    // Control speed
+    await new Promise(r => setTimeout(r, 1000 / speed));
+  }
+}
