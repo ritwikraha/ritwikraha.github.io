@@ -193,10 +193,24 @@ window.Quarto = {
 
 
 <p>An answer to a curiousity long fostered in a brain that can attempt to appreciate if not understand art.</p>
-<section id="modelling-gravity-in-a-world-that-van-gogh-saw" class="level2">
-<h2 class="anchored" data-anchor-id="modelling-gravity-in-a-world-that-van-gogh-saw">Modelling Gravity in a world that Van Gogh saw</h2>
-<p>When Vincent van Gogh painted <em>The Starry Night</em> in 1889, looking out from the window of the Saint-Paul-de-Mausole asylum, he wasn’t just recording celestial positions. He was capturing a feeling of overwhelming cosmic energy. The sky in his masterpiece doesn’t sit still; it churns, swirls, and flows like a torrential river of light.</p>
-<p>For decades, art historians viewed these iconic swirls as mere representations of Van Gogh’s turbulent mental state. But recently, physicists noticed something startling. The patterns in the brushstrokes—specifically the way the brightness fluctuates across the canvas—closely mimic the mathematical structures of real-world fluid turbulence. Van Gogh’s intuition had tapped into a profound universal truth about how energy moves in chaotic systems.</p>
+<section id="modelling-gravity-in-a-world-that-van-gogh-saw." class="level2">
+<h2 class="anchored" data-anchor-id="modelling-gravity-in-a-world-that-van-gogh-saw.">Modelling Gravity in a world that Van Gogh saw.</h2>
+<p>When Vincent van Gogh painted <em>The Starry Night</em> in 1889, looking out from the window of his asylum, I believe he experienced some form of epiphany whereby some incredible secret of the unknown cosmos presented itself to him.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/starry-night.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>A vision that can only happen once or twice in human history.</figcaption>
+</figure>
+</div>
+<p>For decades, art historians viewed these iconic swirls as mere representations of Van Gogh’s turbulent mental state. But recently, physicists noticed something startling. The patterns in the brushstrokes—specifically the way the brightness fluctuates across the canvas—closely mimic the mathematical structures of real-world fluid turbulence.</p>
+<p>In my own way, I have always been fascinated with this and even did some preliminary explorations in my undergrad days.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/starry-night-github.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Small Efforts into the Night</figcaption>
+</figure>
+</div>
+<p>Needless to say, because of my own shortcomings and the absence of vibe-coding I could only explore so much as creating cyclic graphs from the illumination pattern.</p>
 <p>But what if the universe actually worked the way Van Gogh painted it? What if gravity wasn’t a smooth pull, but a turbulent, swirling ocean?</p>
 <p>To understand the chaos, we must first understand the order.</p>
 <hr>
@@ -205,8 +219,8 @@ window.Quarto = {
 <p>Our current understanding of solar systems relies on stability. Isaac Newton described gravity as a universal force of attraction that is predictable and smooth.</p>
 <p>In a standard planetary system, a planet is constantly falling toward its star. However, it also has tremendous forward momentum. The resulting orbit is a perfect balance between the star trying to pull the planet in, and the planet trying to fly off in a straight line.</p>
 <p>In the interactive simulation below, we see a simple, orderly system. The blue arrow represents the gravitational force vector—the direction and intensity with which the star is pulling the planet. Notice how the arrow always points directly to the center, and gets longer (stronger pull) when the planet is closer.</p>
-<section id="a-simple-gravitational-system" class="level4">
-<h4 class="anchored" data-anchor-id="a-simple-gravitational-system">A simple gravitational system</h4>
+<section id="a-simple-gravitational-system." class="level4">
+<h4 class="anchored" data-anchor-id="a-simple-gravitational-system.">A simple gravitational system.</h4>
 <style>
   .canvas-container { width: 100%; text-align: center; margin: 20px 0; }
   #canvas1 { background: #1a1a2e; border: 1px solid #333; box-shadow: 0 0 10px #000; max-width: 100%; height: auto; }
@@ -222,7 +236,7 @@ window.Quarto = {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  let star = { x: 300, y: 200, mass: 2000 };
+  let star = { x: 300, y: 200, mass: 1225 };
   let planet = { x: 300, y: 100, vx: 3.5, vy: 0, radius: 8 };
 
   function drawArrow(fromx, fromy, tox, toy) {
@@ -253,8 +267,12 @@ window.Quarto = {
       let dx = star.x - planet.x;
       let dy = star.y - planet.y;
       let distSq = dx*dx + dy*dy;
+      // Clamp distance to prevent division by zero explosions
+      distSq = Math.max(distSq, 100); 
       let dist = Math.sqrt(distSq);
-      let force = 500 * star.mass / distSq; 
+      
+      // Corrected physics: G = 1
+      let force = star.mass / distSq; 
       let ax = force * dx / dist;
       let ay = force * dy / dist;
 
@@ -264,7 +282,8 @@ window.Quarto = {
       planet.y += planet.vy;
 
       ctx.shadowBlur = 0;
-      drawArrow(planet.x, planet.y, planet.x + ax*100, planet.y + ay*100);
+      // Scale arrow length up for visual clarity
+      drawArrow(planet.x, planet.y, planet.x + ax*500, planet.y + ay*500);
 
       ctx.beginPath();
       ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
@@ -282,7 +301,6 @@ window.Quarto = {
 <section id="kepplers-laws-of-motion" class="level3">
 <h3 class="anchored" data-anchor-id="kepplers-laws-of-motion">Keppler’s Laws of Motion</h3>
 <p>Because gravity is smooth and central, planetary motion follows incredibly precise rules discovered by Johannes Kepler in the early 17th century. These laws are the bedrock of orbital mechanics.</p>
-<p>[Image of Kepler’s laws of planetary motion diagram]</p>
 <ol type="1">
 <li><strong>The Law of Ellipses:</strong> All planets move in elliptical orbits, with the sun at one focus.</li>
 <li><strong>The Law of Equal Areas:</strong> A line that connects a planet to the sun sweeps out equal areas in equal times. (This means planets speed up when closer to the star and slow down when further away).</li>
@@ -309,10 +327,11 @@ window.Quarto = {
   const ctx = canvas.getContext('2d');
 
   let star = { x: 300, y: 200, mass: 2500 };
+  // Velocities perfectly balanced for v = sqrt(GM/r)
   let planets = [
-      { x: 300, y: 140, vx: 5.5, vy: 0, radius: 5, color: '#ff6666' },
-      { x: 300, y: 80, vx: 4.2, vy: 0, radius: 7, color: '#00ccff' },
-      { x: 300, y: 40, vx: 3.5, vy: 0, radius: 9, color: '#66ff66' }
+      { x: 300, y: 140, vx: 6.45, vy: 0, radius: 5, color: '#ff6666' },
+      { x: 300, y: 80,  vx: 4.56, vy: 0, radius: 7, color: '#00ccff' },
+      { x: 300, y: 40,  vx: 3.95, vy: 0, radius: 9, color: '#66ff66' }
   ];
 
   function drawArrow(fromx, fromy, tox, toy) {
@@ -345,8 +364,10 @@ window.Quarto = {
           let dx = star.x - p.x;
           let dy = star.y - p.y;
           let distSq = dx*dx + dy*dy;
+          distSq = Math.max(distSq, 100);
           let dist = Math.sqrt(distSq);
-          let force = 400 * star.mass / distSq;
+          
+          let force = star.mass / distSq;
           let ax = force * dx / dist;
           let ay = force * dy / dist;
 
@@ -355,7 +376,7 @@ window.Quarto = {
           p.x += p.vx;
           p.y += p.vy;
 
-          drawArrow(p.x, p.y, p.x + ax*80, p.y + ay*80);
+          drawArrow(p.x, p.y, p.x + ax*500, p.y + ay*500);
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -378,14 +399,382 @@ window.Quarto = {
 <p>Kolmogorov found a specific mathematical relationship defining how much energy exists at different sizes of these swirls. The formula for the energy spectrum <span class="math inline">\(E(k)\)</span> is:</p>
 <p><span class="math display">\[E(k) = C \epsilon^{2/3} k^{-5/3}\]</span></p>
 <p><em>Here, <span class="math inline">\(k\)</span> relates to the size of the swirl (wavenumber), and the key feature is the <span class="math inline">\(-5/3\)</span> exponent. Amazingly, Van Gogh’s brushstrokes scale according to this exact ratio.</em></p>
+<style>
+  .turbulence-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+  }
+  #turbulenceCanvas {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    cursor: crosshair;
+  }
+</style>
+
+<div class="turbulence-wrapper">
+  <canvas id="turbulenceCanvas" width="700" height="400"></canvas>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('turbulenceCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let time = 0;
+  const spacing = 25; // Space between arrows
+  const cols = Math.floor(canvas.width / spacing);
+  const rows = Math.floor(canvas.height / spacing);
+  
+  // Mouse interaction
+  let mouse = { x: -1000, y: -1000 };
+  
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    // Scale mouse coordinates to match canvas internal resolution
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    mouse.x = (e.clientX - rect.left) * scaleX;
+    mouse.y = (e.clientY - rect.top) * scaleY;
+  });
+  
+  canvas.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
+
+  function drawArrow(x, y, vx, vy) {
+    const speed = Math.sqrt(vx * vx + vy * vy);
+    // Limit arrow length to prevent messy overlapping
+    const arrowLength = Math.min(speed * 12, spacing * 1.5); 
+    const angle = Math.atan2(vy, vx);
+    
+    const tox = x + Math.cos(angle) * arrowLength;
+    const toy = y + Math.sin(angle) * arrowLength;
+    const headlen = Math.min(6, arrowLength * 0.3); // Scale arrow head with length
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(tox, toy);
+    ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(tox, toy);
+    ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+    
+    // Adjust opacity based on speed (faster = more opaque)
+    const alpha = Math.min(0.2 + speed * 0.4, 1.0);
+    ctx.strokeStyle = `rgba(0, 85, 255, ${alpha})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    time++;
+
+    for (let i = 0; i <= cols; i++) {
+      for (let j = 0; j <= rows; j++) {
+        const x = i * spacing;
+        const y = j * spacing;
+        
+        let vx = 0;
+        let vy = 0;
+        
+        // Kolmogorov Energy Cascade Approximation
+        // E(k) ~ k^(-5/3), so Amplitude ~ k^(-5/6)
+        const numOctaves = 4;
+        for (let oct = 0; oct < numOctaves; oct++) {
+            let k = Math.pow(2, oct); // Wavenumber (spatial frequency)
+            let amplitude = Math.pow(k, -5/6); // Amplitude scaling
+            
+            // Base spatial coordinates scaled by wavenumber
+            let sx = x * 0.005 * k;
+            let sy = y * 0.005 * k;
+            
+            // Temporal evolution (smaller eddies change faster)
+            let st = time * 0.005 * Math.pow(k, 0.5);
+            
+            // Layered sine/cosine waves to mimic rotational fluid flow
+            vx += Math.sin(sy + st) * Math.cos(sx * 0.5 - st) * amplitude;
+            vy += Math.cos(sx + st) * Math.sin(sy * 0.5 + st) * amplitude;
+        }
+
+        // Mouse interaction: push vectors away from the cursor
+        let dx = x - mouse.x;
+        let dy = y - mouse.y;
+        let distSq = dx * dx + dy * dy;
+        if (distSq < 15000) {
+            let repelForce = Math.exp(-distSq / 5000) * 2.0;
+            vx += (dx / Math.sqrt(distSq)) * repelForce;
+            vy += (dy / Math.sqrt(distSq)) * repelForce;
+        }
+
+        drawArrow(x, y, vx, vy);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
+</script>
 <section id="a-universe-of-turbulent-gravity" class="level4">
 <h4 class="anchored" data-anchor-id="a-universe-of-turbulent-gravity">A Universe of Turbulent Gravity</h4>
 <p>If we take Van Gogh’s vision literally and apply Kolmogorov’s turbulence to gravity, the universe changes drastically.</p>
 <p>Spacetime would no longer be a smooth slope curving toward a star. It would be a churning ocean of gravitational “eddies.”</p>
-<p>In such a system: 1. <strong>The force vector would not always point at the star.</strong> As a planet moves through gravitational eddies, it would experience sideways shoves and sudden drops in pull. 2. <strong>There are no stable lanes.</strong> The smooth mathematical certainty of Kepler’s laws evaporates.</p>
+<p>In such a system:</p>
+<ol type="1">
+<li><strong>The force vector would not always point at the star.</strong> As a planet moves through gravitational eddies, it would experience sideways shoves and sudden drops in pull.</li>
+<li><strong>There are no stable lanes.</strong> The smooth mathematical certainty of Kepler’s laws evaporates.</li>
+</ol>
+<p>To be perfectly accurate, there is no formal physical theory called “Kolmogorov Gravity.” What we are doing in this thought experiment is a mathematical synthesis: we are taking the established laws of <strong>Newtonian Gravity</strong> and perturbing them using a vector field defined by the <strong>Kolmogorov 1941 (K41) theory of fluid turbulence</strong>.</p>
+<p>It is a beautiful way to visualize how a chaotic energy cascade would warp the fabric of spacetime.</p>
+<hr>
+</section>
+</section>
+<section id="the-mathematics-of-turbulent-gravity" class="level3">
+<h3 class="anchored" data-anchor-id="the-mathematics-of-turbulent-gravity">The Mathematics of “Turbulent Gravity”</h3>
+<p>The foundation of Kolmogorov’s theory is the energy spectrum equation, which describes how kinetic energy is distributed across eddies of different sizes (wavenumbers, <span class="math inline">\(k\)</span>):</p>
+<p><span class="math display">\[E(k) = C \epsilon^{2/3} k^{-5/3}\]</span></p>
+<p>To apply this to a gravitational field, we need to convert that energy <span class="math inline">\(E(k)\)</span> into a force or acceleration perturbation amplitude, <span class="math inline">\(A(k)\)</span>. Because kinetic energy is proportional to velocity squared (<span class="math inline">\(E \propto v^2\)</span>), the amplitude of the vector perturbation at a specific wavenumber scales to the square root of the energy spectrum:</p>
+<p><span class="math display">\[A(k) \propto \sqrt{k^{-5/3}} = k^{-5/6}\]</span></p>
+<p>This <span class="math inline">\(k^{-5/6}\)</span> relationship is the mathematical heart of the widget.</p>
+<p>Finally, we define the total gravitational vector field, <span class="math inline">\(\vec{g}_{total}\)</span>, experienced by the planet at position <span class="math inline">\(\vec{r}\)</span> and time <span class="math inline">\(t\)</span>. It is the sum of the smooth Newtonian central force and the turbulent spatial perturbation <span class="math inline">\(\vec{T}\)</span>:</p>
+<p><span class="math display">\[\vec{g}_{total} = -\frac{GM}{|\vec{r}|^2} \hat{r} + \vec{T}(\vec{r}, t, k)\]</span></p>
+<p>To mimic the swirling nature of fluid dynamics in 2D space without running a heavy Navier-Stokes physics engine, <span class="math inline">\(\vec{T}\)</span> is modeled using out-of-phase trigonometric harmonics, scaled by the wavenumber <span class="math inline">\(k\)</span> and the amplitude <span class="math inline">\(A(k)\)</span>:</p>
+<p><span class="math display">\[\vec{T}(\vec{r}, t, k) = A(k) \begin{bmatrix} \sin(k r_x + \omega t) \cos(1.5 k r_y + \omega t) \\ \cos(k r_y + \omega t) \sin(1.5 k r_x - \omega t) \end{bmatrix}\]</span></p>
+<hr>
+</section>
+<section id="the-visual-result" class="level3">
+<h3 class="anchored" data-anchor-id="the-visual-result">The Visual Result</h3>
+<p>Because of the <span class="math inline">\(k^{-5/6}\)</span> amplitude rule, the slider behaves counter-intuitively—but mathematically perfectly:</p>
+<ul>
+<li><strong>Low Wavenumber (e.g., 0.5):</strong> The eddies are spatially massive, but because <span class="math inline">\(k\)</span> is small, the <em>amplitude</em> is very high. The planet gets caught in massive, powerful spatial tides that drastically warp its orbit.</li>
+<li><strong>High Wavenumber (e.g., 4.0):</strong> The space fractures into high-frequency, tiny micro-swirls. However, because <span class="math inline">\(k\)</span> is large, the amplitude drops significantly. The planet “jitters” through the field but maintains its overall circular trajectory much longer because the chaotic forces are much weaker.</li>
+</ul>
+<style>
+  .k-grav-wrapper {
+    font-family: system-ui, -apple-system, sans-serif;
+    width: 100%;
+    max-width: 650px;
+    margin: 30px auto;
+    background: #0a0a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    color: #e0e0e0;
+  }
+  .k-grav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #kGravCanvas {
+    background: radial-gradient(circle at 50% 50%, #111122 0%, #000000 100%);
+    border: 1px solid #444;
+    border-radius: 4px;
+    max-width: 100%;
+    height: auto;
+  }
+  .k-controls {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .k-slider-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .k-slider-group label {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .k-slider-group input {
+    width: 100%;
+    cursor: pointer;
+  }
+  .btn-k-reset {
+    padding: 8px 16px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .btn-k-reset:hover {
+    background-color: #0088ff;
+  }
+</style>
+
+<div class="k-grav-wrapper">
+  <div class="k-grav-container">
+    <canvas id="kGravCanvas" width="600" height="400"></canvas>
+    
+    <div class="k-controls">
+      <div class="k-slider-group">
+        <label>
+          <span>Wavenumber (k) - <i>Eddy Spatial Frequency</i></span>
+          <span id="k-val-display">1.0</span>
+        </label>
+        <input type="range" id="k-slider" min="0.5" max="4.0" step="0.1" value="1.0">
+      </div>
+      <button class="btn-k-reset" onclick="window.resetKSimulation &amp;&amp; window.resetKSimulation()">Reset Orbit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('kGravCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let star, planet, time;
+  let animId;
+  let k_val = 1.0;
+  
+  const slider = document.getElementById('k-slider');
+  const display = document.getElementById('k-val-display');
+  
+  slider.addEventListener('input', (e) => {
+      k_val = parseFloat(e.target.value);
+      display.innerText = k_val.toFixed(1);
+  });
+
+  function init() {
+      star = { x: 300, y: 200, mass: 1200 };
+      // Initial velocity set for a perfect circular orbit in standard gravity
+      planet = { x: 300, y: 80, vx: 3.16, vy: 0, radius: 6, color: '#ff3366', trail: [] };
+      time = 0;
+      if (animId) cancelAnimationFrame(animId);
+  }
+  
+  window.resetKSimulation = function() {
+      init();
+      animate();
+  };
+
+  init();
+
+  // Core physics engine with Kolmogorov injection
+  function getGravitationalField(x, y, t) {
+      let dx = star.x - x;
+      let dy = star.y - y;
+      let distSq = dx*dx + dy*dy;
+      distSq = Math.max(distSq, 150); // Prevent singularity explosion
+      let dist = Math.sqrt(distSq);
+      
+      // Standard Newtonian pull
+      let force = star.mass / distSq;
+      let ax = force * dx / dist;
+      let ay = force * dy / dist;
+
+      // Kolmogorov Turbulence Field
+      let sx = x * 0.015 * k_val;
+      let sy = y * 0.015 * k_val;
+      let st = t * 0.005 * Math.sqrt(k_val);
+      
+      // Amplitude drops as k increases (E ~ k^-5/3, Amp ~ k^-5/6)
+      let amplitude = Math.pow(k_val, -5/6) * 0.08; 
+      
+      let tx = Math.sin(sx + st) * Math.cos(sy * 1.5 + st) * amplitude;
+      let ty = Math.cos(sy + st) * Math.sin(sx * 1.5 - st) * amplitude;
+      
+      return { ax: ax + tx, ay: ay + ty, tx: tx, ty: ty };
+  }
+
+  function drawArrow(fromx, fromy, tox, toy, color) {
+      const headlen = 6;
+      let dx = tox - fromx;
+      let dy = toy - fromy;
+      const angle = Math.atan2(dy, dx);
+      ctx.beginPath();
+      ctx.moveTo(fromx, fromy);
+      ctx.lineTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.moveTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+  }
+
+  function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      time++;
+
+      // 1. Draw the Vector Field (Translucent Blue Arrows)
+      // We sample the field on a 30px grid
+      for(let ix = 15; ix < canvas.width; ix += 30) {
+          for(let iy = 15; iy < canvas.height; iy += 30) {
+              let field = getGravitationalField(ix, iy, time);
+              // Scale the arrow length for visualization
+              drawArrow(ix, iy, ix + field.ax * 250, iy + field.ay * 250, "rgba(0, 153, 255, 0.25)");
+          }
+      }
+
+      // 2. Draw Star
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 20, 0, Math.PI * 2);
+      let gradient = ctx.createRadialGradient(star.x, star.y, 5, star.x, star.y, 30);
+      gradient.addColorStop(0, '#fffbe6');
+      gradient.addColorStop(0.3, '#ffcc00');
+      gradient.addColorStop(1, 'rgba(255,200,0,0)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // 3. Update Planet Physics
+      let pField = getGravitationalField(planet.x, planet.y, time);
+      
+      planet.vx += pField.ax;
+      planet.vy += pField.ay;
+      planet.x += planet.vx;
+      planet.y += planet.vy;
+
+      // 4. Draw Planet Trail
+      planet.trail.push({x: planet.x, y: planet.y});
+      if(planet.trail.length > 80) planet.trail.shift();
+      
+      ctx.beginPath();
+      if(planet.trail.length > 0) {
+          ctx.moveTo(planet.trail[0].x, planet.trail[0].y);
+          for(let t of planet.trail) ctx.lineTo(t.x, t.y);
+      }
+      ctx.strokeStyle = planet.color + "88"; 
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 5. Draw Planet
+      ctx.beginPath();
+      ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
+      ctx.fillStyle = planet.color;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = planet.color;
+      ctx.fill();
+      ctx.shadowBlur = 0; // reset
+
+      animId = requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
 <p>In the final simulation below, we model this “Van Gogh Gravity.” We take the standard central pull of the star and add “turbulent noise” to it based on the planet’s position. The force vectors (the faint white arrows) no longer point straight to the center; they wiggle and twist chaotically.</p>
 <p>Watch what happens to the planetary orbits.</p>
-</section>
 <section id="a-gravitational-system-that-swirls" class="level4">
 <h4 class="anchored" data-anchor-id="a-gravitational-system-that-swirls">A gravitational system that swirls</h4>
 <style>
@@ -426,9 +815,9 @@ window.Quarto = {
   function init() {
       star = { x: 300, y: 200, mass: 2500 };
       planets = [
-          { x: 300, y: 140, vx: 5.5, vy: 0, radius: 5, color: '#ff6666', trail: [] },
-          { x: 300, y: 80, vx: 4.2, vy: 0, radius: 7, color: '#00ccff', trail: [] },
-          { x: 300, y: 40, vx: 3.5, vy: 0, radius: 9, color: '#66ff66', trail: [] }
+          { x: 300, y: 140, vx: 6.45, vy: 0, radius: 5, color: '#ff6666', trail: [] },
+          { x: 300, y: 80,  vx: 4.56, vy: 0, radius: 7, color: '#00ccff', trail: [] },
+          { x: 300, y: 40,  vx: 3.95, vy: 0, radius: 9, color: '#66ff66', trail: [] }
       ];
       time = 0;
       if (animId) cancelAnimationFrame(animId);
@@ -449,7 +838,8 @@ window.Quarto = {
       let noiseX = Math.sin(sx + st) * Math.cos(sy * 1.5 + st) + Math.sin(sx*2 + st)*0.5;
       let noiseY = Math.cos(sy + st) * Math.sin(sx * 1.5 - st) + Math.cos(sy*2 + st)*0.5;
       
-      let intensity = 1.2; 
+      // Scaled down intensity to match realistic gravity values
+      let intensity = 0.15; 
       return { x: noiseX * intensity, y: noiseY * intensity };
   }
 
@@ -485,9 +875,10 @@ window.Quarto = {
           let dx = star.x - p.x;
           let dy = star.y - p.y;
           let distSq = dx*dx + dy*dy;
-          distSq = Math.max(distSq, 400); 
+          distSq = Math.max(distSq, 100); 
           let dist = Math.sqrt(distSq);
-          let force = 350 * star.mass / distSq;
+          
+          let force = star.mass / distSq;
           let normalAx = force * dx / dist;
           let normalAy = force * dy / dist;
 
@@ -511,7 +902,8 @@ window.Quarto = {
           ctx.strokeStyle = p.color + "66"; 
           ctx.stroke();
 
-          drawArrow(p.x, p.y, p.x + totalAx*80, p.y + totalAy*80);
+          // Scale arrow up for visual clarity
+          drawArrow(p.x, p.y, p.x + totalAx*500, p.y + totalAy*500);
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -525,7 +917,9 @@ window.Quarto = {
 })();
 </script>
 <p>The result is beautiful chaos. The planets cannot maintain stable ellipses. They are buffeted by gravitational winds, their orbits becoming unpredictable squiggles until they are either flung into deep space or crash into the star.</p>
-<p>Van Gogh painted a universe alive with energy, capturing the true mathematical essence of turbulence. But we can be thankful that our own solar system operates on the smoother, more boring laws of Kepler. In a “Starry Night” universe, we wouldn’t be here to admire the painting.</p>
+<p>Van Gogh was not a physicist. And thanks the god for that. He was able to see and capture what few men have seen and experienced in human history. It is a coincidence that his art can be expressed as an exact form of turbulence.</p>
+<p>However turbulence is not a favorable phenemenon when creating forces of nature that render our universe heterogeneous.</p>
+<p>It is however for the more curios minds amongst us to wonder how our universe’s simulation is coded. And how far we are from recreating it?</p>
 
 
 </section>
