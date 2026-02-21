@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -227,6 +192,7 @@ window.Quarto = {
 </header>
 
 
+<p>An answer to a curiousity long fostered in a brain that can attempt to appreciate if not understand art.</p>
 <section id="modelling-gravity-in-a-world-that-van-gogh-saw" class="level2">
 <h2 class="anchored" data-anchor-id="modelling-gravity-in-a-world-that-van-gogh-saw">Modelling Gravity in a world that Van Gogh saw</h2>
 <p>When Vincent van Gogh painted <em>The Starry Night</em> in 1889, looking out from the window of the Saint-Paul-de-Mausole asylum, he wasn’t just recording celestial positions. He was capturing a feeling of overwhelming cosmic energy. The sky in his masterpiece doesn’t sit still; it churns, swirls, and flows like a torrential river of light.</p>
@@ -241,92 +207,82 @@ window.Quarto = {
 <p>In the interactive simulation below, we see a simple, orderly system. The blue arrow represents the gravitational force vector—the direction and intensity with which the star is pulling the planet. Notice how the arrow always points directly to the center, and gets longer (stronger pull) when the planet is closer.</p>
 <section id="a-simple-gravitational-system" class="level4">
 <h4 class="anchored" data-anchor-id="a-simple-gravitational-system">A simple gravitational system</h4>
-<div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html<span class="dt">&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">style</span><span class="dt">&gt;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.canvas-container</span> { <span class="kw">width</span><span class="ch">:</span> <span class="dv">100</span><span class="dt">%</span><span class="op">;</span> <span class="kw">text-align</span><span class="ch">:</span> <span class="dv">center</span><span class="op">;</span> <span class="kw">margin</span><span class="ch">:</span> <span class="dv">20</span><span class="dt">px</span> <span class="dv">0</span><span class="op">;</span> }</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  canvas { <span class="kw">background</span><span class="ch">:</span> <span class="cn">#1a1a2e</span><span class="op">;</span> <span class="kw">border</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#333</span><span class="op">;</span> <span class="kw">box-shadow</span><span class="ch">:</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">10</span><span class="dt">px</span> <span class="cn">#000</span><span class="op">;</span> }</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"canvas-container"</span><span class="dt">&gt;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">canvas</span><span class="ot"> id</span><span class="op">=</span><span class="st">"canvas1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"600"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"400"</span><span class="dt">&gt;&lt;/</span><span class="kw">canvas</span><span class="dt">&gt;</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;&lt;</span><span class="kw">i</span><span class="dt">&gt;</span>Standard Gravity: The force vector (blue arrow) always points smoothly toward the star.<span class="dt">&lt;/</span><span class="kw">i</span><span class="dt">&gt;&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>() {</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'canvas1'</span>)<span class="op">;</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">'2d'</span>)<span class="op">;</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> star <span class="op">=</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">mass</span><span class="op">:</span> <span class="dv">2000</span> }<span class="op">;</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> planet <span class="op">=</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">3.5</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">8</span> }<span class="op">;</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">drawArrow</span>(fromx<span class="op">,</span> fromy<span class="op">,</span> tox<span class="op">,</span> toy) {</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> headlen <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> dx <span class="op">=</span> tox <span class="op">-</span> fromx<span class="op">;</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> dy <span class="op">=</span> toy <span class="op">-</span> fromy<span class="op">;</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> angle <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">atan2</span>(dy<span class="op">,</span> dx)<span class="op">;</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">moveTo</span>(fromx<span class="op">,</span> fromy)<span class="op">;</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox<span class="op">,</span> toy)<span class="op">;</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(angle <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>)<span class="op">,</span> toy <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(angle <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>))<span class="op">;</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">moveTo</span>(tox<span class="op">,</span> toy)<span class="op">;</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>)<span class="op">,</span> toy <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>))<span class="op">;</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#0099ff"</span><span class="op">;</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">animate</span>() {</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">clearRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> canvas<span class="op">.</span><span class="at">width</span><span class="op">,</span> canvas<span class="op">.</span><span class="at">height</span>)<span class="op">;</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Draw Star</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">arc</span>(star<span class="op">.</span><span class="at">x</span><span class="op">,</span> star<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">'#ffcc00'</span><span class="op">;</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">shadowBlur</span> <span class="op">=</span> <span class="dv">20</span><span class="op">;</span> ctx<span class="op">.</span><span class="at">shadowColor</span> <span class="op">=</span> <span class="st">"#ffcc00"</span><span class="op">;</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Physics</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> dx <span class="op">=</span> star<span class="op">.</span><span class="at">x</span> <span class="op">-</span> planet<span class="op">.</span><span class="at">x</span><span class="op">;</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> dy <span class="op">=</span> star<span class="op">.</span><span class="at">y</span> <span class="op">-</span> planet<span class="op">.</span><span class="at">y</span><span class="op">;</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> distSq <span class="op">=</span> dx<span class="op">*</span>dx <span class="op">+</span> dy<span class="op">*</span>dy<span class="op">;</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> dist <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(distSq)<span class="op">;</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> force <span class="op">=</span> <span class="dv">500</span> <span class="op">*</span> star<span class="op">.</span><span class="at">mass</span> <span class="op">/</span> distSq<span class="op">;</span> <span class="co">// Simplified G</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> ax <span class="op">=</span> force <span class="op">*</span> dx <span class="op">/</span> dist<span class="op">;</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> ay <span class="op">=</span> force <span class="op">*</span> dy <span class="op">/</span> dist<span class="op">;</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>      planet<span class="op">.</span><span class="at">vx</span> <span class="op">+=</span> ax<span class="op">;</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>      planet<span class="op">.</span><span class="at">vy</span> <span class="op">+=</span> ay<span class="op">;</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>      planet<span class="op">.</span><span class="at">x</span> <span class="op">+=</span> planet<span class="op">.</span><span class="at">vx</span><span class="op">;</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>      planet<span class="op">.</span><span class="at">y</span> <span class="op">+=</span> planet<span class="op">.</span><span class="at">vy</span><span class="op">;</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Draw Force Vector</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">shadowBlur</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Scale arrow length for visibility, not exact physics scale</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>      <span class="fu">drawArrow</span>(planet<span class="op">.</span><span class="at">x</span><span class="op">,</span> planet<span class="op">.</span><span class="at">y</span><span class="op">,</span> planet<span class="op">.</span><span class="at">x</span> <span class="op">+</span> ax<span class="op">*</span><span class="dv">100</span><span class="op">,</span> planet<span class="op">.</span><span class="at">y</span> <span class="op">+</span> ay<span class="op">*</span><span class="dv">100</span>)<span class="op">;</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Draw Planet</span></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">arc</span>(planet<span class="op">.</span><span class="at">x</span><span class="op">,</span> planet<span class="op">.</span><span class="at">y</span><span class="op">,</span> planet<span class="op">.</span><span class="at">radius</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">'#00ccff'</span><span class="op">;</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>      <span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">animate</span>()<span class="op">;</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>})()<span class="op">;</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+  .canvas-container { width: 100%; text-align: center; margin: 20px 0; }
+  #canvas1 { background: #1a1a2e; border: 1px solid #333; box-shadow: 0 0 10px #000; max-width: 100%; height: auto; }
+</style>
+<div class="canvas-container">
+  <canvas id="canvas1" width="600" height="400"></canvas>
+  <p><i>Standard Gravity: The force vector (blue arrow) always points smoothly toward the star.</i></p>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('canvas1');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let star = { x: 300, y: 200, mass: 2000 };
+  let planet = { x: 300, y: 100, vx: 3.5, vy: 0, radius: 8 };
+
+  function drawArrow(fromx, fromy, tox, toy) {
+      const headlen = 10;
+      const dx = tox - fromx;
+      const dy = toy - fromy;
+      const angle = Math.atan2(dy, dx);
+      ctx.beginPath();
+      ctx.moveTo(fromx, fromy);
+      ctx.lineTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.moveTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.strokeStyle = "#0099ff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+  }
+
+  function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 20, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffcc00';
+      ctx.fill();
+      ctx.shadowBlur = 20; ctx.shadowColor = "#ffcc00";
+
+      let dx = star.x - planet.x;
+      let dy = star.y - planet.y;
+      let distSq = dx*dx + dy*dy;
+      let dist = Math.sqrt(distSq);
+      let force = 500 * star.mass / distSq; 
+      let ax = force * dx / dist;
+      let ay = force * dy / dist;
+
+      planet.vx += ax;
+      planet.vy += ay;
+      planet.x += planet.vx;
+      planet.y += planet.vy;
+
+      ctx.shadowBlur = 0;
+      drawArrow(planet.x, planet.y, planet.x + ax*100, planet.y + ay*100);
+
+      ctx.beginPath();
+      ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
+      ctx.fillStyle = '#00ccff';
+      ctx.fill();
+
+      requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
 <hr>
 </section>
 </section>
 <section id="kepplers-laws-of-motion" class="level3">
 <h3 class="anchored" data-anchor-id="kepplers-laws-of-motion">Keppler’s Laws of Motion</h3>
 <p>Because gravity is smooth and central, planetary motion follows incredibly precise rules discovered by Johannes Kepler in the early 17th century. These laws are the bedrock of orbital mechanics.</p>
+<p>[Image of Kepler’s laws of planetary motion diagram]</p>
 <ol type="1">
 <li><strong>The Law of Ellipses:</strong> All planets move in elliptical orbits, with the sun at one focus.</li>
 <li><strong>The Law of Equal Areas:</strong> A line that connects a planet to the sun sweeps out equal areas in equal times. (This means planets speed up when closer to the star and slow down when further away).</li>
@@ -338,90 +294,80 @@ window.Quarto = {
 <p>Because of these laws, we can have complex, stable systems with multiple planets. They don’t collide because the smooth gravitational field keeps them in their predictable “lanes.”</p>
 <section id="a-multi-planet-gravitational-system" class="level4">
 <h4 class="anchored" data-anchor-id="a-multi-planet-gravitational-system">A multi-planet gravitational system</h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html<span class="dt">&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">style</span><span class="dt">&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.canvas-container</span> { <span class="kw">width</span><span class="ch">:</span> <span class="dv">100</span><span class="dt">%</span><span class="op">;</span> <span class="kw">text-align</span><span class="ch">:</span> <span class="dv">center</span><span class="op">;</span> <span class="kw">margin</span><span class="ch">:</span> <span class="dv">20</span><span class="dt">px</span> <span class="dv">0</span><span class="op">;</span> }</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  canvas { <span class="kw">background</span><span class="ch">:</span> <span class="cn">#1a1a2e</span><span class="op">;</span> <span class="kw">border</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#333</span><span class="op">;</span> }</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"canvas-container"</span><span class="dt">&gt;</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">canvas</span><span class="ot"> id</span><span class="op">=</span><span class="st">"canvas2"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"600"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"400"</span><span class="dt">&gt;&lt;/</span><span class="kw">canvas</span><span class="dt">&gt;</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;&lt;</span><span class="kw">i</span><span class="dt">&gt;</span>A stable Keplerian system. Multiple planets maintain distinct orbits because the central force is uniform.<span class="dt">&lt;/</span><span class="kw">i</span><span class="dt">&gt;&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>() {</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'canvas2'</span>)<span class="op">;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">'2d'</span>)<span class="op">;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> star <span class="op">=</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">mass</span><span class="op">:</span> <span class="dv">2500</span> }<span class="op">;</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> planets <span class="op">=</span> [</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">140</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">5.5</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">color</span><span class="op">:</span> <span class="st">'#ff6666'</span> }<span class="op">,</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">80</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">4.2</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span> <span class="dt">color</span><span class="op">:</span> <span class="st">'#00ccff'</span> }<span class="op">,</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">3.5</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">9</span><span class="op">,</span> <span class="dt">color</span><span class="op">:</span> <span class="st">'#66ff66'</span> }</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">;</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">drawArrow</span>(fromx<span class="op">,</span> fromy<span class="op">,</span> tox<span class="op">,</span> toy) {</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> headlen <span class="op">=</span> <span class="dv">8</span><span class="op">;</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> dx <span class="op">=</span> tox <span class="op">-</span> fromx<span class="op">;</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> dy <span class="op">=</span> toy <span class="op">-</span> fromy<span class="op">;</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> angle <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">atan2</span>(dy<span class="op">,</span> dx)<span class="op">;</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">moveTo</span>(fromx<span class="op">,</span> fromy)<span class="op">;</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox<span class="op">,</span> toy)<span class="op">;</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(angle <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>)<span class="op">,</span> toy <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(angle <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>))<span class="op">;</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">moveTo</span>(tox<span class="op">,</span> toy)<span class="op">;</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>)<span class="op">,</span> toy <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>))<span class="op">;</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"rgba(255,255,255,0.4)"</span><span class="op">;</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">animate</span>() {</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">clearRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> canvas<span class="op">.</span><span class="at">width</span><span class="op">,</span> canvas<span class="op">.</span><span class="at">height</span>)<span class="op">;</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Draw Star</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">arc</span>(star<span class="op">.</span><span class="at">x</span><span class="op">,</span> star<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">'#ffcc00'</span><span class="op">;</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">shadowBlur</span> <span class="op">=</span> <span class="dv">25</span><span class="op">;</span> ctx<span class="op">.</span><span class="at">shadowColor</span> <span class="op">=</span> <span class="st">"#ffcc00"</span><span class="op">;</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">shadowBlur</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>      planets<span class="op">.</span><span class="fu">forEach</span>(p <span class="kw">=&gt;</span> {</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> dx <span class="op">=</span> star<span class="op">.</span><span class="at">x</span> <span class="op">-</span> p<span class="op">.</span><span class="at">x</span><span class="op">;</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> dy <span class="op">=</span> star<span class="op">.</span><span class="at">y</span> <span class="op">-</span> p<span class="op">.</span><span class="at">y</span><span class="op">;</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> distSq <span class="op">=</span> dx<span class="op">*</span>dx <span class="op">+</span> dy<span class="op">*</span>dy<span class="op">;</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> dist <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(distSq)<span class="op">;</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> force <span class="op">=</span> <span class="dv">400</span> <span class="op">*</span> star<span class="op">.</span><span class="at">mass</span> <span class="op">/</span> distSq<span class="op">;</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> ax <span class="op">=</span> force <span class="op">*</span> dx <span class="op">/</span> dist<span class="op">;</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> ay <span class="op">=</span> force <span class="op">*</span> dy <span class="op">/</span> dist<span class="op">;</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">vx</span> <span class="op">+=</span> ax<span class="op">;</span></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">vy</span> <span class="op">+=</span> ay<span class="op">;</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">x</span> <span class="op">+=</span> p<span class="op">.</span><span class="at">vx</span><span class="op">;</span></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">y</span> <span class="op">+=</span> p<span class="op">.</span><span class="at">vy</span><span class="op">;</span></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>           <span class="co">// Draw Force Vector (scaled for visibility)</span></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>          <span class="fu">drawArrow</span>(p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span><span class="op">,</span> p<span class="op">.</span><span class="at">x</span> <span class="op">+</span> ax<span class="op">*</span><span class="dv">80</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span> <span class="op">+</span> ay<span class="op">*</span><span class="dv">80</span>)<span class="op">;</span></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Draw Planet</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">arc</span>(p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span><span class="op">,</span> p<span class="op">.</span><span class="at">radius</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> p<span class="op">.</span><span class="at">color</span><span class="op">;</span></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>      <span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">animate</span>()<span class="op">;</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>})()<span class="op">;</span></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+  #canvas2 { background: #1a1a2e; border: 1px solid #333; max-width: 100%; height: auto; }
+</style>
+<div class="canvas-container">
+  <canvas id="canvas2" width="600" height="400"></canvas>
+  <p><i>A stable Keplerian system. Multiple planets maintain distinct orbits because the central force is uniform.</i></p>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('canvas2');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let star = { x: 300, y: 200, mass: 2500 };
+  let planets = [
+      { x: 300, y: 140, vx: 5.5, vy: 0, radius: 5, color: '#ff6666' },
+      { x: 300, y: 80, vx: 4.2, vy: 0, radius: 7, color: '#00ccff' },
+      { x: 300, y: 40, vx: 3.5, vy: 0, radius: 9, color: '#66ff66' }
+  ];
+
+  function drawArrow(fromx, fromy, tox, toy) {
+      const headlen = 8;
+      const dx = tox - fromx;
+      const dy = toy - fromy;
+      const angle = Math.atan2(dy, dx);
+      ctx.beginPath();
+      ctx.moveTo(fromx, fromy);
+      ctx.lineTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.moveTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.strokeStyle = "rgba(255,255,255,0.4)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+  }
+
+  function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 25, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffcc00';
+      ctx.fill();
+      ctx.shadowBlur = 25; ctx.shadowColor = "#ffcc00";
+
+      ctx.shadowBlur = 0;
+      planets.forEach(p => {
+          let dx = star.x - p.x;
+          let dy = star.y - p.y;
+          let distSq = dx*dx + dy*dy;
+          let dist = Math.sqrt(distSq);
+          let force = 400 * star.mass / distSq;
+          let ax = force * dx / dist;
+          let ay = force * dy / dist;
+
+          p.vx += ax;
+          p.vy += ay;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          drawArrow(p.x, p.y, p.x + ax*80, p.y + ay*80);
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
 <hr>
 </section>
 </section>
@@ -442,144 +388,142 @@ window.Quarto = {
 </section>
 <section id="a-gravitational-system-that-swirls" class="level4">
 <h4 class="anchored" data-anchor-id="a-gravitational-system-that-swirls">A gravitational system that swirls</h4>
-<div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html<span class="dt">&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">style</span><span class="dt">&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.canvas-container</span> { <span class="kw">width</span><span class="ch">:</span> <span class="dv">100</span><span class="dt">%</span><span class="op">;</span> <span class="kw">text-align</span><span class="ch">:</span> <span class="dv">center</span><span class="op">;</span> <span class="kw">margin</span><span class="ch">:</span> <span class="dv">20</span><span class="dt">px</span> <span class="dv">0</span><span class="op">;</span> }</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  canvas { <span class="kw">background</span><span class="ch">:</span> <span class="cn">#0a0a1a</span><span class="op">;</span> <span class="kw">border</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#555</span><span class="op">;</span> }</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Adding a Van Gogh style background texture via CSS gradient */</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="pp">#canvas3</span> {</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">background</span><span class="ch">:</span> <span class="fu">radial-gradient(</span><span class="dv">circle</span> <span class="dv">at 50</span><span class="dt">%</span> <span class="dv">50</span><span class="dt">%</span><span class="op">,</span> <span class="cn">#1a237e</span> <span class="dv">0</span><span class="dt">%</span><span class="op">,</span> <span class="cn">#000000</span> <span class="dv">80</span><span class="dt">%</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"canvas-container"</span><span class="dt">&gt;</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">canvas</span><span class="ot"> id</span><span class="op">=</span><span class="st">"canvas3"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"600"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"400"</span><span class="dt">&gt;&lt;/</span><span class="kw">canvas</span><span class="dt">&gt;</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;&lt;</span><span class="kw">i</span><span class="dt">&gt;</span>Turbulent Gravity: Gravitational "eddies" perturb the force vectors. Keplerian orbits are impossible; planets are eventually ejected or consumed.<span class="dt">&lt;/</span><span class="kw">i</span><span class="dt">&gt;&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> onclick</span><span class="op">=</span><span class="st">"resetSimulation()"</span><span class="dt">&gt;</span>Reset Simulation<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> resetSimulation<span class="op">;</span> <span class="co">// expose for button</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>() {</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'canvas3'</span>)<span class="op">;</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">'2d'</span>)<span class="op">;</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> star<span class="op">,</span> planets<span class="op">,</span> time<span class="op">;</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">init</span>() {</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>      star <span class="op">=</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">mass</span><span class="op">:</span> <span class="dv">2500</span> }<span class="op">;</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>      planets <span class="op">=</span> [</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>          { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">140</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">5.5</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">color</span><span class="op">:</span> <span class="st">'#ff6666'</span><span class="op">,</span> <span class="dt">trail</span><span class="op">:</span> [] }<span class="op">,</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>          { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">80</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">4.2</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span> <span class="dt">color</span><span class="op">:</span> <span class="st">'#00ccff'</span><span class="op">,</span> <span class="dt">trail</span><span class="op">:</span> [] }<span class="op">,</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>          { <span class="dt">x</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">vx</span><span class="op">:</span> <span class="fl">3.5</span><span class="op">,</span> <span class="dt">vy</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">radius</span><span class="op">:</span> <span class="dv">9</span><span class="op">,</span> <span class="dt">color</span><span class="op">:</span> <span class="st">'#66ff66'</span><span class="op">,</span> <span class="dt">trail</span><span class="op">:</span> [] }</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">;</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      time <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">init</span>()<span class="op">;</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  resetSimulation <span class="op">=</span> init<span class="op">;</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">// A pseudo-turbulence function based on position and time</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">getTurbulence</span>(x<span class="op">,</span> y<span class="op">,</span> t) {</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Scale inputs down to create broader "eddies"</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> sx <span class="op">=</span> x <span class="op">*</span> <span class="fl">0.01</span><span class="op">;</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> sy <span class="op">=</span> y <span class="op">*</span> <span class="fl">0.01</span><span class="op">;</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> st <span class="op">=</span> t <span class="op">*</span> <span class="fl">0.005</span><span class="op">;</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Layering sine waves to create chaotic field perturbations</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>      <span class="co">// This mimics the "swirling" aspect of Kolmogorov cascades without full fluid simulation</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> noiseX <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(sx <span class="op">+</span> st) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(sy <span class="op">*</span> <span class="fl">1.5</span> <span class="op">+</span> st) <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(sx<span class="op">*</span><span class="dv">2</span> <span class="op">+</span> st)<span class="op">*</span><span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> noiseY <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(sy <span class="op">+</span> st) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(sx <span class="op">*</span> <span class="fl">1.5</span> <span class="op">-</span> st) <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(sy<span class="op">*</span><span class="dv">2</span> <span class="op">+</span> st)<span class="op">*</span><span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Turbulence intensity multiplier</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> intensity <span class="op">=</span> <span class="fl">1.2</span><span class="op">;</span> </span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> { <span class="dt">x</span><span class="op">:</span> noiseX <span class="op">*</span> intensity<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> noiseY <span class="op">*</span> intensity }<span class="op">;</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">drawArrow</span>(fromx<span class="op">,</span> fromy<span class="op">,</span> tox<span class="op">,</span> toy) {</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> headlen <span class="op">=</span> <span class="dv">8</span><span class="op">;</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> dx <span class="op">=</span> tox <span class="op">-</span> fromx<span class="op">;</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> dy <span class="op">=</span> toy <span class="op">-</span> fromy<span class="op">;</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> angle <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">atan2</span>(dy<span class="op">,</span> dx)<span class="op">;</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">moveTo</span>(fromx<span class="op">,</span> fromy)<span class="op">;</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox<span class="op">,</span> toy)<span class="op">;</span></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(angle <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>)<span class="op">,</span> toy <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(angle <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>))<span class="op">;</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">moveTo</span>(tox<span class="op">,</span> toy)<span class="op">;</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">lineTo</span>(tox <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>)<span class="op">,</span> toy <span class="op">-</span> headlen <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="dv">6</span>))<span class="op">;</span></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"rgba(255,255,255,0.3)"</span><span class="op">;</span> <span class="co">// Fainter arrows for chaos</span></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">animate</span>() {</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">clearRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> canvas<span class="op">.</span><span class="at">width</span><span class="op">,</span> canvas<span class="op">.</span><span class="at">height</span>)<span class="op">;</span></span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>      time<span class="op">++;</span></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Draw Star</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">arc</span>(star<span class="op">.</span><span class="at">x</span><span class="op">,</span> star<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Van Gogh style star halo</span></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> gradient <span class="op">=</span> ctx<span class="op">.</span><span class="fu">createRadialGradient</span>(star<span class="op">.</span><span class="at">x</span><span class="op">,</span> star<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> star<span class="op">.</span><span class="at">x</span><span class="op">,</span> star<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>      gradient<span class="op">.</span><span class="fu">addColorStop</span>(<span class="dv">0</span><span class="op">,</span> <span class="st">'#ffff00'</span>)<span class="op">;</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>      gradient<span class="op">.</span><span class="fu">addColorStop</span>(<span class="dv">1</span><span class="op">,</span> <span class="st">'rgba(255,200,0,0)'</span>)<span class="op">;</span></span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> gradient<span class="op">;</span></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>      planets<span class="op">.</span><span class="fu">forEach</span>((p<span class="op">,</span> index) <span class="kw">=&gt;</span> {</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Standard Gravity pull</span></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> dx <span class="op">=</span> star<span class="op">.</span><span class="at">x</span> <span class="op">-</span> p<span class="op">.</span><span class="at">x</span><span class="op">;</span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> dy <span class="op">=</span> star<span class="op">.</span><span class="at">y</span> <span class="op">-</span> p<span class="op">.</span><span class="at">y</span><span class="op">;</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> distSq <span class="op">=</span> dx<span class="op">*</span>dx <span class="op">+</span> dy<span class="op">*</span>dy<span class="op">;</span></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>          <span class="co">// clamp distance to prevent massive ejection on collision</span></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>          distSq <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(distSq<span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span> </span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> dist <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(distSq)<span class="op">;</span></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> force <span class="op">=</span> <span class="dv">350</span> <span class="op">*</span> star<span class="op">.</span><span class="at">mass</span> <span class="op">/</span> distSq<span class="op">;</span></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> normalAx <span class="op">=</span> force <span class="op">*</span> dx <span class="op">/</span> dist<span class="op">;</span></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> normalAy <span class="op">=</span> force <span class="op">*</span> dy <span class="op">/</span> dist<span class="op">;</span></span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Calculate Turbulent Perturbation</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> turb <span class="op">=</span> <span class="fu">getTurbulence</span>(p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span><span class="op">,</span> time)<span class="op">;</span></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Apply both forces</span></span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> totalAx <span class="op">=</span> normalAx <span class="op">+</span> turb<span class="op">.</span><span class="at">x</span><span class="op">;</span></span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>          <span class="kw">let</span> totalAy <span class="op">=</span> normalAy <span class="op">+</span> turb<span class="op">.</span><span class="at">y</span><span class="op">;</span></span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">vx</span> <span class="op">+=</span> totalAx<span class="op">;</span></span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">vy</span> <span class="op">+=</span> totalAy<span class="op">;</span></span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">x</span> <span class="op">+=</span> p<span class="op">.</span><span class="at">vx</span><span class="op">;</span></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">y</span> <span class="op">+=</span> p<span class="op">.</span><span class="at">vy</span><span class="op">;</span></span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Draw Trails to visualize the chaos</span></span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>          p<span class="op">.</span><span class="at">trail</span><span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> p<span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> p<span class="op">.</span><span class="at">y</span>})<span class="op">;</span></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span>(p<span class="op">.</span><span class="at">trail</span><span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">50</span>) p<span class="op">.</span><span class="at">trail</span><span class="op">.</span><span class="fu">shift</span>()<span class="op">;</span></span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">moveTo</span>(p<span class="op">.</span><span class="at">trail</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">trail</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span>(<span class="kw">let</span> t <span class="kw">of</span> p<span class="op">.</span><span class="at">trail</span>) ctx<span class="op">.</span><span class="fu">lineTo</span>(t<span class="op">.</span><span class="at">x</span><span class="op">,</span> t<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> p<span class="op">.</span><span class="at">color</span> <span class="op">+</span> <span class="st">"66"</span><span class="op">;</span> <span class="co">// transparent trail</span></span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>           <span class="co">// Draw Force Vector (showing the chaotic deviation)</span></span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>          <span class="fu">drawArrow</span>(p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span><span class="op">,</span> p<span class="op">.</span><span class="at">x</span> <span class="op">+</span> totalAx<span class="op">*</span><span class="dv">80</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span> <span class="op">+</span> totalAy<span class="op">*</span><span class="dv">80</span>)<span class="op">;</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Draw Planet</span></span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">arc</span>(p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span><span class="op">,</span> p<span class="op">.</span><span class="at">radius</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> p<span class="op">.</span><span class="at">color</span><span class="op">;</span></span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>          ctx<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>      <span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">animate</span>()<span class="op">;</span></span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>})()<span class="op">;</span></span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+  #canvas3 {
+      background: radial-gradient(circle at 50% 50%, #1a237e 0%, #000000 80%);
+      border: 1px solid #555;
+      max-width: 100%;
+      height: auto;
+  }
+  .btn-reset {
+      padding: 8px 16px;
+      background-color: #1a237e;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+  }
+  .btn-reset:hover {
+      background-color: #283593;
+  }
+</style>
+<div class="canvas-container">
+  <canvas id="canvas3" width="600" height="400"></canvas>
+  <p><i>Turbulent Gravity: Gravitational "eddies" perturb the force vectors. Keplerian orbits are impossible; planets are eventually ejected or consumed.</i></p>
+  <button class="btn-reset" onclick="window.resetSimulation3 &amp;&amp; window.resetSimulation3()">Reset Simulation</button>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('canvas3');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let star, planets, time;
+  let animId;
+
+  function init() {
+      star = { x: 300, y: 200, mass: 2500 };
+      planets = [
+          { x: 300, y: 140, vx: 5.5, vy: 0, radius: 5, color: '#ff6666', trail: [] },
+          { x: 300, y: 80, vx: 4.2, vy: 0, radius: 7, color: '#00ccff', trail: [] },
+          { x: 300, y: 40, vx: 3.5, vy: 0, radius: 9, color: '#66ff66', trail: [] }
+      ];
+      time = 0;
+      if (animId) cancelAnimationFrame(animId);
+  }
+  
+  window.resetSimulation3 = function() {
+      init();
+      animate();
+  };
+
+  init();
+
+  function getTurbulence(x, y, t) {
+      let sx = x * 0.01;
+      let sy = y * 0.01;
+      let st = t * 0.005;
+      
+      let noiseX = Math.sin(sx + st) * Math.cos(sy * 1.5 + st) + Math.sin(sx*2 + st)*0.5;
+      let noiseY = Math.cos(sy + st) * Math.sin(sx * 1.5 - st) + Math.cos(sy*2 + st)*0.5;
+      
+      let intensity = 1.2; 
+      return { x: noiseX * intensity, y: noiseY * intensity };
+  }
+
+  function drawArrow(fromx, fromy, tox, toy) {
+      const headlen = 8;
+      let dx = tox - fromx;
+      let dy = toy - fromy;
+      const angle = Math.atan2(dy, dx);
+      ctx.beginPath();
+      ctx.moveTo(fromx, fromy);
+      ctx.lineTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.moveTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.strokeStyle = "rgba(255,255,255,0.3)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+  }
+
+  function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      time++;
+
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 25, 0, Math.PI * 2);
+      let gradient = ctx.createRadialGradient(star.x, star.y, 10, star.x, star.y, 40);
+      gradient.addColorStop(0, '#ffff00');
+      gradient.addColorStop(1, 'rgba(255,200,0,0)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      planets.forEach((p, index) => {
+          let dx = star.x - p.x;
+          let dy = star.y - p.y;
+          let distSq = dx*dx + dy*dy;
+          distSq = Math.max(distSq, 400); 
+          let dist = Math.sqrt(distSq);
+          let force = 350 * star.mass / distSq;
+          let normalAx = force * dx / dist;
+          let normalAy = force * dy / dist;
+
+          let turb = getTurbulence(p.x, p.y, time);
+          
+          let totalAx = normalAx + turb.x;
+          let totalAy = normalAy + turb.y;
+
+          p.vx += totalAx;
+          p.vy += totalAy;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          p.trail.push({x: p.x, y: p.y});
+          if(p.trail.length > 50) p.trail.shift();
+          ctx.beginPath();
+          if(p.trail.length > 0) {
+              ctx.moveTo(p.trail[0].x, p.trail[0].y);
+              for(let t of p.trail) ctx.lineTo(t.x, t.y);
+          }
+          ctx.strokeStyle = p.color + "66"; 
+          ctx.stroke();
+
+          drawArrow(p.x, p.y, p.x + totalAx*80, p.y + totalAy*80);
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+      });
+
+      animId = requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
 <p>The result is beautiful chaos. The planets cannot maintain stable ellipses. They are buffeted by gravitational winds, their orbits becoming unpredictable squiggles until they are either flung into deep space or crash into the star.</p>
 <p>Van Gogh painted a universe alive with energy, capturing the true mathematical essence of turbulence. But we can be thankful that our own solar system operates on the smoother, more boring laws of Kepler. In a “Starry Night” universe, we wouldn’t be here to admire the painting.</p>
 
