@@ -5,6 +5,7 @@ date: "2025-12-12"
 format:
   html:
     page-layout: article
+image: /assets/images/grey-wolf.gif
 ---
 
 This is an interactive simulation of the Grey Wolf Optimizer (GWO) algorithm attempting to solve the **Rastrigin Function**. The global optimum is at the center `(0,0)`.
