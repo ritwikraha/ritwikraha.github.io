@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ritwik Raha">
+<meta name="dcterms.date" content="2026-02-22">
+
+<title>Can LLMs Survive in the Wild? – Ritwik Raha</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a14e3238c51140e99ccc48519b6ed9ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Ritwik Raha</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ritwikraha"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ritwik_raha"> <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.youtube.com/@ritwikraha"> <i class="bi bi-youtube" role="img" aria-label="YouTube">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Can LLMs Survive in the Wild?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ritwik Raha </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 22, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>What happens when you drop a language model into a hostile procedurally generated world and ask it to <em>not die</em>? Turns out, survival is a remarkably good test of intelligence.</p>
+<hr>
+<section id="the-problem-with-benchmarks" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem-with-benchmarks">The Problem with Benchmarks</h2>
+<p>We keep testing LLMs the way we test students: multiple choice questions, coding puzzles, and math problems, and whatever the hot fudge humanity’s last exam is. But intelligence as it has evolved in the real world is not about answering questions, it is about staying alive.</p>
+<p>Indeed the real test of any intellegence is just finding a way to stay alive.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/life_way.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>As a wise man once said.</figcaption>
+</figure>
+</div>
+<p>An organism in the wild must continuously perceive threats, manage scarce resources, plan escape routes, and pursue long-term goals—all at the same time. There is no “correct answer” to look up. There is only the next decision, and if you get it wrong, you are dead.</p>
+<p>That is the core idea behind <strong>Earth-33</strong>: a 2D survival simulation where agents: LLMs, hand-crafted heuristics, and bio-inspired swarm algorithms, are dropped into procedurally generated worlds and evaluated on a single, unforgiving metric: <em>how long can you stay alive?</em></p>
+<hr>
+</section>
+<section id="what-is-earth-33" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-earth-33">What Is Earth-33?</h2>
+<p>Earth-33 is a simulation framework built in Python that models realistic survival pressure across multiple interconnected systems:</p>
+<ul>
+<li><strong>Procedural terrain</strong> with 7 biome types (plains, forest, desert, tundra, mountain, water, swamp)</li>
+<li><strong>Dynamic climate</strong> with seasonal and diurnal temperature cycles, elevation-based lapse rates</li>
+<li><strong>Organism physiology</strong> tracking hydration, energy, core temperature, fatigue, injury, and infection</li>
+<li><strong>Hunter NPCs</strong> that patrol the map with hidden detection radii, chase on sight, and kill on contact</li>
+<li><strong>A hidden trophy</strong> that the agent must find using graduated proximity hints (warmer/colder, directional cues)</li>
+<li><strong>Fog of war</strong> that limits the agent’s perception to a small radius around its position</li>
+</ul>
+<p>The agent receives a JSON observation each turn—vitals, nearby terrain, visible hunters, trophy hints—and must respond with one of 10 actions: move in four cardinal directions, rest, drink, forage, build shelter, hide, or signal.</p>
+<p>Every decision has a physiological cost. Moving drains energy and hydration. Resting recovers fatigue but burns calories. Staying in the desert without water is a death sentence. Wandering into a hunter’s detection radius triggers a chase you probably will not survive.</p>
+<p>The simulation runs at 1 simulated hour per step, for up to 800 steps on the hardest scenario. That is roughly 33 days of in-game survival time. No agent has survived all 800 steps yet.</p>
+<hr>
+</section>
+<section id="why-use-this-to-test-llms" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-this-to-test-llms">Why Use This to Test LLMs?</h2>
+<p>Traditional LLM benchmarks measure mostly either <em>knowledge retrieval</em> or <em>pattern matching</em> or both. Earth-33 measures something fundamentally different:</p>
+<ol type="1">
+<li><p><strong>Multi-objective reasoning</strong>: The agent must balance six physiological needs simultaneously while avoiding hunters and pursuing the trophy. There is no single “right” answer,it must balance trade-offs.</p></li>
+<li><p><strong>Temporal planning</strong>: Drinking water now means you cannot forage. Resting recovers fatigue but wastes precious daylight. The agent must reason about consequences several steps ahead. This is a toned down version of how survival works.</p></li>
+<li><p><strong>Adversarial adaptation</strong>: Hunter NPCs have <em>hidden</em> detection radii. The LLM must infer these radii from partial observations, seeing a hunter that is not chasing implies the radius is smaller than the current distance. This tests genuine theory-of-mind reasoning.</p></li>
+<li><p><strong>Graceful degradation</strong>: When things go wrong (and they always do), can the agent recover? A near-death dehydration event followed by a hunter sighting tests whether the LLM organism can reprioritize under pressure.</p></li>
+<li><p><strong>Grounded decision-making</strong>: Unlike chatbot evaluations, every action has irreversible physical consequences. You cannot “undo” walking into a swamp.</p></li>
+</ol>
+<hr>
+</section>
+<section id="the-agents" class="level2">
+<h2 class="anchored" data-anchor-id="the-agents">The Agents</h2>
+<p>Earth-33 POC ships with 7 agent types spanning three paradigms. Here is what each one is, what it tests, and how it performs.</p>
+<section id="the-heuristic-agent-hand-crafted-custom-rules" class="level3">
+<h3 class="anchored" data-anchor-id="the-heuristic-agent-hand-crafted-custom-rules">The Heuristic Agent (Hand-Crafted Custom Rules)</h3>
+<p>The heuristic agent is a 12-tier priority engine. It checks conditions in order: critical dehydration first, then critical energy, temperature danger, fatigue, hunter proximity, and so on—and fires the first rule that matches.</p>
+<p><strong>What it tests:</strong> This is the <em>ceiling</em> for hand-crafted intelligence. It represents what a careful human programmer can achieve by encoding survival knowledge as if-then rules. It is the baseline that every other agent must beat to justify its complexity.</p>
+<p><strong>Example behavior:</strong> If hydration drops below 25% and water is available, it drinks immediately. If a hunter is within 6 cells, it flees. If no threats are present and a trophy hint points north, it moves north.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/heuristic.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>The heuristic agent navigating the hunt scenario. Notice the systematic resource management—it stays near water sources and avoids open terrain.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="the-llm-agent-gemini-2.0-flash-gpt-4o-mini-custom-llm" class="level3">
+<h3 class="anchored" data-anchor-id="the-llm-agent-gemini-2.0-flash-gpt-4o-mini-custom-llm">The LLM Agent (Gemini 2.0 Flash / GPT-4o-mini/ Custom LLM)</h3>
+<p>The LLM agent receives the full JSON observation and a detailed system prompt that instructs it to follow a 5-step planning protocol: assess vitals, analyze hunters, plan a path, consider the trophy, and decide. It outputs a structured JSON action.</p>
+<p>The agent uses a provider fallback chain: it first tries Gemini 2.0 Flash, falls back to GPT-4o-mini if the Gemini quota is exhausted, and ultimately falls back to the heuristic agent if both APIs fail. We can think of extending this to custom LLM backends for vLLM.</p>
+<p><strong>What it tests:</strong> This is the <em>real</em> test. Can an LLM, given nothing but text observations and a planning prompt, reason about multi-dimensional survival trade-offs? Can it infer hidden hunter radii from partial information? Can it balance short-term survival against long-term trophy pursuit?</p>
+<p><strong>Example behavior:</strong> The LLM might reason: “Hydration is at 40%, but there is a hunter 8 cells to the east. The hunter was not chasing at distance 10 last turn, so its radius is likely less than 10. I will move south toward the water source, keeping at least 12 cells from the hunter. Trophy direction is southeast, so this also makes progress toward the objective.”</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/llm_openai.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>GPT-4o-mini navigating the hunt scenario. Watch how it reasons through trade-offs—sometimes brilliantly, sometimes fatally.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="the-random-agent-baseline" class="level3">
+<h3 class="anchored" data-anchor-id="the-random-agent-baseline">The Random Agent (Baseline)</h3>
+<p>The random agent selects uniformly from valid actions each turn. No intelligence, no strategy.</p>
+<p><strong>What it tests:</strong> Nothing. This is the <em>floor</em>. Any agent that cannot consistently outperform random action selection has no business calling itself intelligent (in the world of Earth-33).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/random.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>The random agent wandering aimlessly. Note the erratic path and rapid vital depletion—it has no concept of resource management.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="particle-swarm-optimization-pso" class="level3">
+<h3 class="anchored" data-anchor-id="particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</h3>
+<p>PSO maintains a swarm of 10 virtual particles that explore the grid around the organism. Each particle tracks its personal best position and shares a global best. The organism moves toward the global best—the most promising location found by any particle.</p>
+<p><strong>What it tests:</strong> Can distributed parallel search outperform sequential reasoning? PSO excels at exploration—it covers more ground than any other agent—but it has no concept of <em>survival</em>. When vitals drop critically, it delegates to the heuristic agent as a survival override.</p>
+<p><strong>Example behavior:</strong> 10 particles fan out in a 15-cell radius, evaluating positions based on a fitness function that balances trophy attraction, hunter avoidance, resource proximity, and terrain cost. The organism follows the best particle.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/pso.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>PSO agent with its particle swarm visible as faded dots. The cyan circle shows the search radius. Watch how the particles converge on promising regions.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="grey-wolf-optimization-gwo" class="level3">
+<h3 class="anchored" data-anchor-id="grey-wolf-optimization-gwo">Grey Wolf Optimization (GWO)</h3>
+<p>GWO simulates a wolf pack hierarchy: alpha (best solution), beta (second best), delta (third), and omega (the rest). Each wolf moves toward a weighted average of the top three positions. The parameter <em>a</em> decays from 2 to 0 over the episode, shifting from exploration to exploitation.</p>
+<p><strong>What it tests:</strong> Does hierarchical decision-making help in survival scenarios? GWO’s pack structure means it converges faster than PSO but explores less. It tests whether <em>leadership</em>, following the best-known solution, is a viable survival strategy.</p>
+<p><strong>Example behavior:</strong> 8 wolves explore the terrain. The alpha wolf finds a position near water with low hunter risk. The entire pack gradually converges on that region, tightening the search as the episode progresses.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/gwo.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>GWO agent with its wolf pack. The alpha-beta-delta hierarchy drives convergence—watch the pack tighten around the best-known position.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="whale-optimization-algorithm-woa" class="level3">
+<h3 class="anchored" data-anchor-id="whale-optimization-algorithm-woa">Whale Optimization Algorithm (WOA)</h3>
+<p>WOA models humpback whale bubble-net hunting with two mechanisms: shrinking encirclement (tightening a circle around prey) and spiral bubble-net attack (logarithmic spiral approach). Each whale randomly uses one mechanism per step.</p>
+<p><strong>What it tests:</strong> Can a biomimetic search strategy that was designed for continuous optimization work in a discrete survival grid? WOA’s spiral mechanism provides unique movement patterns that other agents cannot produce.</p>
+<p><strong>Example behavior:</strong> 6 whales alternate between circling the best-known position and spiraling toward it. When the exploration parameter is high, whales move toward random peers, maintaining diversity.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/woa.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>WOA agent using bubble-net hunting. The dual spiral-and-encircle mechanism creates distinctive search patterns.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="ant-colony-optimization-aco" class="level3">
+<h3 class="anchored" data-anchor-id="ant-colony-optimization-aco">Ant Colony Optimization (ACO)</h3>
+<p>ACO deploys 12 virtual ants that walk probabilistic paths from the organism’s position, guided by a pheromone grid. Good paths get reinforced; pheromone evaporates over time. The organism follows the best ant’s trail.</p>
+<p><strong>What it tests:</strong> Can stigmergic communication—indirect coordination through environmental markers—produce intelligent survival behavior? ACO is the only agent that builds a <em>persistent memory</em> of the environment through its pheromone map.</p>
+<p><strong>Example behavior:</strong> 12 ants walk 30-50 steps each, choosing neighbors probabilistically based on pheromone intensity and a heuristic score. The best ant’s path is reinforced, creating trails toward resources and away from dangers.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/aco.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>ACO agent with its ant trails. The pheromone-guided pathfinding creates persistent exploration memory across steps.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+</section>
+<section id="running-the-simulations" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-simulations">Running the Simulations</h2>
+<p>All simulations are reproducible and seeded. Here are the commands to replicate every result in this post.</p>
+<section id="setup" class="level3">
+<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> earth_33</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="single-episode-visual-mode" class="level3">
+<h3 class="anchored" data-anchor-id="single-episode-visual-mode">Single Episode (Visual Mode)</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Heuristic agent on the hardest scenario</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> heuristic <span class="at">--seed</span> 42</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># LLM agent (requires GEMINI_API_KEY or OPENAI_API_KEY in .env)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> llm <span class="at">--seed</span> 42</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Swarm agents</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> pso <span class="at">--seed</span> 42</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> gwo <span class="at">--seed</span> 42</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> woa <span class="at">--seed</span> 42</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> aco <span class="at">--seed</span> 42</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="record-a-gif" class="level3">
+<h3 class="anchored" data-anchor-id="record-a-gif">Record a GIF</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> pso <span class="at">--seed</span> 42 <span class="at">--record</span> runs/pso_demo.gif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="batch-evaluation-headless" class="level3">
+<h3 class="anchored" data-anchor-id="batch-evaluation-headless">Batch Evaluation (Headless)</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate across 10 seeds</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> heuristic <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_heuristic</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> llm <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_llm</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> pso <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_pso</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> gwo <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_gwo</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> woa <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_woa</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/hunt.yaml <span class="at">--agent</span> aco <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_aco</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-environment evaluation</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> env <span class="kw">in</span> forest desert tundra<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> agent <span class="kw">in</span> heuristic llm pso aco<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">python</span> <span class="at">-m</span> cli evaluate <span class="at">--config</span> configs/<span class="va">${env}</span>.yaml <span class="at">--agent</span> <span class="va">${agent}</span> <span class="at">--seeds</span> 0-9 <span class="at">--output</span> runs/eval_<span class="va">${env}</span>_<span class="va">${agent}</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">done</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="other-scenarios" class="level3">
+<h3 class="anchored" data-anchor-id="other-scenarios">Other Scenarios</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Easier environments</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/forest.yaml <span class="at">--agent</span> heuristic <span class="at">--seed</span> 42</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/desert.yaml <span class="at">--agent</span> pso <span class="at">--seed</span> 42</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> cli run_episode <span class="at">--config</span> configs/tundra.yaml <span class="at">--agent</span> gwo <span class="at">--seed</span> 42</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="the-mathematics-of-survival" class="level2">
+<h2 class="anchored" data-anchor-id="the-mathematics-of-survival">The Mathematics of Survival</h2>
+<p>Beneath the pixel art and GIFs, Earth-33 is a coupled dynamical system. Every step of the simulation computes interactions between physiology, climate, terrain, and agent policy. This section lays out the mathematics that govern the world and the three paradigms agents use to navigate it.</p>
+<section id="the-organism-as-a-dynamical-system" class="level3">
+<h3 class="anchored" data-anchor-id="the-organism-as-a-dynamical-system">The Organism as a Dynamical System</h3>
+<p>The organism’s state at time <span class="math inline">\(t\)</span> is a 6-dimensional vector:</p>
+<p><span class="math display">\[
+\mathbf{s}_t = \begin{pmatrix} h_t \\ e_t \\ \theta_t \\ f_t \\ \iota_t \\ \phi_t \end{pmatrix} \in [0, 100]^4 \times \mathbb{R} \times [0, 100]^2
+\]</span></p>
+<p>where <span class="math inline">\(h\)</span> is hydration, <span class="math inline">\(e\)</span> is energy, <span class="math inline">\(\theta\)</span> is core body temperature (in °C, nominally 37), <span class="math inline">\(f\)</span> is fatigue, <span class="math inline">\(\iota\)</span> is injury, and <span class="math inline">\(\phi\)</span> is infection. Each step, the simulation applies a state transition:</p>
+<p><span class="math display">\[
+\mathbf{s}_{t+1} = \mathbf{s}_t + \Delta \mathbf{s}(a_t, \mathbf{c}_t) \cdot \Delta t
+\]</span></p>
+<p>where <span class="math inline">\(a_t \in \mathcal{A}\)</span> is the chosen action, <span class="math inline">\(\mathbf{c}_t\)</span> is the environmental context (terrain, climate, wildlife), and <span class="math inline">\(\Delta t = 1\)</span> hour.</p>
+</section>
+<section id="physiological-drain-equations" class="level3">
+<h3 class="anchored" data-anchor-id="physiological-drain-equations">Physiological Drain Equations</h3>
+<p>Every action carries a metabolic multiplier <span class="math inline">\(\mu(a)\)</span>:</p>
+<table class="table-striped table-hover caption-top table">
+<caption>Activity multipliers. Movement is further scaled by terrain cost <span class="math inline">\(c_\text{terrain}\)</span>.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Action</th>
+<th style="text-align: center;"><span class="math inline">\(\mu(a)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Move (N/S/E/W)</td>
+<td style="text-align: center;"><span class="math inline">\(1.5 \times c_\text{terrain}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Forage</td>
+<td style="text-align: center;">1.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Build Shelter</td>
+<td style="text-align: center;">1.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Drink</td>
+<td style="text-align: center;">0.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hide / Signal</td>
+<td style="text-align: center;">0.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rest</td>
+<td style="text-align: center;">0.7</td>
+</tr>
+</tbody>
+</table>
+<p>The terrain movement cost <span class="math inline">\(c_\text{terrain}\)</span> varies by biome:</p>
+<p><span class="math display">\[
+c_\text{terrain} \in \{1.0_\text{plains},\; 1.2_\text{tundra},\; 1.3_\text{forest},\; 1.4_\text{desert},\; 1.8_\text{swamp},\; 2.0_\text{mountain},\; 3.0_\text{water}\}
+\]</span></p>
+<p><strong>Hydration</strong> drains as a function of activity and heat:</p>
+<p><span class="math display">\[
+\Delta h_t = -\Big(\beta_h \cdot \mu(a_t) + \underbrace{\max\!\big(0,\; \tfrac{T_\text{air} - 30}{10}\big) \cdot 0.8}_{\text{heat stress}}\Big) \cdot d \cdot \Delta t
+\]</span></p>
+<p>where <span class="math inline">\(\beta_h = 0.8\)</span> is the base drain rate and <span class="math inline">\(d\)</span> is the scenario difficulty multiplier.</p>
+<p><strong>Energy</strong> drains similarly but without the heat term:</p>
+<p><span class="math display">\[
+\Delta e_t = -\beta_e \cdot \mu(a_t) \cdot d \cdot \Delta t, \quad \beta_e = 0.6
+\]</span></p>
+<p><strong>Core temperature</strong> drifts toward ambient air temperature via Newton’s law of cooling:</p>
+<p><span class="math display">\[
+\Delta \theta_t = \kappa \cdot (T_\text{air} - \theta_t) \cdot \Delta t, \quad \kappa = \begin{cases} 0.008 \times 0.3 &amp; \text{if shelter active} \\ 0.008 &amp; \text{otherwise} \end{cases}
+\]</span></p>
+<p>Shelter reduces thermal coupling by 70%, which is why it is the difference between life and death in the tundra.</p>
+<p><strong>Fatigue</strong> accumulates during activity and recovers during rest:</p>
+<p><span class="math display">\[
+\Delta f_t = \begin{cases} -4.0 \cdot \Delta t &amp; \text{if } a_t = \texttt{REST} \\ 0.7 \cdot \mu(a_t) \cdot d \cdot \Delta t &amp; \text{otherwise} \end{cases}
+\]</span></p>
+</section>
+<section id="death-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="death-conditions">Death Conditions</h3>
+<p>The organism dies instantly when any vital crosses its threshold:</p>
+<p><span class="math display">\[
+\text{DEAD} \iff h \leq 0 \;\lor\; e \leq 0 \;\lor\; \theta \leq 30 \;\lor\; \theta \geq 42 \;\lor\; \iota \geq 100 \;\lor\; \phi \geq 100
+\]</span></p>
+<p>This creates a multi-constraint feasibility problem: the agent must keep all six vitals within bounds simultaneously. A single lapse in any dimension is fatal.</p>
+</section>
+<section id="climate-model" class="level3">
+<h3 class="anchored" data-anchor-id="climate-model">Climate Model</h3>
+<p>Air temperature at position <span class="math inline">\((x, y)\)</span> and time step <span class="math inline">\(t\)</span> is computed as:</p>
+<p><span class="math display">\[
+T_\text{air}(x, y, t) = T_\text{base}(b) - \lambda \cdot \frac{\text{elev}(x,y)}{1000} + A_s(b) \cdot \xi \cdot \sin\!\Big(\frac{2\pi \cdot \text{day}}{365}\Big) + A_d(b) \cdot \xi \cdot \sin\!\Big(\frac{2\pi \cdot \text{hour}}{24} - \frac{\pi}{2}\Big) + \varepsilon
+\]</span></p>
+<p>where <span class="math inline">\(T_\text{base}(b)\)</span> is the biome base temperature (e.g., <span class="math inline">\(-5°C\)</span> for tundra, <span class="math inline">\(30°C\)</span> for desert), <span class="math inline">\(\lambda = 6.5\)</span> °C/km is the atmospheric lapse rate, <span class="math inline">\(A_s\)</span> and <span class="math inline">\(A_d\)</span> are seasonal and diurnal amplitudes, <span class="math inline">\(\xi\)</span> is the temperature extremity multiplier, and <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, 1)\)</span> is stochastic noise.</p>
+<p>The seasonal and diurnal amplitudes create temperature swings that vary by biome. In the desert, diurnal amplitude is <span class="math inline">\(\pm 10°C\)</span>, making nighttime cold a real danger even in a “hot” biome.</p>
+</section>
+<section id="the-survival-optimization-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-survival-optimization-problem">The Survival Optimization Problem</h3>
+<p>Formally, we can define the survival problem as:</p>
+<p><span class="math display">\[
+\max_{\pi} \;\; \mathbb{E}\!\Big[\sum_{t=0}^{T_\text{max}} \mathbb{1}[\text{alive at } t]\Big] \quad \text{subject to} \quad \mathbf{s}_t \in \mathcal{S}_\text{viable} \;\;\forall\, t
+\]</span></p>
+<p>where <span class="math inline">\(\pi: \mathcal{O} \to \mathcal{A}\)</span> is the agent’s policy mapping observations to actions, <span class="math inline">\(T_\text{max} = 800\)</span> steps, and <span class="math inline">\(\mathcal{S}_\text{viable}\)</span> is the set of non-lethal states. Each agent paradigm attacks this problem differently.</p>
+<hr>
+</section>
+<section id="how-the-heuristic-agent-solves-it-priority-cascades" class="level3">
+<h3 class="anchored" data-anchor-id="how-the-heuristic-agent-solves-it-priority-cascades">How the Heuristic Agent Solves It: Priority Cascades</h3>
+<p>The heuristic agent implements <span class="math inline">\(\pi\)</span> as a fixed priority cascade. It evaluates conditions top-to-bottom and fires the first matching rule:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 725.55 852.40" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 848.4)">
+<title>heuristic</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-848.4 721.55,-848.4 721.55,4 -4,4"></polygon>
+<!-- start -->
+<g id="node1" class="node">
+<title>start</title>
+<path fill="#e8f4fd" stroke="black" d="M92.82,-844.4C92.82,-844.4 30.19,-844.4 30.19,-844.4 24.19,-844.4 18.19,-838.4 18.19,-832.4 18.19,-832.4 18.19,-820.4 18.19,-820.4 18.19,-814.4 24.19,-808.4 30.19,-808.4 30.19,-808.4 92.82,-808.4 92.82,-808.4 98.82,-808.4 104.82,-814.4 104.82,-820.4 104.82,-820.4 104.82,-832.4 104.82,-832.4 104.82,-838.4 98.82,-844.4 92.82,-844.4"></path>
+<text text-anchor="middle" x="61.51" y="-823.1" font-family="Helvetica,sans-Serif" font-size="11.00">Observe State</text>
+</g>
+<!-- p1 -->
+<g id="node2" class="node">
+<title>p1</title>
+<path fill="#ffcccc" stroke="black" d="M111.02,-771.4C111.02,-771.4 11.99,-771.4 11.99,-771.4 5.99,-771.4 -0.01,-765.4 -0.01,-759.4 -0.01,-759.4 -0.01,-747.4 -0.01,-747.4 -0.01,-741.4 5.99,-735.4 11.99,-735.4 11.99,-735.4 111.02,-735.4 111.02,-735.4 117.02,-735.4 123.02,-741.4 123.02,-747.4 123.02,-747.4 123.02,-759.4 123.02,-759.4 123.02,-765.4 117.02,-771.4 111.02,-771.4"></path>
+<text text-anchor="middle" x="61.51" y="-750.1" font-family="Helvetica,sans-Serif" font-size="11.00">h &lt; 25 ∧ water &gt; 0.1?</text>
+</g>
+<!-- start&#45;&gt;p1 -->
+<g id="edge1" class="edge">
+<title>start-&gt;p1</title>
+<path fill="none" stroke="black" d="M61.51,-808.21C61.51,-800.19 61.51,-790.45 61.51,-781.47"></path>
+<polygon fill="black" stroke="black" points="65.01,-781.43 61.51,-771.43 58.01,-781.43 65.01,-781.43"></polygon>
+</g>
+<!-- a1 -->
+<g id="node3" class="node">
+<title>a1</title>
+<ellipse fill="#ff9999" stroke="black" cx="43.51" cy="-670.6" rx="31.14" ry="18"></ellipse>
+<text text-anchor="middle" x="43.51" y="-667.3" font-family="Helvetica,sans-Serif" font-size="11.00">DRINK</text>
+</g>
+<!-- p1&#45;&gt;a1 -->
+<g id="edge2" class="edge">
+<title>p1-&gt;a1</title>
+<path fill="none" stroke="black" d="M57.69,-735.26C55.33,-724.66 52.24,-710.81 49.55,-698.74"></path>
+<polygon fill="black" stroke="black" points="52.91,-697.71 47.32,-688.71 46.08,-699.23 52.91,-697.71"></polygon>
+<text text-anchor="middle" x="61.51" y="-709.3" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p2 -->
+<g id="node4" class="node">
+<title>p2</title>
+<path fill="#ffcccc" stroke="black" d="M194.36,-688.6C194.36,-688.6 104.66,-688.6 104.66,-688.6 98.66,-688.6 92.66,-682.6 92.66,-676.6 92.66,-676.6 92.66,-664.6 92.66,-664.6 92.66,-658.6 98.66,-652.6 104.66,-652.6 104.66,-652.6 194.36,-652.6 194.36,-652.6 200.36,-652.6 206.36,-658.6 206.36,-664.6 206.36,-664.6 206.36,-676.6 206.36,-676.6 206.36,-682.6 200.36,-688.6 194.36,-688.6"></path>
+<text text-anchor="middle" x="149.51" y="-667.3" font-family="Helvetica,sans-Serif" font-size="11.00">e &lt; 25 ∧ veg &gt; 0.1?</text>
+</g>
+<!-- p1&#45;&gt;p2 -->
+<g id="edge3" class="edge">
+<title>p1-&gt;p2</title>
+<path fill="none" stroke="black" d="M80.17,-735.26C92.77,-723.69 109.58,-708.26 123.49,-695.49"></path>
+<polygon fill="black" stroke="black" points="125.87,-698.05 130.87,-688.71 121.14,-692.9 125.87,-698.05"></polygon>
+<text text-anchor="middle" x="116.51" y="-709.3" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a2 -->
+<g id="node5" class="node">
+<title>a2</title>
+<ellipse fill="#ff9999" stroke="black" cx="110.51" cy="-587.8" rx="38.77" ry="18"></ellipse>
+<text text-anchor="middle" x="110.51" y="-584.5" font-family="Helvetica,sans-Serif" font-size="11.00">FORAGE</text>
+</g>
+<!-- p2&#45;&gt;a2 -->
+<g id="edge4" class="edge">
+<title>p2-&gt;a2</title>
+<path fill="none" stroke="black" d="M141.24,-652.46C135.98,-641.57 129.07,-627.26 123.13,-614.96"></path>
+<polygon fill="black" stroke="black" points="126.13,-613.12 118.63,-605.63 119.83,-616.16 126.13,-613.12"></polygon>
+<text text-anchor="middle" x="139.51" y="-626.5" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p3 -->
+<g id="node6" class="node">
+<title>p3</title>
+<path fill="#ffe0b2" stroke="black" d="M285.24,-605.8C285.24,-605.8 179.77,-605.8 179.77,-605.8 173.77,-605.8 167.77,-599.8 167.77,-593.8 167.77,-593.8 167.77,-581.8 167.77,-581.8 167.77,-575.8 173.77,-569.8 179.77,-569.8 179.77,-569.8 285.24,-569.8 285.24,-569.8 291.24,-569.8 297.24,-575.8 297.24,-581.8 297.24,-581.8 297.24,-593.8 297.24,-593.8 297.24,-599.8 291.24,-605.8 285.24,-605.8"></path>
+<text text-anchor="middle" x="232.51" y="-584.5" font-family="Helvetica,sans-Serif" font-size="11.00">θ_air &gt; 35 ∨ θ_air &lt; 5?</text>
+</g>
+<!-- p2&#45;&gt;p3 -->
+<g id="edge5" class="edge">
+<title>p2-&gt;p3</title>
+<path fill="none" stroke="black" d="M167.11,-652.46C178.88,-641 194.55,-625.75 207.6,-613.05"></path>
+<polygon fill="black" stroke="black" points="210.21,-615.39 214.93,-605.91 205.32,-610.38 210.21,-615.39"></polygon>
+<text text-anchor="middle" x="201.51" y="-626.5" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a3 -->
+<g id="node7" class="node">
+<title>a3</title>
+<ellipse fill="#ffcc80" stroke="black" cx="190.51" cy="-505" rx="87.08" ry="18"></ellipse>
+<text text-anchor="middle" x="190.51" y="-501.7" font-family="Helvetica,sans-Serif" font-size="11.00">BUILD SHELTER / REST</text>
+</g>
+<!-- p3&#45;&gt;a3 -->
+<g id="edge6" class="edge">
+<title>p3-&gt;a3</title>
+<path fill="none" stroke="black" d="M223.6,-569.66C217.92,-558.74 210.45,-544.37 204.04,-532.04"></path>
+<polygon fill="black" stroke="black" points="207.12,-530.37 199.4,-523.11 200.91,-533.6 207.12,-530.37"></polygon>
+<text text-anchor="middle" x="221.51" y="-543.7" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p4 -->
+<g id="node8" class="node">
+<title>p4</title>
+<path fill="#ffe0b2" stroke="black" d="M337.51,-523C337.51,-523 307.51,-523 307.51,-523 301.51,-523 295.51,-517 295.51,-511 295.51,-511 295.51,-499 295.51,-499 295.51,-493 301.51,-487 307.51,-487 307.51,-487 337.51,-487 337.51,-487 343.51,-487 349.51,-493 349.51,-499 349.51,-499 349.51,-511 349.51,-511 349.51,-517 343.51,-523 337.51,-523"></path>
+<text text-anchor="middle" x="322.51" y="-501.7" font-family="Helvetica,sans-Serif" font-size="11.00">f &gt; 75?</text>
+</g>
+<!-- p3&#45;&gt;p4 -->
+<g id="edge7" class="edge">
+<title>p3-&gt;p4</title>
+<path fill="none" stroke="black" d="M251.59,-569.66C264.48,-558.09 281.67,-542.66 295.89,-529.89"></path>
+<polygon fill="black" stroke="black" points="298.34,-532.4 303.45,-523.11 293.67,-527.19 298.34,-532.4"></polygon>
+<text text-anchor="middle" x="288.51" y="-543.7" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a4 -->
+<g id="node9" class="node">
+<title>a4</title>
+<ellipse fill="#ffcc80" stroke="black" cx="289.51" cy="-422.2" rx="28.1" ry="18"></ellipse>
+<text text-anchor="middle" x="289.51" y="-418.9" font-family="Helvetica,sans-Serif" font-size="11.00">REST</text>
+</g>
+<!-- p4&#45;&gt;a4 -->
+<g id="edge8" class="edge">
+<title>p4-&gt;a4</title>
+<path fill="none" stroke="black" d="M315.51,-486.86C311.03,-475.9 305.13,-461.46 300.09,-449.11"></path>
+<polygon fill="black" stroke="black" points="303.29,-447.69 296.27,-439.76 296.81,-450.34 303.29,-447.69"></polygon>
+<text text-anchor="middle" x="315.51" y="-460.9" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p5 -->
+<g id="node10" class="node">
+<title>p5</title>
+<path fill="#e1bee7" stroke="black" d="M417.89,-440.2C417.89,-440.2 347.13,-440.2 347.13,-440.2 341.13,-440.2 335.13,-434.2 335.13,-428.2 335.13,-428.2 335.13,-416.2 335.13,-416.2 335.13,-410.2 341.13,-404.2 347.13,-404.2 347.13,-404.2 417.89,-404.2 417.89,-404.2 423.89,-404.2 429.89,-410.2 429.89,-416.2 429.89,-416.2 429.89,-428.2 429.89,-428.2 429.89,-434.2 423.89,-440.2 417.89,-440.2"></path>
+<text text-anchor="middle" x="382.51" y="-418.9" font-family="Helvetica,sans-Serif" font-size="11.00">hunter dist ≤ 6?</text>
+</g>
+<!-- p4&#45;&gt;p5 -->
+<g id="edge9" class="edge">
+<title>p4-&gt;p5</title>
+<path fill="none" stroke="black" d="M335.23,-486.86C343.5,-475.72 354.44,-461 363.7,-448.52"></path>
+<polygon fill="black" stroke="black" points="366.65,-450.43 369.8,-440.31 361.03,-446.25 366.65,-450.43"></polygon>
+<text text-anchor="middle" x="361.51" y="-460.9" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a5 -->
+<g id="node11" class="node">
+<title>a5</title>
+<ellipse fill="#ce93d8" stroke="black" cx="345.51" cy="-339.4" rx="68.55" ry="18"></ellipse>
+<text text-anchor="middle" x="345.51" y="-336.1" font-family="Helvetica,sans-Serif" font-size="11.00">FLEE (opposite dir)</text>
+</g>
+<!-- p5&#45;&gt;a5 -->
+<g id="edge10" class="edge">
+<title>p5-&gt;a5</title>
+<path fill="none" stroke="black" d="M374.66,-404.06C369.71,-393.24 363.2,-379.05 357.6,-366.81"></path>
+<polygon fill="black" stroke="black" points="360.69,-365.15 353.34,-357.51 354.32,-368.06 360.69,-365.15"></polygon>
+<text text-anchor="middle" x="373.51" y="-378.1" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p6 -->
+<g id="node12" class="node">
+<title>p6</title>
+<path fill="#c8e6c9" stroke="black" d="M474.51,-357.4C474.51,-357.4 444.51,-357.4 444.51,-357.4 438.51,-357.4 432.51,-351.4 432.51,-345.4 432.51,-345.4 432.51,-333.4 432.51,-333.4 432.51,-327.4 438.51,-321.4 444.51,-321.4 444.51,-321.4 474.51,-321.4 474.51,-321.4 480.51,-321.4 486.51,-327.4 486.51,-333.4 486.51,-333.4 486.51,-345.4 486.51,-345.4 486.51,-351.4 480.51,-357.4 474.51,-357.4"></path>
+<text text-anchor="middle" x="459.51" y="-336.1" font-family="Helvetica,sans-Serif" font-size="11.00">h &lt; 50?</text>
+</g>
+<!-- p5&#45;&gt;p6 -->
+<g id="edge11" class="edge">
+<title>p5-&gt;p6</title>
+<path fill="none" stroke="black" d="M398.84,-404.06C409.66,-392.71 424.02,-377.63 436.06,-365"></path>
+<polygon fill="black" stroke="black" points="438.84,-367.16 443.2,-357.51 433.77,-362.34 438.84,-367.16"></polygon>
+<text text-anchor="middle" x="431.51" y="-378.1" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a6 -->
+<g id="node13" class="node">
+<title>a6</title>
+<ellipse fill="#a5d6a7" stroke="black" cx="425.51" cy="-256.6" rx="52.77" ry="18"></ellipse>
+<text text-anchor="middle" x="425.51" y="-253.3" font-family="Helvetica,sans-Serif" font-size="11.00">Move → water</text>
+</g>
+<!-- p6&#45;&gt;a6 -->
+<g id="edge12" class="edge">
+<title>p6-&gt;a6</title>
+<path fill="none" stroke="black" d="M452.3,-321.26C447.74,-310.44 441.77,-296.25 436.62,-284.01"></path>
+<polygon fill="black" stroke="black" points="439.81,-282.57 432.71,-274.71 433.36,-285.29 439.81,-282.57"></polygon>
+<text text-anchor="middle" x="452.51" y="-295.3" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p7 -->
+<g id="node14" class="node">
+<title>p7</title>
+<path fill="#c8e6c9" stroke="black" d="M538.51,-274.6C538.51,-274.6 508.51,-274.6 508.51,-274.6 502.51,-274.6 496.51,-268.6 496.51,-262.6 496.51,-262.6 496.51,-250.6 496.51,-250.6 496.51,-244.6 502.51,-238.6 508.51,-238.6 508.51,-238.6 538.51,-238.6 538.51,-238.6 544.51,-238.6 550.51,-244.6 550.51,-250.6 550.51,-250.6 550.51,-262.6 550.51,-262.6 550.51,-268.6 544.51,-274.6 538.51,-274.6"></path>
+<text text-anchor="middle" x="523.51" y="-253.3" font-family="Helvetica,sans-Serif" font-size="11.00">e &lt; 50?</text>
+</g>
+<!-- p6&#45;&gt;p7 -->
+<g id="edge13" class="edge">
+<title>p6-&gt;p7</title>
+<path fill="none" stroke="black" d="M473.08,-321.26C481.99,-310.02 493.79,-295.12 503.73,-282.56"></path>
+<polygon fill="black" stroke="black" points="506.49,-284.72 509.95,-274.71 501,-280.38 506.49,-284.72"></polygon>
+<text text-anchor="middle" x="500.51" y="-295.3" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a7 -->
+<g id="node15" class="node">
+<title>a7</title>
+<ellipse fill="#a5d6a7" stroke="black" cx="480.51" cy="-173.8" rx="81.24" ry="18"></ellipse>
+<text text-anchor="middle" x="480.51" y="-170.5" font-family="Helvetica,sans-Serif" font-size="11.00">FORAGE / Move → veg</text>
+</g>
+<!-- p7&#45;&gt;a7 -->
+<g id="edge14" class="edge">
+<title>p7-&gt;a7</title>
+<path fill="none" stroke="black" d="M514.39,-238.46C508.57,-227.54 500.92,-213.17 494.37,-200.84"></path>
+<polygon fill="black" stroke="black" points="497.4,-199.09 489.61,-191.91 491.22,-202.38 497.4,-199.09"></polygon>
+<text text-anchor="middle" x="512.51" y="-212.5" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p8 -->
+<g id="node16" class="node">
+<title>p8</title>
+<path fill="#b3e5fc" stroke="black" d="M641.49,-191.8C641.49,-191.8 591.52,-191.8 591.52,-191.8 585.52,-191.8 579.52,-185.8 579.52,-179.8 579.52,-179.8 579.52,-167.8 579.52,-167.8 579.52,-161.8 585.52,-155.8 591.52,-155.8 591.52,-155.8 641.49,-155.8 641.49,-155.8 647.49,-155.8 653.49,-161.8 653.49,-167.8 653.49,-167.8 653.49,-179.8 653.49,-179.8 653.49,-185.8 647.49,-191.8 641.49,-191.8"></path>
+<text text-anchor="middle" x="616.51" y="-170.5" font-family="Helvetica,sans-Serif" font-size="11.00">trophy hint?</text>
+</g>
+<!-- p7&#45;&gt;p8 -->
+<g id="edge15" class="edge">
+<title>p7-&gt;p8</title>
+<path fill="none" stroke="black" d="M543.23,-238.46C556.55,-226.89 574.31,-211.46 589.01,-198.69"></path>
+<polygon fill="black" stroke="black" points="591.56,-201.11 596.81,-191.91 586.97,-195.83 591.56,-201.11"></polygon>
+<text text-anchor="middle" x="581.51" y="-212.5" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a8 -->
+<g id="node17" class="node">
+<title>a8</title>
+<ellipse fill="#81d4fa" stroke="black" cx="580.51" cy="-91" rx="64.22" ry="18"></ellipse>
+<text text-anchor="middle" x="580.51" y="-87.7" font-family="Helvetica,sans-Serif" font-size="11.00">Move → trophy dir</text>
+</g>
+<!-- p8&#45;&gt;a8 -->
+<g id="edge16" class="edge">
+<title>p8-&gt;a8</title>
+<path fill="none" stroke="black" d="M608.87,-155.66C604.05,-144.84 597.73,-130.65 592.27,-118.41"></path>
+<polygon fill="black" stroke="black" points="595.4,-116.82 588.13,-109.11 589,-119.67 595.4,-116.82"></polygon>
+<text text-anchor="middle" x="608.51" y="-129.7" font-family="Helvetica,sans-Serif" font-size="9.00">yes</text>
+</g>
+<!-- p9 -->
+<g id="node18" class="node">
+<title>p9</title>
+<path fill="#f5f5f5" stroke="black" d="M704.51,-109C704.51,-109 674.51,-109 674.51,-109 668.51,-109 662.51,-103 662.51,-97 662.51,-97 662.51,-85 662.51,-85 662.51,-79 668.51,-73 674.51,-73 674.51,-73 704.51,-73 704.51,-73 710.51,-73 716.51,-79 716.51,-85 716.51,-85 716.51,-97 716.51,-97 716.51,-103 710.51,-109 704.51,-109"></path>
+<text text-anchor="middle" x="689.51" y="-87.7" font-family="Helvetica,sans-Serif" font-size="11.00">default</text>
+</g>
+<!-- p8&#45;&gt;p9 -->
+<g id="edge17" class="edge">
+<title>p8-&gt;p9</title>
+<path fill="none" stroke="black" d="M631.99,-155.66C642.25,-144.31 655.87,-129.23 667.28,-116.6"></path>
+<polygon fill="black" stroke="black" points="669.94,-118.88 674.05,-109.11 664.75,-114.18 669.94,-118.88"></polygon>
+<text text-anchor="middle" x="661.51" y="-129.7" font-family="Helvetica,sans-Serif" font-size="9.00">no</text>
+</g>
+<!-- a9 -->
+<g id="node19" class="node">
+<title>a9</title>
+<ellipse fill="#e0e0e0" stroke="black" cx="689.51" cy="-18" rx="28.1" ry="18"></ellipse>
+<text text-anchor="middle" x="689.51" y="-14.7" font-family="Helvetica,sans-Serif" font-size="11.00">REST</text>
+</g>
+<!-- p9&#45;&gt;a9 -->
+<g id="edge18" class="edge">
+<title>p9-&gt;a9</title>
+<path fill="none" stroke="black" d="M689.51,-72.81C689.51,-64.79 689.51,-55.05 689.51,-46.07"></path>
+<polygon fill="black" stroke="black" points="693.01,-46.03 689.51,-36.03 686.01,-46.03 693.01,-46.03"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p><figcaption> The heuristic agent’s 12-tier priority cascade. Evaluation proceeds top-to-bottom; the first matching rule fires.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>The key insight is that survival conditions always dominate trophy pursuit. The agent never chases the trophy unless all six vitals are in safe ranges. This is why it survives longest but never finds the trophy: it is a <em>conservative</em> policy that maximizes <span class="math inline">\(\min_i(v_i)\)</span> rather than expected reward.</p>
+<hr>
+</section>
+<section id="how-the-swarm-agents-solve-it-fitness-landscapes" class="level3">
+<h3 class="anchored" data-anchor-id="how-the-swarm-agents-solve-it-fitness-landscapes">How the Swarm Agents Solve It: Fitness Landscapes</h3>
+<p>The swarm agents reframe survival as a continuous optimization problem. They deploy virtual populations (particles, wolves, whales, ants) across the grid, each evaluating a shared fitness function <span class="math inline">\(F(x, y)\)</span> that encodes survival priorities:</p>
+<p><span class="math display">\[
+F(x, y) = \underbrace{2.0 \cdot (\mathbf{d} \cdot \hat{\mathbf{t}}) \cdot m_t}_{\text{trophy attraction}} - \underbrace{1.5 \sum_{j} P_j(x, y)}_{\text{hunter avoidance}} + \underbrace{5.0 \cdot w(x,y) \cdot u_h}_{\text{water urgency}} + \underbrace{4.0 \cdot v(x,y) \cdot u_e}_{\text{food urgency}} - \underbrace{2.0 \cdot (c_\text{terrain} - 1)}_{\text{terrain cost}} - \underbrace{3.0 \cdot r(x,y)}_{\text{wildlife risk}}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{d} = (x - x_\text{org},\; y - y_\text{org})\)</span> is the displacement from the organism, <span class="math inline">\(\hat{\mathbf{t}}\)</span> is the estimated trophy direction, and <span class="math inline">\(m_t\)</span> is the trophy magnitude (updated by warmer/colder feedback)</li>
+<li><span class="math inline">\(P_j(x,y) = \begin{cases} (R_j - d_j)^2 \cdot \gamma_j &amp; \text{if } d_j &lt; R_j \\ 0 &amp; \text{otherwise} \end{cases}\)</span> is the hunter penalty, where <span class="math inline">\(R_j = 7\)</span> is the estimated detection radius, <span class="math inline">\(d_j\)</span> is the distance to hunter <span class="math inline">\(j\)</span>, and <span class="math inline">\(\gamma_j = 2\)</span> if the hunter is actively chasing</li>
+<li><span class="math inline">\(u_h = \max(0, \frac{60 - h}{60})\)</span> and <span class="math inline">\(u_e = \max(0, \frac{60 - e}{60})\)</span> are urgency factors that amplify resource attraction as vitals drop</li>
+<li><span class="math inline">\(w(x,y)\)</span>, <span class="math inline">\(v(x,y)\)</span>, and <span class="math inline">\(r(x,y)\)</span> are the water availability, vegetation biomass, and wildlife risk at position <span class="math inline">\((x,y)\)</span></li>
+</ul>
+<p>All swarm agents share a <strong>survival override</strong>: when any vital enters a critical zone (<span class="math inline">\(h &lt; 20\)</span>, <span class="math inline">\(e &lt; 20\)</span>, <span class="math inline">\(f &gt; 85\)</span>, <span class="math inline">\(\iota &gt; 70\)</span>, or a hunter within 3 cells), the swarm is bypassed and the heuristic agent takes control. This creates a hybrid architecture: swarm for exploration, heuristics for survival.</p>
+<section id="pso-velocity-position-updates" class="level4">
+<h4 class="anchored" data-anchor-id="pso-velocity-position-updates">PSO: Velocity-Position Updates</h4>
+<p>Each particle <span class="math inline">\(i\)</span> maintains a position <span class="math inline">\(\mathbf{x}_i\)</span>, velocity <span class="math inline">\(\mathbf{v}_i\)</span>, and personal best <span class="math inline">\(\mathbf{p}_i\)</span>. The swarm shares a global best <span class="math inline">\(\mathbf{g}\)</span>:</p>
+<p><span class="math display">\[
+\mathbf{v}_i^{(k+1)} = \underbrace{w \cdot \mathbf{v}_i^{(k)}}_{\text{inertia}} + \underbrace{c_1 \cdot r_1 \cdot (\mathbf{p}_i - \mathbf{x}_i^{(k)})}_{\text{cognitive}} + \underbrace{c_2 \cdot r_2 \cdot (\mathbf{g} - \mathbf{x}_i^{(k)})}_{\text{social}}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{x}_i^{(k+1)} = \mathbf{x}_i^{(k)} + \mathbf{v}_i^{(k+1)}
+\]</span></p>
+<p>with inertia weight <span class="math inline">\(w = 0.7\)</span>, cognitive coefficient <span class="math inline">\(c_1 = 1.5\)</span>, social coefficient <span class="math inline">\(c_2 = 2.0\)</span>, and <span class="math inline">\(r_1, r_2 \sim U(0,1)\)</span>. Velocities are clamped to <span class="math inline">\(|\mathbf{v}| \leq 3.0\)</span> cells/step.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 749.28 183.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 179)">
+<title>pso</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-179 745.28,-179 745.28,4 -4,4"></polygon>
+<!-- pos -->
+<g id="node1" class="node">
+<title>pos</title>
+<path fill="#e8f4fd" stroke="black" d="M60.79,-36C60.79,-36 12.07,-36 12.07,-36 6.07,-36 0.07,-30 0.07,-24 0.07,-24 0.07,-12 0.07,-12 0.07,-6 6.07,0 12.07,0 12.07,0 60.79,0 60.79,0 66.79,0 72.79,-6 72.79,-12 72.79,-12 72.79,-24 72.79,-24 72.79,-30 66.79,-36 60.79,-36"></path>
+<text text-anchor="middle" x="36.43" y="-14.7" font-family="Helvetica,sans-Serif" font-size="11.00">Position xᵢ</text>
+</g>
+<!-- fit -->
+<g id="node5" class="node">
+<title>fit</title>
+<path fill="#f5f5f5" stroke="black" d="M173.16,-62.18C173.16,-62.18 154.11,-53.82 154.11,-53.82 148.62,-51.41 148.62,-46.59 154.11,-44.18 154.11,-44.18 173.16,-35.82 173.16,-35.82 178.65,-33.41 189.64,-33.41 195.13,-35.82 195.13,-35.82 214.17,-44.18 214.17,-44.18 219.67,-46.59 219.67,-51.41 214.17,-53.82 214.17,-53.82 195.13,-62.18 195.13,-62.18 189.64,-64.59 178.65,-64.59 173.16,-62.18"></path>
+<text text-anchor="middle" x="184.14" y="-45.7" font-family="Helvetica,sans-Serif" font-size="11.00">F(x, y)</text>
+</g>
+<!-- pos&#45;&gt;fit -->
+<g id="edge1" class="edge">
+<title>pos-&gt;fit</title>
+<path fill="none" stroke="black" d="M73.07,-25.58C95.29,-30.31 123.81,-36.38 146.25,-41.15"></path>
+<polygon fill="black" stroke="black" points="145.58,-44.59 156.09,-43.24 147.04,-37.74 145.58,-44.59"></polygon>
+<text text-anchor="middle" x="107.87" y="-39.7" font-family="Helvetica,sans-Serif" font-size="9.00">evaluate</text>
+</g>
+<!-- vel -->
+<g id="node2" class="node">
+<title>vel</title>
+<path fill="#e8f4fd" stroke="black" d="M383.81,-175C383.81,-175 335.33,-175 335.33,-175 329.33,-175 323.33,-169 323.33,-163 323.33,-163 323.33,-151 323.33,-151 323.33,-145 329.33,-139 335.33,-139 335.33,-139 383.81,-139 383.81,-139 389.81,-139 395.81,-145 395.81,-151 395.81,-151 395.81,-163 395.81,-163 395.81,-169 389.81,-175 383.81,-175"></path>
+<text text-anchor="middle" x="359.57" y="-153.7" font-family="Helvetica,sans-Serif" font-size="11.00">Velocity vᵢ</text>
+</g>
+<!-- new_vel -->
+<g id="node6" class="node">
+<title>new_vel</title>
+<path fill="#b3e5fc" stroke="black" d="M588.36,-99C588.36,-99 533.21,-99 533.21,-99 527.21,-99 521.21,-93 521.21,-87 521.21,-87 521.21,-75 521.21,-75 521.21,-69 527.21,-63 533.21,-63 533.21,-63 588.36,-63 588.36,-63 594.36,-63 600.36,-69 600.36,-75 600.36,-75 600.36,-87 600.36,-87 600.36,-93 594.36,-99 588.36,-99"></path>
+<text text-anchor="middle" x="560.78" y="-77.7" font-family="Helvetica,sans-Serif" font-size="11.00">New Velocity</text>
+</g>
+<!-- vel&#45;&gt;new_vel -->
+<g id="edge4" class="edge">
+<title>vel-&gt;new_vel</title>
+<path fill="none" stroke="black" d="M395.94,-146.98C425.1,-138.32 467.31,-124.9 503,-110 507.73,-108.03 512.61,-105.82 517.42,-103.52"></path>
+<polygon fill="black" stroke="black" points="519.12,-106.59 526.55,-99.04 516.04,-100.3 519.12,-106.59"></polygon>
+<text text-anchor="middle" x="465.99" y="-138.7" font-family="Helvetica,sans-Serif" font-size="9.00">× w (inertia)</text>
+</g>
+<!-- pbest -->
+<g id="node3" class="node">
+<title>pbest</title>
+<path fill="#c8e6c9" stroke="black" d="M398.89,-67C398.89,-67 320.24,-67 320.24,-67 314.24,-67 308.24,-61 308.24,-55 308.24,-55 308.24,-43 308.24,-43 308.24,-37 314.24,-31 320.24,-31 320.24,-31 398.89,-31 398.89,-31 404.89,-31 410.89,-37 410.89,-43 410.89,-43 410.89,-55 410.89,-55 410.89,-61 404.89,-67 398.89,-67"></path>
+<text text-anchor="middle" x="359.57" y="-45.7" font-family="Helvetica,sans-Serif" font-size="11.00">Personal Best pᵢ</text>
+</g>
+<!-- pbest&#45;&gt;new_vel -->
+<g id="edge5" class="edge">
+<title>pbest-&gt;new_vel</title>
+<path fill="none" stroke="black" d="M411.1,-57.12C441.75,-62.04 480.68,-68.29 511.01,-73.17"></path>
+<polygon fill="black" stroke="black" points="510.51,-76.63 520.94,-74.76 511.62,-69.72 510.51,-76.63"></polygon>
+<text text-anchor="middle" x="465.99" y="-74.7" font-family="Helvetica,sans-Serif" font-size="9.00">× c₁r₁ (cognitive)</text>
+</g>
+<!-- gbest -->
+<g id="node4" class="node">
+<title>gbest</title>
+<path fill="#ffe0b2" stroke="black" d="M388.6,-121C388.6,-121 330.53,-121 330.53,-121 324.53,-121 318.53,-115 318.53,-109 318.53,-109 318.53,-97 318.53,-97 318.53,-91 324.53,-85 330.53,-85 330.53,-85 388.6,-85 388.6,-85 394.6,-85 400.6,-91 400.6,-97 400.6,-97 400.6,-109 400.6,-109 400.6,-115 394.6,-121 388.6,-121"></path>
+<text text-anchor="middle" x="359.57" y="-99.7" font-family="Helvetica,sans-Serif" font-size="11.00">Global Best g</text>
+</g>
+<!-- gbest&#45;&gt;new_vel -->
+<g id="edge6" class="edge">
+<title>gbest-&gt;new_vel</title>
+<path fill="none" stroke="black" d="M400.88,-98.55C432.62,-95.04 476.98,-90.14 510.77,-86.41"></path>
+<polygon fill="black" stroke="black" points="511.33,-89.87 520.89,-85.3 510.56,-82.91 511.33,-89.87"></polygon>
+<text text-anchor="middle" x="465.99" y="-97.7" font-family="Helvetica,sans-Serif" font-size="9.00">× c₂r₂ (social)</text>
+</g>
+<!-- fit&#45;&gt;pbest -->
+<g id="edge2" class="edge">
+<title>fit-&gt;pbest</title>
+<path fill="none" stroke="black" d="M225.37,-49C246.9,-49 273.88,-49 297.9,-49"></path>
+<polygon fill="black" stroke="black" points="298,-52.5 308,-49 298,-45.5 298,-52.5"></polygon>
+<text text-anchor="middle" x="266.78" y="-51.7" font-family="Helvetica,sans-Serif" font-size="9.00">if F &gt; F(pᵢ)</text>
+</g>
+<!-- fit&#45;&gt;gbest -->
+<g id="edge3" class="edge">
+<title>fit-&gt;gbest</title>
+<path fill="none" stroke="black" d="M208.89,-56.4C234.45,-64.35 275.84,-77.24 308.62,-87.45"></path>
+<polygon fill="black" stroke="black" points="307.91,-90.89 318.49,-90.52 309.99,-84.21 307.91,-90.89"></polygon>
+<text text-anchor="middle" x="266.78" y="-83.7" font-family="Helvetica,sans-Serif" font-size="9.00">if F &gt; F(g)</text>
+</g>
+<!-- new_pos -->
+<g id="node7" class="node">
+<title>new_pos</title>
+<path fill="#b3e5fc" stroke="black" d="M729.38,-36C729.38,-36 672.99,-36 672.99,-36 666.99,-36 660.99,-30 660.99,-24 660.99,-24 660.99,-12 660.99,-12 660.99,-6 666.99,0 672.99,0 672.99,0 729.38,0 729.38,0 735.38,0 741.38,-6 741.38,-12 741.38,-12 741.38,-24 741.38,-24 741.38,-30 735.38,-36 729.38,-36"></path>
+<text text-anchor="middle" x="701.18" y="-14.7" font-family="Helvetica,sans-Serif" font-size="11.00">New Position</text>
+</g>
+<!-- new_vel&#45;&gt;new_pos -->
+<g id="edge7" class="edge">
+<title>new_vel-&gt;new_pos</title>
+<path fill="none" stroke="black" d="M600.71,-63.28C616.48,-56.1 634.87,-47.73 651.51,-40.16"></path>
+<polygon fill="black" stroke="black" points="653.43,-43.13 661.08,-35.8 650.53,-36.76 653.43,-43.13"></polygon>
+<text text-anchor="middle" x="630.83" y="-58.7" font-family="Helvetica,sans-Serif" font-size="9.00">x += v</text>
+</g>
+<!-- new_pos&#45;&gt;pos -->
+<g id="edge8" class="edge">
+<title>new_pos-&gt;pos</title>
+<path fill="none" stroke="black" d="M660.95,-11.03C633.32,-6.72 595.41,-2 561.78,-2 183.14,-2 183.14,-2 183.14,-2 149.48,-2 111.71,-6.27 83.06,-10.4"></path>
+<polygon fill="black" stroke="black" points="82.32,-6.97 72.94,-11.91 83.35,-13.89 82.32,-6.97"></polygon>
+<text text-anchor="middle" x="359.57" y="-4.7" font-family="Helvetica,sans-Serif" font-size="9.00">next iter</text>
+</g>
+</g>
+</svg>
+</div>
+<p></p><figcaption> PSO information flow. Each particle balances three forces: momentum (inertia), memory (personal best), and communication (global best).</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="gwo-pack-hierarchy" class="level4">
+<h4 class="anchored" data-anchor-id="gwo-pack-hierarchy">GWO: Pack Hierarchy</h4>
+<p>GWO ranks the population and assigns leadership roles: alpha (<span class="math inline">\(\alpha\)</span>, best fitness), beta (<span class="math inline">\(\beta\)</span>, second), and delta (<span class="math inline">\(\delta\)</span>, third). Each wolf updates its position as a weighted average of influence from all three leaders:</p>
+<p><span class="math display">\[
+\mathbf{x}_i^{(k+1)} = \frac{\mathbf{X}_1 + \mathbf{X}_2 + \mathbf{X}_3}{3}
+\]</span></p>
+<p>where:</p>
+<p><span class="math display">\[
+\mathbf{X}_1 = \mathbf{x}_\alpha - \mathbf{A}_1 \cdot |\mathbf{C}_1 \cdot \mathbf{x}_\alpha - \mathbf{x}_i|, \quad
+\mathbf{X}_2 = \mathbf{x}_\beta - \mathbf{A}_2 \cdot |\mathbf{C}_2 \cdot \mathbf{x}_\beta - \mathbf{x}_i|, \quad
+\mathbf{X}_3 = \mathbf{x}_\delta - \mathbf{A}_3 \cdot |\mathbf{C}_3 \cdot \mathbf{x}_\delta - \mathbf{x}_i|
+\]</span></p>
+<p>The parameter <span class="math inline">\(a\)</span> decays linearly from 2 to 0 over the episode:</p>
+<p><span class="math display">\[
+a = 2 \cdot \Big(1 - \frac{k}{K_\text{max}}\Big), \quad \mathbf{A} = 2a \cdot \mathbf{r}_1 - a, \quad \mathbf{C} = 2 \cdot \mathbf{r}_2
+\]</span></p>
+<p>When <span class="math inline">\(|A| &gt; 1\)</span>, wolves explore (diverge). When <span class="math inline">\(|A| &lt; 1\)</span>, they exploit (converge). This automatic exploration-exploitation balance is elegant but blind to physiological state.</p>
+</section>
+<section id="woa-bubble-net-mechanics" class="level4">
+<h4 class="anchored" data-anchor-id="woa-bubble-net-mechanics">WOA: Bubble-Net Mechanics</h4>
+<p>WOA alternates between two mechanisms with probability <span class="math inline">\(p \sim U(0,1)\)</span>:</p>
+<p><span class="math display">\[
+\mathbf{x}_i^{(k+1)} = \begin{cases}
+\mathbf{x}^* - \mathbf{A} \cdot |\mathbf{C} \cdot \mathbf{x}^* - \mathbf{x}_i| &amp; \text{if } p &lt; 0.5 \text{ and } |A| &lt; 1 \quad \textit{(encirclement)} \\[4pt]
+\mathbf{x}_\text{rand} - \mathbf{A} \cdot |\mathbf{C} \cdot \mathbf{x}_\text{rand} - \mathbf{x}_i| &amp; \text{if } p &lt; 0.5 \text{ and } |A| \geq 1 \quad \textit{(exploration)} \\[4pt]
+D' \cdot e^{bl} \cdot \cos(2\pi l) + \mathbf{x}^* &amp; \text{if } p \geq 0.5 \quad \textit{(spiral)}
+\end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(D' = |\mathbf{x}^* - \mathbf{x}_i|\)</span> is the distance to the best whale, <span class="math inline">\(b = 1.0\)</span> is the spiral shape constant, and <span class="math inline">\(l \sim U(-1, 1)\)</span>. The spiral creates a logarithmic approach trajectory that mimics the humpback whale’s bubble-net hunting.</p>
+</section>
+<section id="aco-pheromone-guided-walks" class="level4">
+<h4 class="anchored" data-anchor-id="aco-pheromone-guided-walks">ACO: Pheromone-Guided Walks</h4>
+<p>ACO is the most distinct of the swarm agents. Instead of a population exploring in parallel, it uses <em>stigmergy</em>: indirect communication through the environment via a pheromone grid <span class="math inline">\(\tau(x,y)\)</span>.</p>
+<p>Each ant <span class="math inline">\(k\)</span> takes a random walk of up to <span class="math inline">\(L\)</span> steps, choosing its next cell with probability:</p>
+<p><span class="math display">\[
+P(x', y') = \frac{[\tau(x', y')]^\alpha \cdot [\eta(x', y')]^\beta}{\sum_{(x'', y'') \in \mathcal{N}} [\tau(x'', y'')]^\alpha \cdot [\eta(x'', y'')]^\beta}
+\]</span></p>
+<p>where <span class="math inline">\(\alpha = 1.0\)</span> is the pheromone influence exponent, <span class="math inline">\(\beta = 2.0\)</span> is the heuristic influence exponent, <span class="math inline">\(\eta(x',y') = \max(0.01, F(x',y') + 100)\)</span> is the heuristic desirability (shifted fitness), and <span class="math inline">\(\mathcal{N}\)</span> is the set of valid adjacent cells.</p>
+<p>After all ants walk, the best path is reinforced and all pheromone evaporates:</p>
+<p><span class="math display">\[
+\tau(x,y) \leftarrow (1 - \rho) \cdot \tau(x,y) + \Delta\tau_\text{best}(x,y)
+\]</span></p>
+<p>where <span class="math inline">\(\rho = 0.1\)</span> is the evaporation rate and <span class="math inline">\(\Delta\tau_\text{best}\)</span> deposits pheromone along the best ant’s path proportional to its fitness. Pheromone is clamped to <span class="math inline">\([\tau_\text{min}, \tau_\text{max}] = [0.1, 10.0]\)</span>.</p>
+<p>This creates a <em>persistent memory</em> of the environment. Good paths accumulate pheromone over multiple steps, which is why ACO outperforms the other swarm agents: it learns from its history rather than restarting each step from scratch.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 325.46 409.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 405)">
+<title>aco</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-405 321.46,-405 321.46,4 -4,4"></polygon>
+<!-- init -->
+<g id="node1" class="node">
+<title>init</title>
+<path fill="#e8f4fd" stroke="black" d="M273.05,-401C273.05,-401 182.82,-401 182.82,-401 176.82,-401 170.82,-395 170.82,-389 170.82,-389 170.82,-377 170.82,-377 170.82,-371 176.82,-365 182.82,-365 182.82,-365 273.05,-365 273.05,-365 279.05,-365 285.05,-371 285.05,-377 285.05,-377 285.05,-389 285.05,-389 285.05,-395 279.05,-401 273.05,-401"></path>
+<text text-anchor="middle" x="227.93" y="-379.7" font-family="Helvetica,sans-Serif" font-size="11.00">Initialize τ(x,y) = 1.0</text>
+</g>
+<!-- ants -->
+<g id="node2" class="node">
+<title>ants</title>
+<path fill="#c8e6c9" stroke="black" d="M277.35,-328C277.35,-328 178.52,-328 178.52,-328 172.52,-328 166.52,-322 166.52,-316 166.52,-316 166.52,-304 166.52,-304 166.52,-298 172.52,-292 178.52,-292 178.52,-292 277.35,-292 277.35,-292 283.35,-292 289.35,-298 289.35,-304 289.35,-304 289.35,-316 289.35,-316 289.35,-322 283.35,-328 277.35,-328"></path>
+<text text-anchor="middle" x="227.93" y="-313.3" font-family="Helvetica,sans-Serif" font-size="11.00">N ants walk L steps</text>
+<text text-anchor="middle" x="227.93" y="-300.1" font-family="Helvetica,sans-Serif" font-size="11.00">each choosing P(x',y')</text>
+</g>
+<!-- init&#45;&gt;ants -->
+<g id="edge1" class="edge">
+<title>init-&gt;ants</title>
+<path fill="none" stroke="black" d="M227.93,-364.81C227.93,-356.79 227.93,-347.05 227.93,-338.07"></path>
+<polygon fill="black" stroke="black" points="231.43,-338.03 227.93,-328.03 224.43,-338.03 231.43,-338.03"></polygon>
+</g>
+<!-- eval -->
+<g id="node3" class="node">
+<title>eval</title>
+<path fill="#ffe0b2" stroke="black" d="M221.33,-255C221.33,-255 150.54,-255 150.54,-255 144.54,-255 138.54,-249 138.54,-243 138.54,-243 138.54,-231 138.54,-231 138.54,-225 144.54,-219 150.54,-219 150.54,-219 221.33,-219 221.33,-219 227.33,-219 233.33,-225 233.33,-231 233.33,-231 233.33,-243 233.33,-243 233.33,-249 227.33,-255 221.33,-255"></path>
+<text text-anchor="middle" x="185.93" y="-240.3" font-family="Helvetica,sans-Serif" font-size="11.00">Evaluate fitness</text>
+<text text-anchor="middle" x="185.93" y="-227.1" font-family="Helvetica,sans-Serif" font-size="11.00">of each ant path</text>
+</g>
+<!-- ants&#45;&gt;eval -->
+<g id="edge2" class="edge">
+<title>ants-&gt;eval</title>
+<path fill="none" stroke="black" d="M217.77,-291.81C212.81,-283.44 206.76,-273.2 201.26,-263.9"></path>
+<polygon fill="black" stroke="black" points="204.11,-261.85 196.01,-255.03 198.09,-265.42 204.11,-261.85"></polygon>
+</g>
+<!-- best -->
+<g id="node4" class="node">
+<title>best</title>
+<path fill="#ffcc80" stroke="black" d="M205.32,-182C205.32,-182 134.55,-182 134.55,-182 128.55,-182 122.55,-176 122.55,-170 122.55,-170 122.55,-158 122.55,-158 122.55,-152 128.55,-146 134.55,-146 134.55,-146 205.32,-146 205.32,-146 211.32,-146 217.32,-152 217.32,-158 217.32,-158 217.32,-170 217.32,-170 217.32,-176 211.32,-182 205.32,-182"></path>
+<text text-anchor="middle" x="169.93" y="-160.7" font-family="Helvetica,sans-Serif" font-size="11.00">Select best path</text>
+</g>
+<!-- eval&#45;&gt;best -->
+<g id="edge3" class="edge">
+<title>eval-&gt;best</title>
+<path fill="none" stroke="black" d="M182.06,-218.81C180.25,-210.79 178.06,-201.05 176.03,-192.07"></path>
+<polygon fill="black" stroke="black" points="179.38,-191.01 173.77,-182.03 172.56,-192.55 179.38,-191.01"></polygon>
+</g>
+<!-- deposit -->
+<g id="node5" class="node">
+<title>deposit</title>
+<path fill="#b3e5fc" stroke="black" d="M71.8,-109C71.8,-109 12.07,-109 12.07,-109 6.07,-109 0.07,-103 0.07,-97 0.07,-97 0.07,-85 0.07,-85 0.07,-79 6.07,-73 12.07,-73 12.07,-73 71.8,-73 71.8,-73 77.8,-73 83.8,-79 83.8,-85 83.8,-85 83.8,-97 83.8,-97 83.8,-103 77.8,-109 71.8,-109"></path>
+<text text-anchor="middle" x="41.93" y="-94.3" font-family="Helvetica,sans-Serif" font-size="11.00">Deposit Δτ on</text>
+<text text-anchor="middle" x="41.93" y="-81.1" font-family="Helvetica,sans-Serif" font-size="11.00">best path</text>
+</g>
+<!-- best&#45;&gt;deposit -->
+<g id="edge4" class="edge">
+<title>best-&gt;deposit</title>
+<path fill="none" stroke="black" d="M139.28,-145.99C121.99,-136.4 100.2,-124.32 81.62,-114.01"></path>
+<polygon fill="black" stroke="black" points="83.23,-110.9 72.79,-109.11 79.83,-117.02 83.23,-110.9"></polygon>
+</g>
+<!-- move -->
+<g id="node7" class="node">
+<title>move</title>
+<path fill="#ff9999" stroke="black" d="M225.64,-109C225.64,-109 114.23,-109 114.23,-109 108.23,-109 102.23,-103 102.23,-97 102.23,-97 102.23,-85 102.23,-85 102.23,-79 108.23,-73 114.23,-73 114.23,-73 225.64,-73 225.64,-73 231.64,-73 237.64,-79 237.64,-85 237.64,-85 237.64,-97 237.64,-97 237.64,-103 231.64,-109 225.64,-109"></path>
+<text text-anchor="middle" x="169.93" y="-94.3" font-family="Helvetica,sans-Serif" font-size="11.00">Organism moves toward</text>
+<text text-anchor="middle" x="169.93" y="-81.1" font-family="Helvetica,sans-Serif" font-size="11.00">best ant position</text>
+</g>
+<!-- best&#45;&gt;move -->
+<g id="edge7" class="edge">
+<title>best-&gt;move</title>
+<path fill="none" stroke="black" d="M169.93,-145.81C169.93,-137.79 169.93,-128.05 169.93,-119.07"></path>
+<polygon fill="black" stroke="black" points="173.43,-119.03 169.93,-109.03 166.43,-119.03 173.43,-119.03"></polygon>
+</g>
+<!-- evap -->
+<g id="node6" class="node">
+<title>evap</title>
+<path fill="#e1bee7" stroke="black" d="M178.27,-36C178.27,-36 129.6,-36 129.6,-36 123.6,-36 117.6,-30 117.6,-24 117.6,-24 117.6,-12 117.6,-12 117.6,-6 123.6,0 129.6,0 129.6,0 178.27,0 178.27,0 184.27,0 190.27,-6 190.27,-12 190.27,-12 190.27,-24 190.27,-24 190.27,-30 184.27,-36 178.27,-36"></path>
+<text text-anchor="middle" x="153.93" y="-21.3" font-family="Helvetica,sans-Serif" font-size="11.00">Evaporate:</text>
+<text text-anchor="middle" x="153.93" y="-8.1" font-family="Helvetica,sans-Serif" font-size="11.00">τ ← (1-ρ)·τ</text>
+</g>
+<!-- deposit&#45;&gt;evap -->
+<g id="edge5" class="edge">
+<title>deposit-&gt;evap</title>
+<path fill="none" stroke="black" d="M68.76,-72.99C83.61,-63.58 102.26,-51.76 118.32,-41.57"></path>
+<polygon fill="black" stroke="black" points="120.37,-44.42 126.94,-36.11 116.62,-38.51 120.37,-44.42"></polygon>
+</g>
+<!-- evap&#45;&gt;ants -->
+<g id="edge6" class="edge">
+<title>evap-&gt;ants</title>
+<path fill="none" stroke="black" d="M190.3,-26.17C223,-34.99 265.93,-53.51 265.93,-90 265.93,-238 265.93,-238 265.93,-238 265.93,-254.47 257.89,-270.82 249.2,-283.67"></path>
+<polygon fill="black" stroke="black" points="246.22,-281.82 243.17,-291.96 251.88,-285.93 246.22,-281.82"></polygon>
+<text text-anchor="middle" x="291.7" y="-161.3" font-family="Helvetica,sans-Serif" font-size="9.00">next iteration</text>
+</g>
+</g>
+</svg>
+</div>
+<p></p><figcaption> ACO’s pheromone feedback loop. Ants explore stochastically, reinforce good paths, and pheromone evaporates to prevent stagnation.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="how-the-llm-solves-it-in-context-reasoning" class="level3">
+<h3 class="anchored" data-anchor-id="how-the-llm-solves-it-in-context-reasoning">How the LLM Solves It: In-Context Reasoning</h3>
+<p>The LLM agent takes a fundamentally different approach. It does not optimize a fitness function or follow a priority cascade. Instead, it receives the raw observation as JSON text and must <em>reason</em> its way to an action.</p>
+<p>The system prompt instructs a 5-step protocol:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 155.46 510.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 506.8)">
+<title>llm</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-506.8 151.46,-506.8 151.46,4 -4,4"></polygon>
+<!-- obs -->
+<g id="node1" class="node">
+<title>obs</title>
+<path fill="#e8f4fd" stroke="black" d="M115.43,-502.6C115.43,-502.6 32.03,-502.6 32.03,-502.6 26.03,-502.6 20.03,-496.6 20.03,-490.6 20.03,-490.6 20.03,-467.4 20.03,-467.4 20.03,-461.4 26.03,-455.4 32.03,-455.4 32.03,-455.4 115.43,-455.4 115.43,-455.4 121.43,-455.4 127.43,-461.4 127.43,-467.4 127.43,-467.4 127.43,-490.6 127.43,-490.6 127.43,-496.6 121.43,-502.6 115.43,-502.6"></path>
+<text text-anchor="middle" x="73.73" y="-488.9" font-family="Helvetica,sans-Serif" font-size="11.00">JSON Observation</text>
+<text text-anchor="middle" x="73.73" y="-475.7" font-family="Helvetica,sans-Serif" font-size="11.00">vitals, terrain,</text>
+<text text-anchor="middle" x="73.73" y="-462.5" font-family="Helvetica,sans-Serif" font-size="11.00">hunters, trophy</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<path fill="#c8e6c9" stroke="black" d="M105.87,-419.2C105.87,-419.2 41.59,-419.2 41.59,-419.2 35.59,-419.2 29.59,-413.2 29.59,-407.2 29.59,-407.2 29.59,-395.2 29.59,-395.2 29.59,-389.2 35.59,-383.2 41.59,-383.2 41.59,-383.2 105.87,-383.2 105.87,-383.2 111.87,-383.2 117.87,-389.2 117.87,-395.2 117.87,-395.2 117.87,-407.2 117.87,-407.2 117.87,-413.2 111.87,-419.2 105.87,-419.2"></path>
+<text text-anchor="middle" x="73.73" y="-404.5" font-family="Helvetica,sans-Serif" font-size="11.00">1. ASSESS</text>
+<text text-anchor="middle" x="73.73" y="-391.3" font-family="Helvetica,sans-Serif" font-size="11.00">vitals &amp; threats</text>
+</g>
+<!-- obs&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>obs-&gt;s1</title>
+<path fill="none" stroke="black" d="M73.73,-455.26C73.73,-447.16 73.73,-437.96 73.73,-429.52"></path>
+<polygon fill="black" stroke="black" points="77.23,-429.38 73.73,-419.38 70.23,-429.38 77.23,-429.38"></polygon>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<path fill="#c8e6c9" stroke="black" d="M116.05,-347C116.05,-347 31.4,-347 31.4,-347 25.4,-347 19.4,-341 19.4,-335 19.4,-335 19.4,-311.8 19.4,-311.8 19.4,-305.8 25.4,-299.8 31.4,-299.8 31.4,-299.8 116.05,-299.8 116.05,-299.8 122.05,-299.8 128.05,-305.8 128.05,-311.8 128.05,-311.8 128.05,-335 128.05,-335 128.05,-341 122.05,-347 116.05,-347"></path>
+<text text-anchor="middle" x="73.73" y="-333.3" font-family="Helvetica,sans-Serif" font-size="11.00">2. ANALYZE</text>
+<text text-anchor="middle" x="73.73" y="-320.1" font-family="Helvetica,sans-Serif" font-size="11.00">hunter radii from</text>
+<text text-anchor="middle" x="73.73" y="-306.9" font-family="Helvetica,sans-Serif" font-size="11.00">observation history</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1-&gt;s2</title>
+<path fill="none" stroke="black" d="M73.73,-383C73.73,-375.4 73.73,-366.2 73.73,-357.37"></path>
+<polygon fill="black" stroke="black" points="77.23,-357.28 73.73,-347.28 70.23,-357.28 77.23,-357.28"></polygon>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<path fill="#ffe0b2" stroke="black" d="M120.84,-263.6C120.84,-263.6 26.61,-263.6 26.61,-263.6 20.61,-263.6 14.61,-257.6 14.61,-251.6 14.61,-251.6 14.61,-239.6 14.61,-239.6 14.61,-233.6 20.61,-227.6 26.61,-227.6 26.61,-227.6 120.84,-227.6 120.84,-227.6 126.84,-227.6 132.84,-233.6 132.84,-239.6 132.84,-239.6 132.84,-251.6 132.84,-251.6 132.84,-257.6 126.84,-263.6 120.84,-263.6"></path>
+<text text-anchor="middle" x="73.73" y="-248.9" font-family="Helvetica,sans-Serif" font-size="11.00">3. PLAN</text>
+<text text-anchor="middle" x="73.73" y="-235.7" font-family="Helvetica,sans-Serif" font-size="11.00">2-3 candidate moves</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2-&gt;s3</title>
+<path fill="none" stroke="black" d="M73.73,-299.66C73.73,-291.56 73.73,-282.36 73.73,-273.92"></path>
+<polygon fill="black" stroke="black" points="77.23,-273.78 73.73,-263.78 70.23,-273.78 77.23,-273.78"></polygon>
+</g>
+<!-- s4 -->
+<g id="node5" class="node">
+<title>s4</title>
+<path fill="#ffe0b2" stroke="black" d="M120.73,-191.6C120.73,-191.6 26.73,-191.6 26.73,-191.6 20.73,-191.6 14.73,-185.6 14.73,-179.6 14.73,-179.6 14.73,-167.6 14.73,-167.6 14.73,-161.6 20.73,-155.6 26.73,-155.6 26.73,-155.6 120.73,-155.6 120.73,-155.6 126.73,-155.6 132.73,-161.6 132.73,-167.6 132.73,-167.6 132.73,-179.6 132.73,-179.6 132.73,-185.6 126.73,-191.6 120.73,-191.6"></path>
+<text text-anchor="middle" x="73.73" y="-176.9" font-family="Helvetica,sans-Serif" font-size="11.00">4. FACTOR</text>
+<text text-anchor="middle" x="73.73" y="-163.7" font-family="Helvetica,sans-Serif" font-size="11.00">trophy direction hints</text>
+</g>
+<!-- s3&#45;&gt;s4 -->
+<g id="edge4" class="edge">
+<title>s3-&gt;s4</title>
+<path fill="none" stroke="black" d="M73.73,-227.3C73.73,-219.58 73.73,-210.31 73.73,-201.71"></path>
+<polygon fill="black" stroke="black" points="77.23,-201.7 73.73,-191.7 70.23,-201.7 77.23,-201.7"></polygon>
+</g>
+<!-- s5 -->
+<g id="node6" class="node">
+<title>s5</title>
+<path fill="#b3e5fc" stroke="black" d="M135.69,-119.6C135.69,-119.6 11.77,-119.6 11.77,-119.6 5.77,-119.6 -0.23,-113.6 -0.23,-107.6 -0.23,-107.6 -0.23,-95.6 -0.23,-95.6 -0.23,-89.6 5.77,-83.6 11.77,-83.6 11.77,-83.6 135.69,-83.6 135.69,-83.6 141.69,-83.6 147.69,-89.6 147.69,-95.6 147.69,-95.6 147.69,-107.6 147.69,-107.6 147.69,-113.6 141.69,-119.6 135.69,-119.6"></path>
+<text text-anchor="middle" x="73.73" y="-104.9" font-family="Helvetica,sans-Serif" font-size="11.00">5. DECIDE</text>
+<text text-anchor="middle" x="73.73" y="-91.7" font-family="Helvetica,sans-Serif" font-size="11.00">safest action toward trophy</text>
+</g>
+<!-- s4&#45;&gt;s5 -->
+<g id="edge5" class="edge">
+<title>s4-&gt;s5</title>
+<path fill="none" stroke="black" d="M73.73,-155.3C73.73,-147.58 73.73,-138.31 73.73,-129.71"></path>
+<polygon fill="black" stroke="black" points="77.23,-129.7 73.73,-119.7 70.23,-129.7 77.23,-129.7"></polygon>
+</g>
+<!-- out -->
+<g id="node7" class="node">
+<title>out</title>
+<polygon fill="#f5f5f5" stroke="black" points="113.25,-47.4 28.2,-47.4 28.2,-0.2 119.25,-0.2 119.25,-41.4 113.25,-47.4"></polygon>
+<polyline fill="none" stroke="black" points="113.25,-47.4 113.25,-41.4 "></polyline>
+<polyline fill="none" stroke="black" points="119.25,-41.4 113.25,-41.4 "></polyline>
+<text text-anchor="middle" x="73.73" y="-33.7" font-family="Helvetica,sans-Serif" font-size="11.00">JSON Output</text>
+<text text-anchor="middle" x="73.73" y="-20.5" font-family="Helvetica,sans-Serif" font-size="11.00">action + reason</text>
+<text text-anchor="middle" x="73.73" y="-7.3" font-family="Helvetica,sans-Serif" font-size="11.00">+ confidence</text>
+</g>
+<!-- s5&#45;&gt;out -->
+<g id="edge6" class="edge">
+<title>s5-&gt;out</title>
+<path fill="none" stroke="black" d="M73.73,-83.4C73.73,-75.8 73.73,-66.6 73.73,-57.77"></path>
+<polygon fill="black" stroke="black" points="77.23,-57.68 73.73,-47.68 70.23,-57.68 77.23,-57.68"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p><figcaption> The LLM agent’s reasoning protocol. Each step feeds into the next, culminating in a structured JSON action.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>The LLM must implicitly solve the same optimization problem the swarm agents solve explicitly, but through <em>language</em>. It must:</p>
+<ol type="1">
+<li>Parse a JSON observation and extract relevant features</li>
+<li>Maintain a mental model of hunter detection radii from partial observations (if the hunter was visible at distance 10 but not chasing, then <span class="math inline">\(R_\text{hunter} &lt; 10\)</span>)</li>
+<li>Weigh multiple objectives (vitals, hunters, trophy) without an explicit fitness function</li>
+<li>Output a valid action in structured JSON format</li>
+</ol>
+<p>The critical difference: the swarm agents optimize over <em>space</em> (where should I go?), while the LLM optimizes over <em>actions</em> (what should I do?). The swarm agents have access to the full world grid through the snapshot and can evaluate thousands of positions. The LLM sees only a 3-cell observation radius and must reason from limited information.</p>
+<p>This makes the LLM agent simultaneously more powerful (it can reason about abstract concepts like “save energy for later”) and more fragile (it can hallucinate actions, misparse observations, or simply forget to eat). As the results show, the fragility currently dominates.</p>
+<hr>
+</section>
+</section>
+<section id="the-evaluation-who-survives-longest" class="level2">
+<h2 class="anchored" data-anchor-id="the-evaluation-who-survives-longest">The Evaluation: Who Survives Longest?</h2>
+<p>Here are the results from batch evaluation across 10 random seeds on the <strong>hunt</strong> scenario (the hardest configuration: 6 hunters, 1.3x drain multiplier, 800 max steps). FOr the LLM part we include <strong>GPT-4o-mini</strong> as the LLM agent alongside the heuristic and swarm baselines.</p>
+<table class="table-striped table-hover caption-top table">
+<caption>Hunt scenario (hard mode), 10 seeds each.</caption>
+<colgroup>
+<col style="width: 24%">
+<col style="width: 20%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Agent</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: center;">Avg Steps</th>
+<th style="text-align: center;">Avg Days</th>
+<th style="text-align: left;">Top Death Cause</th>
+<th style="text-align: center;">Trophy Wins</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Heuristic</strong></td>
+<td style="text-align: left;">Rule-based</td>
+<td style="text-align: center;"><strong>87.5</strong></td>
+<td style="text-align: center;"><strong>3.65</strong></td>
+<td style="text-align: left;">Starvation (60%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ACO</strong></td>
+<td style="text-align: left;">Swarm</td>
+<td style="text-align: center;">60.6</td>
+<td style="text-align: center;">2.53</td>
+<td style="text-align: left;">Dehydration (40%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Random</strong></td>
+<td style="text-align: left;">Baseline</td>
+<td style="text-align: center;">51.8</td>
+<td style="text-align: center;">2.16</td>
+<td style="text-align: left;">Dehydration (60%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>PSO</strong></td>
+<td style="text-align: left;">Swarm</td>
+<td style="text-align: center;">42.0</td>
+<td style="text-align: center;">1.75</td>
+<td style="text-align: left;">Dehydration (60%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>GWO</strong></td>
+<td style="text-align: left;">Swarm</td>
+<td style="text-align: center;">41.3</td>
+<td style="text-align: center;">1.72</td>
+<td style="text-align: left;">Starvation (50%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>WOA</strong></td>
+<td style="text-align: left;">Swarm</td>
+<td style="text-align: center;">40.4</td>
+<td style="text-align: center;">1.68</td>
+<td style="text-align: left;">Dehydration (50%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>GPT-4o-mini</strong></td>
+<td style="text-align: left;">LLM</td>
+<td style="text-align: center;">33.7</td>
+<td style="text-align: center;">1.40</td>
+<td style="text-align: left;">Starvation (100%)</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<section id="key-observations" class="level3">
+<h3 class="anchored" data-anchor-id="key-observations">Key Observations</h3>
+<p><strong>The heuristic agent dominates survival time.</strong> At 87.5 average steps (3.65 days), it nearly doubles the swarm agents and more than doubles the LLM. This is not surprising—it was <em>designed</em> to survive, with hand-crafted rules that prioritize drinking when thirsty, eating when hungry, and fleeing when threatened.</p>
+<p><strong>GPT-4o-mini finishes last.</strong> At 33.7 average steps, the LLM agent is outperformed by every other agent—including the random baseline. Every single LLM death was from starvation, suggesting the model understands it should drink water but consistently fails to forage for food. It reasons eloquently about trade-offs but cannot translate that reasoning into consistent action.</p>
+<p><strong>Swarm agents explore more but die faster.</strong> GWO and PSO visit 23+ unique cells with exploration rates above 64%, compared to the heuristic’s 17 cells at 24%. The swarm agents are <em>better explorers</em> but <em>worse survivors</em>. They optimize for the trophy (exploration) at the expense of staying alive.</p>
+<p><strong>ACO is the best swarm agent.</strong> At 60.6 steps, ACO outperforms the other three swarm algorithms by 50%. Its pheromone memory creates persistent trails that implicitly encode safe paths, giving it an advantage in repeated traversal.</p>
+<p><strong>Random is not the worst.</strong> The random agent (51.8 steps) outlives PSO, GWO, WOA, and the LLM. Optimization without survival awareness is worse than no optimization at all. And apparently, so is <em>reasoning</em> without survival instinct.</p>
+<p><strong>Nobody finds the trophy.</strong> Across all 70 evaluation runs (7 agents x 10 seeds), zero trophies were found. The hunt scenario is genuinely hard—6 hunters with variable detection radii on a foggy 80x60 map with 1.3x resource drain.</p>
+<hr>
+</section>
+</section>
+<section id="performance-across-the-biomes" class="level2">
+<h2 class="anchored" data-anchor-id="performance-across-the-biomes">Performance across the Biomes</h2>
+<p>The hunt scenario is the hardest, but how do these agents perform across different environments? Each biome presents a unique survival challenge: forests are resource-rich but crawling with wildlife, deserts drain hydration mercilessly, and the tundra freezes everything.</p>
+<section id="survival-by-environment-avg-steps-10-seeds" class="level3">
+<h3 class="anchored" data-anchor-id="survival-by-environment-avg-steps-10-seeds">Survival by Environment (Avg Steps, 10 seeds)</h3>
+<table class="table-striped table-hover caption-top table">
+<caption>Average steps survived across all four environments, 10 seeds per cell. Bold = best in column.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Agent</th>
+<th style="text-align: center;">Hunt</th>
+<th style="text-align: center;">Forest</th>
+<th style="text-align: center;">Desert</th>
+<th style="text-align: center;">Tundra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Heuristic</strong></td>
+<td style="text-align: center;"><strong>87.5</strong></td>
+<td style="text-align: center;"><strong>85.2</strong></td>
+<td style="text-align: center;"><strong>50.3</strong></td>
+<td style="text-align: center;"><strong>39.1</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ACO</strong></td>
+<td style="text-align: center;">60.6</td>
+<td style="text-align: center;"><strong>66.7</strong></td>
+<td style="text-align: center;">31.1</td>
+<td style="text-align: center;">14.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>PSO</strong></td>
+<td style="text-align: center;">42.0</td>
+<td style="text-align: center;">52.5</td>
+<td style="text-align: center;">28.5</td>
+<td style="text-align: center;">15.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>GPT-4o-mini</strong></td>
+<td style="text-align: center;">33.7</td>
+<td style="text-align: center;">41.7</td>
+<td style="text-align: center;">31.7</td>
+<td style="text-align: center;">16.0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="visual-breakdown-by-environment" class="level3">
+<h3 class="anchored" data-anchor-id="visual-breakdown-by-environment">Visual Breakdown by Environment</h3>
+<p>The table below shows each agent navigating each biome. Watch how the same algorithm behaves differently depending on the terrain, climate, and threats it faces.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Heuristic</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">GPT-4o-mini</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">PSO</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">ACO</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/forest_heuristic.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Forest (85.2 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/desert_heuristic.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Desert (50.3 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/tundra_heuristic.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Tundra (39.1 steps)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The heuristic agent thrives in the forest thanks to abundant vegetation and water. In the desert, dehydration (50%) is the primary killer. The tundra is its worst nightmare, hypothermia claims 90% of its runs despite shelter-building logic. It is supposed to be the best, since it has custom hand-crafted rules for the environments.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/forest_llm.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Forest (41.7 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/desert_llm.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Desert (31.7 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/tundra_llm.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Tundra (16.0 steps)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The LLM struggles everywhere but shows some adaptability. In the forest, death causes are diverse (hypothermia, starvation, hunted), suggesting the model <em>tries</em> different strategies rather than failing the same way every time. In the tundra, 90% of deaths are hypothermia, it cannot figure out shelter-building.</p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/forest_pso.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Forest (52.5 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/desert_pso.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Desert (28.5 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/tundra_pso.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Tundra (15.5 steps)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>PSO explores aggressively in every biome - note how particles spread across the map. In the forest this works reasonably well (52.5 steps). In the tundra, the entire population freezes to death within 15 steps. The particles cannot evaluate temperature risk.</p>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/forest_aco.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Forest (66.7 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/desert_aco.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Desert (31.1 steps)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/earth33/tundra_aco.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Tundra (14.9 steps)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>ACO is the best swarm agent in both the hunt and forest scenarios thanks to pheromone memory. But in extreme environments (desert, tundra), pheromone trails are useless—the organism dies before ants can establish meaningful paths.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-the-biomes-reveal" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-biomes-reveal">What the Biomes Reveal</h3>
+<p><strong>Forest is forgiving.</strong> All agents survive longest here. Abundant vegetation, water, and moderate temperatures provide a buffer against poor decisions. The heuristic and ACO both break 65+ steps.</p>
+<p><strong>Desert punishes poor hydration management.</strong> Dehydration is the leading cause of death across all agents. The heuristic survives twice as long because its priority-1 rule is: “if thirsty, drink.” The LLM often knows it should drink but moves toward the trophy instead.</p>
+<p><strong>Tundra is the great equalizer.</strong> Every agent converges to roughly 14-16 steps, with the sole exception of the heuristic at 39. The tundra tests one thing: can you build a shelter before you freeze? The heuristic has an explicit rule for this. Nobody else does.</p>
+<hr>
+</section>
+</section>
+<section id="conclusion-and-future-steps" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-and-future-steps">Conclusion and Future Steps</h2>
+<p>The results are brutally clear: <strong>GPT-4o-mini cannot survive in the wild.</strong> Not even as well as random chance. At least not with the current set of prompts and without specific reasoning-harness.</p>
+<p>The heuristic agent lives the longest because it <em>never takes risks</em>. It drinks, eats, rests, and runs, but it never finds the trophy. The swarm agents explore aggressively but burn through resources. The LLM agent can <em>reason</em> about trade-offs in a way that neither heuristics nor swarm algorithms can- its action justifications are often insightful, but translating that reasoning into consistently good actions remains a wide-open challenge. Knowing what to do and doing it are, it turns out, very different things.</p>
+<section id="what-earth-33-can-test-going-forward" class="level3">
+<h3 class="anchored" data-anchor-id="what-earth-33-can-test-going-forward">What Earth-33 Can Test Going Forward</h3>
+<ol type="1">
+<li><p><strong>Long-horizon planning</strong>: Future LLM agents could be given memory buffers and multi-turn planning windows. Can an LLM that remembers the last 50 turns outperform one that only sees the current state?</p></li>
+<li><p><strong>Tool use under pressure</strong>: What if the LLM agent could “call” sub-routines, use a pathfinding algorithm for navigation while reserving its reasoning for high-level strategy? This mirrors how humans delegate routine tasks to muscle memory.</p></li>
+<li><p><strong>Multi-agent cooperation</strong>: Earth-33’s architecture supports multiple organisms. Can two LLM agents coordinate survival better than two heuristic agents? Can they develop communication protocols through the SIGNAL action?</p></li>
+<li><p><strong>Transfer across biomes</strong>: An agent trained on forest scenarios must adapt to desert or tundra. Does an LLM generalize better than a heuristic that was tuned for one environment?</p></li>
+<li><p><strong>Evolutionary fine-tuning</strong>: The swarm algorithms hint at a possibility—what if we used evolutionary strategies to <em>fine-tune</em> LLM prompts or LoRA adapters, selecting for agents that survive longest?</p></li>
+<li><p><strong>Real-world grounding</strong>: Earth-33’s terrain generation can be extended to use real GIS data. Imagine dropping an LLM agent into a simulation of the Sahara or the Amazon and asking it to survive. The gap between textbook knowledge and embodied intelligence would become starkly visible.</p></li>
+</ol>
+<p>They way I intended Earth-33 doesn’t ask “how smart is this model?” but “how well does intelligence translate into action?” And right now, the answer is: not as well as we would like. But that is precisely what makes it a useful benchmark in my opinion.</p>
+<p>The wilderness does not grade on a curve sadly :)</p>
+<hr>
+<p><em>Earth-33 is open source. You can find the full codebase, configs, and evaluation scripts on <a href="https://github.com/ritwikraha/earth_33">GitHub</a>.</em></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ritwikraha\.dev");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
