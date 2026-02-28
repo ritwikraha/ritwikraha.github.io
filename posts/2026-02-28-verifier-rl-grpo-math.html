@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ritwik Raha">
+<meta name="dcterms.date" content="2026-02-28">
+
+<title>Does RL Make a 0.6B Model Better at Math? – Ritwik Raha</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a14e3238c51140e99ccc48519b6ed9ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Ritwik Raha</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ritwikraha"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ritwik_raha"> <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.youtube.com/@ritwikraha"> <i class="bi bi-youtube" role="img" aria-label="YouTube">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Does RL Make a 0.6B Model Better at Math?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ritwik Raha </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 28, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>What happens when you replace the entire RLHF reward pipeline with a regex and a number comparison? You get a clean answer to a clean question: can reinforcement learning teach a small language model to reason about math? Short answer - No.&nbsp;</p>
+<hr>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The standard recipe for improving language model behavior with reinforcement learning involves three steps: supervised fine-tuning, training a reward model on human preferences, and then running PPO against that reward model. This pipeline works, but it is expensive, fragile, and introduces a fundamental weakness — the reward model is a neural network, and neural networks can be fooled.</p>
+<p>For math, there is a simpler option. Math has a property that most language tasks do not: <strong>verifiable correctness</strong>. You can check whether a model’s answer to “What is 48 + 24?” is right without a neural network. A regex and an equality check will do.</p>
+<p>This experiment tests a direct question: if we train Qwen3-0.6B on grade school math using only a symbolic correctness checker as the reward signal, does the model get better at math? We use <strong>Group Relative Policy Optimization (GRPO)</strong> — a variant of PPO that eliminates the need for a critic network — and evaluate on the GSM8K benchmark.</p>
+<p>The answer, it turns out, is no. Accuracy drops by 10 percentage points. But <em>why</em> it drops is more interesting than a simple improvement would have been.</p>
+<p>The full experiment notebook is available on <a href="https://github.com/ritwikraha/AutoRegressive-Bhasha/blob/main/experiments/verifier_rl_grpo_math.ipynb">GitHub</a>.</p>
+<hr>
+</section>
+<section id="background-what-is-grpo" class="level2">
+<h2 class="anchored" data-anchor-id="background-what-is-grpo">Background: What Is GRPO?</h2>
+<p>Standard PPO (Proximal Policy Optimization) requires two neural networks: a <strong>policy</strong> (the language model) and a <strong>critic</strong> (a value network that estimates expected future reward). For language models, the critic is typically another full-sized model, which doubles your memory requirements.</p>
+<p>GRPO (Group Relative Policy Optimization), introduced in <a href="https://arxiv.org/abs/2501.12948">DeepSeek-R1</a>, removes the critic entirely. Instead of estimating advantages using a learned value function, GRPO computes advantages <strong>within a group of sampled completions</strong> for the same prompt.</p>
+<p>Here is how it works. For each training prompt <span class="math inline">\(x\)</span>, the model generates <span class="math inline">\(G\)</span> candidate completions <span class="math inline">\(\{y_1, y_2, \ldots, y_G\}\)</span>. Each completion receives a reward <span class="math inline">\(r_i\)</span> from the reward function. The advantage for completion <span class="math inline">\(i\)</span> is:</p>
+<p><span class="math display">\[
+\hat{A}_i = \frac{r_i - \text{mean}(\{r_j\}_{j=1}^{G})}{\text{std}(\{r_j\}_{j=1}^{G})}
+\]</span></p>
+<p>This is just z-score normalization within the group. If a completion scored higher than the group average, it gets a positive advantage (reinforce this behavior). If it scored lower, it gets a negative advantage (suppress this behavior). No critic network needed.</p>
+<p>The policy is then updated using a clipped objective similar to PPO, with an added KL divergence penalty to prevent the model from drifting too far from its initial weights:</p>
+<p><span class="math display">\[
+\mathcal{L} = -\hat{A}_i \cdot \log \pi_\theta(y_i \mid x) + \beta \cdot D_{KL}(\pi_\theta \| \pi_{\text{ref}})
+\]</span></p>
+<p>where <span class="math inline">\(\beta\)</span> controls how strongly the model is anchored to its pretrained behavior. Too high and the model cannot learn. Too low and it may collapse to a degenerate policy.</p>
+<p>The key advantage of GRPO for small-scale experiments: <strong>it fits on a single GPU</strong>. A 0.6B policy model with group size 4 requires roughly 8–12 GB of VRAM, well within the capacity of a free-tier Colab T4.</p>
+<hr>
+</section>
+<section id="the-reward-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-reward-function">The Reward Function</h2>
+<p>The reward function is the philosophical center of this experiment. In standard RLHF, a neural reward model scores completions on a continuous scale. This model is trained on human preference data, and it can be wrong. Worse, it can be exploited; models learn to produce outputs that <em>look</em> good to the reward model without actually being good. This is reward hacking.</p>
+<p>For math, I bypass this entirely. The reward function has two components:</p>
+<p><strong>Correctness reward.</strong> Extract the numerical answer from the model’s output (from <code>\boxed{}</code> or by parsing the last number), compare it to the ground truth answer from GSM8K. Return 1.0 if they match, 0.0 otherwise.</p>
+<p><strong>Format reward.</strong> If the model uses <code>\boxed{}</code> at all — even with the wrong answer — return a small bonus of 0.1. This teaches the model to use the expected output format early in training, which makes the correctness reward easier to obtain.</p>
+<p><span class="math display">\[
+r(y) = \underbrace{\mathbb{1}[\text{extract}(y) = \text{truth}]}_{\text{correctness}} + \underbrace{0.1 \cdot \mathbb{1}[\text{boxed format} \in y]}_{\text{format bonus}}
+\]</span></p>
+<p>The total reward per completion ranges from 0.0 (wrong answer, no format) to 1.1 (correct answer in the right format). There is no learned component. The only way to score 1.0 is to actually solve the math problem.</p>
+<section id="how-the-verifier-works-in-practice" class="level3">
+<h3 class="anchored" data-anchor-id="how-the-verifier-works-in-practice">How the Verifier Works in Practice</h3>
+<p>The verifier needs to solve one problem: extract a number from free-form model output and compare it to the ground truth. This sounds trivial, but small language models are messy. Qwen3-0.6B does not always wrap its answer in <code>\boxed{}</code>. Sometimes it writes “the answer is 42”, sometimes “total = 42”, sometimes it just ends with a bold number. The extraction logic must handle all of these.</p>
+<p>The first step is stripping Qwen3’s thinking tags. Even with thinking mode disabled, the model occasionally emits <code>&lt;think&gt;...&lt;/think&gt;</code> blocks:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> strip_think_tags(text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Remove &lt;think&gt;...&lt;/think&gt; blocks from Qwen3 output."""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> re.sub(<span class="vs">r"&lt;think&gt;</span><span class="dv">.</span><span class="op">*?</span><span class="vs">&lt;/think&gt;"</span>, <span class="st">""</span>, text, flags<span class="op">=</span>re.DOTALL).strip()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, I try to extract from <code>\boxed{}</code> — the format explicitly asked for in the system prompt:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_boxed_answer(text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extract the answer from </span><span class="ch">\\</span><span class="co">boxed{...} in model output."""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    match <span class="op">=</span> re.search(<span class="vs">r"</span><span class="ch">\\</span><span class="vs">boxed</span><span class="ch">\{</span><span class="kw">(</span><span class="pp">[^{}]</span><span class="op">+</span><span class="kw">)</span><span class="ch">\}</span><span class="vs">"</span>, text)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> match:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        answer <span class="op">=</span> match.group(<span class="dv">1</span>).strip()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        answer <span class="op">=</span> answer.replace(<span class="st">","</span>, <span class="st">""</span>).replace(<span class="st">"$"</span>, <span class="st">""</span>).strip(<span class="st">"."</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> answer</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When <code>\boxed{}</code> is not present, I fall back to pattern matching against common answer formats. Each pattern is tried in order of specificity:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_final_number(text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Fallback: extract the last number from the model's output."""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    patterns <span class="op">=</span> [</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"</span>(?:<span class="vs">the</span><span class="dv">\s</span><span class="op">+</span>)<span class="op">?</span><span class="vs">answer</span><span class="dv">\s</span><span class="op">+</span><span class="vs">is</span><span class="dv">\s</span><span class="op">*</span><span class="vs">:</span><span class="op">?</span><span class="dv">\s</span><span class="op">*</span><span class="ch">\$</span><span class="op">?</span><span class="kw">(</span><span class="pp">[+-]</span><span class="op">?</span><span class="pp">[</span><span class="dv">\d</span><span class="pp">,]</span><span class="op">+</span><span class="ch">\.</span><span class="op">?</span><span class="dv">\d</span><span class="op">*</span><span class="kw">)</span><span class="vs">"</span>,  <span class="co"># "the answer is 42"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"</span>(?:<span class="vs">total</span><span class="cf">|</span><span class="vs">result</span>)<span class="dv">\s</span><span class="op">*</span>(?:<span class="vs">is</span><span class="cf">|</span><span class="vs">=</span><span class="cf">|</span><span class="vs">:</span>)<span class="dv">\s</span><span class="op">*</span><span class="ch">\$</span><span class="op">?</span><span class="kw">(</span><span class="pp">[+-]</span><span class="op">?</span><span class="pp">[</span><span class="dv">\d</span><span class="pp">,]</span><span class="op">+</span><span class="ch">\.</span><span class="op">?</span><span class="dv">\d</span><span class="op">*</span><span class="kw">)</span><span class="vs">"</span>, <span class="co"># "total = 42"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"=</span><span class="dv">\s</span><span class="op">*</span><span class="ch">\$</span><span class="op">?</span><span class="kw">(</span><span class="pp">[+-]</span><span class="op">?</span><span class="pp">[</span><span class="dv">\d</span><span class="pp">,]</span><span class="op">+</span><span class="ch">\.</span><span class="op">?</span><span class="dv">\d</span><span class="op">*</span><span class="kw">)</span><span class="dv">\s</span><span class="op">*</span><span class="dv">$</span><span class="vs">"</span>,                         <span class="co"># ends with "= 42"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"</span><span class="ch">\*\*</span><span class="kw">(</span><span class="pp">[+-]</span><span class="op">?</span><span class="pp">[</span><span class="dv">\d</span><span class="pp">,]</span><span class="op">+</span><span class="ch">\.</span><span class="op">?</span><span class="dv">\d</span><span class="op">*</span><span class="kw">)</span><span class="ch">\*\*</span><span class="dv">\s</span><span class="op">*</span><span class="dv">$</span><span class="vs">"</span>,                         <span class="co"># bold number at end</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"</span><span class="kw">(</span><span class="dv">\d</span><span class="pp">[</span><span class="dv">\d</span><span class="pp">,]</span><span class="op">*</span><span class="ch">\.</span><span class="op">?</span><span class="dv">\d</span><span class="op">*</span><span class="kw">)</span><span class="dv">\s</span><span class="op">*</span><span class="dv">$</span><span class="vs">"</span>,                                     <span class="co"># last number in text</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pattern <span class="kw">in</span> patterns:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        match <span class="op">=</span> re.search(pattern, text, re.IGNORECASE <span class="op">|</span> re.MULTILINE)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> match:</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> match.group(<span class="dv">1</span>).replace(<span class="st">","</span>, <span class="st">""</span>).strip(<span class="st">"."</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The correctness reward function ties it all together. It receives a batch of completions from TRL’s <code>GRPOTrainer</code>, unwraps them (TRL passes completions as chat message lists, not plain strings), extracts the answer, normalizes both sides for comparison, and returns a binary reward:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> correctness_reward(completions, ground_truth, <span class="op">**</span>kwargs) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">float</span>]:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Binary reward: 1.0 if correct, 0.0 if wrong."""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    rewards <span class="op">=</span> []</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> completion, truth <span class="kw">in</span> <span class="bu">zip</span>(completions, ground_truth):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> _unwrap_completion(completion)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        predicted <span class="op">=</span> extract_answer(text)  <span class="co"># tries boxed first, then fallback</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> predicted <span class="kw">and</span> normalize_number(predicted) <span class="op">==</span> normalize_number(truth):</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            rewards.append(<span class="fl">1.0</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            rewards.append(<span class="fl">0.0</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rewards</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The format reward is simpler — it just checks for the presence of <code>\boxed{}</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_reward(completions, <span class="op">**</span>kwargs) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">float</span>]:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Soft reward for using the </span><span class="ch">\\</span><span class="co">boxed{} format at all."""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    rewards <span class="op">=</span> []</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> completion <span class="kw">in</span> completions:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> strip_think_tags(_unwrap_completion(completion))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> re.search(<span class="vs">r"</span><span class="ch">\\</span><span class="vs">boxed</span><span class="ch">\{</span><span class="dv">.</span><span class="op">+</span><span class="ch">\}</span><span class="vs">"</span>, text):</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            rewards.append(<span class="fl">0.1</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            rewards.append(<span class="fl">0.0</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rewards</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Both functions are passed to TRL’s <code>GRPOTrainer</code> as a list. TRL calls each one and sums the rewards per completion. The <a href="https://github.com/ritwikraha/AutoRegressive-Bhasha/blob/main/experiments/verifier_rl_grpo_math.ipynb">full implementation</a> also includes number normalization (handling commas, decimals, integer-float equivalence) and a completion unwrapping utility that handles the different formats TRL uses internally.</p>
+<p>Developers from TRL if you are reading this. I have felt pain, and I shall wait for my time to share that pain with you :)</p>
+<hr>
+</section>
+</section>
+<section id="experiment-setup" class="level2">
+<h2 class="anchored" data-anchor-id="experiment-setup">Experiment Setup</h2>
+<section id="model" class="level3">
+<h3 class="anchored" data-anchor-id="model">Model</h3>
+<p><strong>Qwen3-0.6B</strong> with thinking mode disabled. Qwen3 supports a built-in chain-of-thought mode that wraps internal reasoning in <code>&lt;think&gt;...&lt;/think&gt;</code> tags. We disable this via <code>enable_thinking=False</code> in the tokenizer to isolate the RL training signal. Any change in reasoning behavior comes from the gradient updates, not from a prompting trick.</p>
+<p>Why 0.6B? Three reasons. First, GRPO needs to generate <span class="math inline">\(G\)</span> completions per prompt during training, so inference speed is the bottleneck. Second, a small model makes any RL-driven improvement (or degradation) unambiguous — the model is not already saturating the benchmark. Third, it fits on a free Colab GPU.</p>
+</section>
+<section id="dataset" class="level3">
+<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
+<p><strong>GSM8K</strong> (Grade School Math 8K): 7,473 training problems and 1,319 test problems. Each problem is a multi-step arithmetic word problem with a final numerical answer marked with <code>#### &lt;number&gt;</code>. Typical problems involve 2–5 reasoning steps.</p>
+</section>
+<section id="training-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="training-configuration">Training Configuration</h3>
+<table class="table-striped table-hover caption-top table">
+<caption>GRPO training hyperparameters.</caption>
+<colgroup>
+<col style="width: 37%">
+<col style="width: 24%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Algorithm</td>
+<td style="text-align: left;">GRPO</td>
+<td style="text-align: left;">No critic network needed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group size (<span class="math inline">\(G\)</span>)</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Balance between advantage quality and VRAM</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KL penalty (<span class="math inline">\(\beta\)</span>)</td>
+<td style="text-align: left;">0.04</td>
+<td style="text-align: left;">Moderate anchor to pretrained behavior</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Training steps</td>
+<td style="text-align: left;">250</td>
+<td style="text-align: left;">Enough to observe signal without overfitting</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effective batch size</td>
+<td style="text-align: left;">4 prompts <span class="math inline">\(\times\)</span> 4 completions = 16</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Learning rate</td>
+<td style="text-align: left;">5e-6</td>
+<td style="text-align: left;">Conservative for RL stability</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Max completion length</td>
+<td style="text-align: left;">512 tokens</td>
+<td style="text-align: left;">GSM8K solutions rarely exceed 300 tokens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sampling temperature</td>
+<td style="text-align: left;">0.7</td>
+<td style="text-align: left;">Exploration during group sampling</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Precision</td>
+<td style="text-align: left;">BF16</td>
+<td style="text-align: left;">Standard for modern GPUs</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="evaluation-protocol" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation-protocol">Evaluation Protocol</h3>
+<p>I evaluated on 100 problems from the GSM8K test set using greedy decoding (temperature = 0) for reproducibility. The same evaluation code and subset are used for both the baseline and the trained model. I have also measured accuracy (correct final answer) and format compliance (uses <code>\boxed{}</code>).</p>
+</section>
+<section id="compute" class="level3">
+<h3 class="anchored" data-anchor-id="compute">Compute</h3>
+<p>All training and evaluation ran on a single NVIDIA A100-SXM4-40GB via Google Colab. Training took approximately 1.5 hours for 250 GRPO steps. The entire pipeline, including baseline evaluation, training, post-training evaluation, and analysis, completed in under 3 hours.</p>
+<hr>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="quantitative-results" class="level3">
+<h3 class="anchored" data-anchor-id="quantitative-results">Quantitative Results</h3>
+<table class="table-striped table-hover caption-top table">
+<caption>GSM8K test set (n=100), greedy decoding.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: center;">Baseline (SFT)</th>
+<th style="text-align: center;">GRPO-Trained</th>
+<th style="text-align: center;">Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Accuracy</strong></td>
+<td style="text-align: center;">57.0%</td>
+<td style="text-align: center;">47.0%</td>
+<td style="text-align: center;"><strong>-10.0%</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Format rate</strong></td>
+<td style="text-align: center;">97.0%</td>
+<td style="text-align: center;">98.0%</td>
+<td style="text-align: center;">+1.0%</td>
+</tr>
+</tbody>
+</table>
+<p>GRPO training reduced accuracy by 10 percentage points. The model got worse at math. Format compliance improved marginally from 97% to 98%, confirming that the format reward works as intended.</p>
+</section>
+<section id="training-dynamics" class="level3">
+<h3 class="anchored" data-anchor-id="training-dynamics">Training Dynamics</h3>
+<p>The full training run is logged on Weights &amp; Biases:</p>
+<iframe src="https://wandb.ai/ritwik/huggingface/reports/Verifier-RL-GRPO-Training--VmlldzoxNjA1ODc5MQ" style="border:none;height:1024px;width:100%">
+</iframe>
+<p>The training dynamics reveal three observations:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/grpo/grpo_training_dynamics.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Training dynamics over 250 GRPO steps. Left: mean reward (noisy, no clear upward trend). Center: KL divergence from reference policy (stays moderate). Right: policy gradient loss (decreases but does not correlate with accuracy).</figcaption>
+</figure>
+</div>
+<p><strong>1. Reward signal is noisy but flat.</strong> The mean reward fluctuates between 0.3 and 0.7 across training without a clear upward trend. With group size 4, each advantage estimate is computed from only 4 samples — this is statistically noisy.</p>
+<p><strong>2. KL divergence stays moderate.</strong> The model does not drift catastrophically from its pretrained weights. The KL penalty (<span class="math inline">\(\beta = 0.04\)</span>) is doing its job, keeping the policy close to the reference distribution.</p>
+<p><strong>3. Loss decreases but accuracy does not improve.</strong> The policy gradient loss drops, which means the model is successfully learning to increase the probability of higher-reward completions <em>within each group</em>. But this does not translate into higher absolute accuracy.</p>
+</section>
+<section id="qualitative-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="qualitative-comparison">Qualitative Comparison</h3>
+<p>On problems that both models solve correctly, the outputs are structurally similar. The GRPO-trained model tends to produce slightly longer completions (~101 tokens vs ~84 tokens) with marginally more explicit intermediate steps.</p>
+<p><strong>Problem:</strong> <em>“Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?”</em></p>
+<p>Both the baseline and GRPO model produce the correct answer (<span class="math inline">\(\boxed{72}\)</span>) with nearly identical reasoning chains: compute <span class="math inline">\(48 / 2 = 24\)</span>, then <span class="math inline">\(48 + 24 = 72\)</span>.</p>
+<p><strong>Problem:</strong> <em>“Betty is saving money for a new wallet which costs $100…”</em></p>
+<p>Both models produce the correct answer (<span class="math inline">\(\boxed{5}\)</span>) with the same step-by-step breakdown. The GRPO model adds a slightly more verbose final sentence.</p>
+<p>The qualitative evidence suggests GRPO did not fundamentally change the model’s reasoning strategy. It learned to format outputs slightly better and to be marginally more verbose, but the underlying problem-solving approach remained the same.</p>
+</section>
+<section id="reward-hacking-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="reward-hacking-analysis">Reward Hacking Analysis</h3>
+<p>One of the central research questions was whether reward hacking emerges when the reward is binary and verifiable. We analyzed the GRPO-trained model’s outputs on 200 test problems.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/grpo/reward_hacking_analysis.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Reward hacking analysis. Left: completion length distribution (healthy spread, no degenerate short/long modes). Right: answer diversity (no single answer dominates the distribution).</figcaption>
+</figure>
+</div>
+<table class="table-striped table-hover caption-top table">
+<caption>Reward hacking indicators.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Unique answers</td>
+<td style="text-align: left;">133 out of 197</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Format compliance</td>
+<td style="text-align: left;">98.5% (197/200)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mean completion length</td>
+<td style="text-align: left;">162 tokens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Completion length std</td>
+<td style="text-align: left;">72 tokens</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No format gaming.</strong> The model does not collapse to outputting a single answer like <code>\boxed{0}</code>. With 133 unique answers out of 197 formatted responses, the answer distribution is healthy.</p>
+<p><strong>No length exploitation.</strong> The completion length distribution shows a natural spread (mean 162, std 72) without degenerate modes. The model is not padding outputs or truncating them to game the reward.</p>
+<p><strong>No distribution collapse.</strong> The model attempts different answers for different problems rather than memorizing a small set of high-reward outputs.</p>
+<p>The conclusion: with a symbolic verifier, there is no surface to hack. The model cannot convince a regex that a wrong answer is right.</p>
+<hr>
+</section>
+</section>
+<section id="why-did-accuracy-drop" class="level2">
+<h2 class="anchored" data-anchor-id="why-did-accuracy-drop">Why Did Accuracy Drop?</h2>
+<p>It was destined. The 10-point accuracy drop is the most important result of this experiment. Let us analyse what went south.</p>
+<section id="capacity-of-smolness" class="level3">
+<h3 class="anchored" data-anchor-id="capacity-of-smolness">Capacity of Smolness</h3>
+<p>Qwen3-0.6B has 28 transformer layers and a 1024-dimensional hidden state. Its baseline GSM8K accuracy of 57% represents the performance ceiling that supervised fine-tuning achieved during pretraining. This was achieved using the full pretraining corpus and compute budget.</p>
+<p>GRPO, with 250 steps on a single GPU, is asking the model to learn a <em>better</em> policy than what millions of supervised training steps produced. For a model this small, the supervised policy may already be near-optimal — the model simply lacks the capacity to implement more sophisticated reasoning strategies. RL can rearrange the probability mass over outputs, but it cannot add new computational depth.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/grpo/fighting_for_life.gif" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>A 0.6B model trying to learn math through RL.</figcaption>
+</figure>
+</div>
+</section>
+<section id="noisy-signals" class="level3">
+<h3 class="anchored" data-anchor-id="noisy-signals">Noisy Signals</h3>
+<p>With group size <span class="math inline">\(G = 4\)</span>, each advantage estimate is the z-score of 4 samples. This is statistically unreliable. Consider: if a model has 57% accuracy, the expected number of correct answers in a group of 4 is 2.28. The standard deviation of a binomial with <span class="math inline">\(n=4, p=0.57\)</span> is 0.99. The advantage estimates are dominated by sampling noise rather than signal.</p>
+<p>Larger group sizes (16, 32, 64) would produce more stable advantages but require proportionally more VRAM during the generation phase.</p>
+</section>
+<section id="kl-vs-accuracy-trade-off" class="level3">
+<h3 class="anchored" data-anchor-id="kl-vs-accuracy-trade-off">KL vs Accuracy Trade-off</h3>
+<p>The KL penalty prevents the model from drifting far from its pretrained weights. This is a safety mechanism — without it, RL can collapse to degenerate policies. But it also means the model is constrained to policies <em>near</em> the SFT checkpoint. If the SFT checkpoint is already near-optimal for this model size, RL can only make things worse by adding noise to an already-good policy.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/grpo/make-model-better.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>The KL penalty keeps the model close to its pretrained behavior — but “close to good” is not the same as “better.”</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+</section>
+<section id="when-should-you-use-grpo-with-verifiable-rewards" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-you-use-grpo-with-verifiable-rewards">When Should You Use GRPO with Verifiable Rewards?</h2>
+<blockquote class="twitter-tweet blockquote">
+<a href="https://x.com/ritwik_raha/status/2027626669755011427"></a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Based on this experiment and the broader literature, here are concrete guidelines.</p>
+<section id="use-grpo-when" class="level3">
+<h3 class="anchored" data-anchor-id="use-grpo-when">Use GRPO When:</h3>
+<p><strong>1. The model has headroom.</strong> If the base model’s accuracy is well below what you believe the architecture can achieve, RL has room to improve. DeepSeek-R1 demonstrated large gains on models with 7B+ parameters where the SFT baseline was far from saturation. A 0.6B model at 57% on GSM8K is likely already near its capacity ceiling.</p>
+<p><strong>2. Group size is large enough.</strong> The quality of GRPO’s advantage estimates depends directly on group size. With <span class="math inline">\(G = 4\)</span>, the z-score normalization is noisy. Published results that show GRPO improvements typically use <span class="math inline">\(G = 16\)</span> or higher. This requires more VRAM but produces more stable gradients.</p>
+<p><strong>3. The reward captures what you want.</strong> Binary correctness is clean but coarse. A model that gets the right answer via a lucky calculation and a model that gets it through careful step-by-step reasoning receive the same reward. Process reward models (which score intermediate steps, not just the final answer) can provide richer signal, but they reintroduce the learned-reward-model problem.</p>
+<p><strong>4. You have enough training budget.</strong> 250 steps is short. Published GRPO experiments often run for thousands of steps with curriculum scheduling (easy problems first, hard problems later). A longer training run with careful hyperparameter tuning might yield different results, even at 0.6B.</p>
+</section>
+<section id="when-not-to-use-grpo" class="level3">
+<h3 class="anchored" data-anchor-id="when-not-to-use-grpo">When <strong>NOT</strong> to use GRPO:</h3>
+<p><strong>1. The model is too small.</strong> RL optimizes the policy surface, but it cannot expand the model’s computational capacity. If the model lacks the depth or width to implement multi-step reasoning, RL gradients will rearrange probability mass without improving capability. The result is effectively noise, not learning.</p>
+<p><strong>2. Your reward signal is too sparse.</strong> With binary correctness on hard problems, most completions in a group score 0.0. The advantage estimates become: “this one got it right, the rest didn’t.” This is a weak gradient signal. We must consider softer reward functions or curriculum strategies that ensure a reasonable fraction of completions score positively. Manually creating such verification rules is a tedious labour even for vibe coding tools. One must LLM as a judge.</p>
+<p><strong>3. Supervised data is available and cheap.</strong> If you can construct or collect supervised training data for your task, SFT is almost always more sample-efficient than RL for small models. RL shines when the task is hard to supervise (e.g., open-ended reasoning, creative writing) or when you want to go <em>beyond</em> the SFT ceiling. At 0.6B, I did not find evidence of an RL ceiling above SFT.</p>
+<hr>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>I trained Qwen3-0.6B on GSM8K using GRPO with a symbolic correctness verifier as the only reward signal. The result is a 10-point accuracy drop (57% to 47%) with a marginal improvement in format compliance (97% to 98%) and no evidence of reward hacking.</p>
+<p>Whether this result is of any use, is not really our concern. It establishes a <strong>capacity floor</strong> for verifier-RL: at 0.6B parameters with group size 4 and 250 training steps, GRPO with binary correctness reward does not improve math reasoning. The model is simply too small and the signal is too noisy for RL to discover a better policy than what supervised pretraining has already achieved.</p>
+<p>The absence of reward hacking is the positive takeaway. With a symbolic verifier, the reward function is incorruptible. There is no neural network to fool. This validates the core premise of verifier-RL: for tasks with checkable answers, you do not need a learned reward model.</p>
+<p>The natural next steps are to scale up (Qwen3-1.7B, Qwen3-4B), increase group size (16+), extend training duration (1000+ steps), and experiment with process rewards that score intermediate reasoning steps. The question is not whether verifier-RL works — DeepSeek-R1 and others have demonstrated that it does. The question is <em>where the capacity threshold is</em>, and this experiment puts a lower bound on it.</p>
+<hr>
+<p><em>The full experiment code is available on <a href="https://github.com/ritwikraha/AutoRegressive-Bhasha/blob/main/experiments/verifier_rl_grpo_math.ipynb">GitHub</a>. Training logs are on <a href="https://wandb.ai/ritwik/huggingface/reports/Verifier-RL-GRPO-Training--VmlldzoxNjA1ODc5MQ">Weights &amp; Biases</a>.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ritwikraha\.dev");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
