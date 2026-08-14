@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ritwik Raha">
+<meta name="dcterms.date" content="2026-08-14">
+
+<title>Know When You Don’t Know – Ritwik Raha</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a14e3238c51140e99ccc48519b6ed9ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Ritwik Raha</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ritwikraha"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ritwik_raha"> <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.youtube.com/@ritwikraha"> <i class="bi bi-youtube" role="img" aria-label="YouTube">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#evaluation-protocol" id="toc-evaluation-protocol" class="nav-link" data-scroll-target="#evaluation-protocol">Evaluation protocol</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Know When You Don’t Know</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ritwik Raha </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 14, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>We study whether a compact 4B language model can be trained to answer multiple-choice questions, report a useful confidence value, and abstain when it is likely to be wrong. We compare three checkpoints of <code>Qwen/Qwen3.5-4B</code>: the pretrained base, a fixed-sequence off-policy distillation of a <code>Qwen3.5-9B</code> teacher, and an on-policy KL distillation of the same teacher. All three are evaluated with the same sampler, parser, calibration protocol, and record set. On a 250-record in-domain test split, on-policy distillation is the only recipe that improves structured-output validity (0.708 to 0.932), reduces verbal expected calibration error (0.231 to 0.118), and improves selective accuracy at a fixed 80 percent validation coverage (0.959 to 0.967). Off-policy distillation improves format validity to 0.840 but leaves calibration and error confidence unchanged. All three models degrade by 12 to 13 accuracy points on the CommonsenseQA out-of-domain split, and the on-policy checkpoint transfers the smallest NLL penalty. We publish the code, the curated dataset, and the unified report artifacts.</p>
+<ul>
+<li>Code: <a href="https://github.com/ritwikraha/AutoRegressive-Bhasha/tree/main/calibrate_qwen"><code>AutoRegressive-Bhasha/calibrate_qwen</code></a></li>
+<li>Dataset: <a href="https://huggingface.co/datasets/ritwikraha/calibrate-qwen-curated"><code>ritwikraha/calibrate-qwen-curated</code></a></li>
+</ul>
+<hr>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>A useful confidence signal on a language model is not the number the model prints inside a JSON field. It is a scalar that separates correct answers from incorrect ones, degrades gracefully out of domain, and stays stable when the surface form of the question is perturbed. Most instruction-tuned models emit a confidence value that fails at least one of these tests. The verbal number saturates near 1.0. The number does not track a hold-out risk-coverage curve. The number changes when the multiple-choice option order is shuffled.</p>
+<p>This work asks a narrow question. Given a 4B student and a 9B teacher of the same family, can distillation transfer accuracy and a calibrated confidence signal into the student without breaking the structured output contract that a downstream system needs? The comparison is between two classical recipes: off-policy distillation on fixed teacher completions with a soft target at each supervised position, and on-policy distillation that samples from the student and applies a reverse KL to the teacher.</p>
+<p>The three arms measured in this report are:</p>
+<ol type="1">
+<li><strong>Base</strong>. <code>Qwen/Qwen3.5-4B</code> with no fine-tuning.</li>
+<li><strong>Off-policy</strong>. Fixed teacher completions with top-K teacher targets per position.</li>
+<li><strong>On-policy</strong>. Student rollouts scored by the teacher, with a reverse-KL update.</li>
+</ol>
+<p>The full model matrix in the repository also includes hard-label SFT, teacher-completion SFT, and an SFT-then-on-policy chain. The unified report evaluated in this post covers the three arms above at a 250-record evaluation limit.</p>
+<hr>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<section id="the-calibration-failure-mode" class="level3">
+<h3 class="anchored" data-anchor-id="the-calibration-failure-mode">The calibration failure mode</h3>
+<p>For a classifier that outputs a probability <span class="math inline">\(p\)</span> on an event that occurs with frequency <span class="math inline">\(q\)</span>, calibration is the property that <span class="math inline">\(p\)</span> approximates <span class="math inline">\(q\)</span>. Expected calibration error partitions predictions into equal-width confidence bins and averages the gap between mean confidence and empirical accuracy inside each bin:</p>
+<p><span class="math display">\[
+\operatorname{ECE} = \sum_{m=1}^{M}\frac{|B_m|}{N}\left|\operatorname{acc}(B_m) - \operatorname{conf}(B_m)\right|.
+\]</span></p>
+<p>Instruction-tuned language models tend to concentrate verbal confidence near 1.0. Verbal ECE measured on the base checkpoint below is 0.231, driven by two failure modes rather than one. The first is genuine overconfidence on wrong answers. The second is a schema failure: when the model omits the <code>abstain</code> field the parser drops its confidence to zero, and the record lands in the lowest bin at high accuracy. Both effects inflate ECE, but only the first is a calibration problem.</p>
+</section>
+<section id="off-policy-versus-on-policy-distillation" class="level3">
+<h3 class="anchored" data-anchor-id="off-policy-versus-on-policy-distillation">Off-policy versus on-policy distillation</h3>
+<p>Off-policy distillation defines a fixed target sequence per prompt, then trains the student to match the teacher distribution at every position of that sequence. Let <span class="math inline">\(\mathcal{V}_K\)</span> be the top-K teacher targets retained at position <span class="math inline">\(t\)</span>. The loss is a token-level cross entropy against the teacher:</p>
+<p><span class="math display">\[
+\mathcal{L}_{\text{off}} = -\sum_{t}\sum_{v \in \mathcal{V}_K} p_T(v \mid x, y_{&lt;t})\log p_S(v \mid x, y_{&lt;t}).
+\]</span></p>
+<p>The target trajectory is drawn from the teacher, not the student. If the student prefers a different path through the response, off-policy training never sees it.</p>
+<p>On-policy distillation samples from the current student and evaluates the same tokens under the teacher. It applies a reverse KL on the student’s own occupied distribution:</p>
+<p><span class="math display">\[
+\operatorname{KL}(p_S \Vert p_T) = \mathbb{E}_{y \sim p_S}\left[\log p_S(y \mid x) - \log p_T(y \mid x)\right].
+\]</span></p>
+<p>The gradient is computed on trajectories the student actually visits at inference time. This addresses the covariate-shift problem of off-policy imitation, at the cost of extra teacher queries per training step.</p>
+</section>
+<section id="structured-output-as-a-first-class-objective" class="level3">
+<h3 class="anchored" data-anchor-id="structured-output-as-a-first-class-objective">Structured output as a first-class objective</h3>
+<p>A model that emits an unparsable JSON object is not a partial success. The parser cannot recover the answer, and the downstream router cannot decide whether to defer. This report treats format validity as a metric on the same axis as accuracy, and it treats invalid outputs as incorrect predictions with confidence zero for threshold analysis. That convention rewards recipes that satisfy the output contract as well as the accuracy target.</p>
+<hr>
+</section>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="sources-and-splits" class="level3">
+<h3 class="anchored" data-anchor-id="sources-and-splits">Sources and splits</h3>
+<p>The training mixture is drawn from ARC-Challenge, OpenBookQA, and selected MMLU subjects. CommonsenseQA is held out as an out-of-domain source. Held-out records from each training source form the in-domain test split. Two deterministic option-order permutations of each in-domain example form the robustness split. Splits, counts, and roles are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Split</th>
+<th style="text-align: right;">Records</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Train</td>
+<td style="text-align: right;">9,134</td>
+<td>In-domain training mixture</td>
+</tr>
+<tr class="even">
+<td>Phase 1 train</td>
+<td style="text-align: right;">2,000</td>
+<td>Economical pipeline and SFT validation</td>
+</tr>
+<tr class="odd">
+<td>Validation</td>
+<td style="text-align: right;">1,000</td>
+<td>Temperature and threshold fitting</td>
+</tr>
+<tr class="even">
+<td>In-domain test</td>
+<td style="text-align: right;">1,163</td>
+<td>Held-out ARC, OpenBookQA, MMLU</td>
+</tr>
+<tr class="odd">
+<td>OOD test</td>
+<td style="text-align: right;">3,000</td>
+<td>Held-out CommonsenseQA</td>
+</tr>
+<tr class="even">
+<td>Option-shuffled test</td>
+<td style="text-align: right;">2,326</td>
+<td>Two permutations per in-domain example</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="record-schema" class="level3">
+<h3 class="anchored" data-anchor-id="record-schema">Record schema</h3>
+<p>Every record is stored as a normalized JSON object with a stable identifier derived from the question and source. The identifier supports resume, cross-file joins, and parent-child relationships for perturbations.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"65e031c0d44323dc"</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"source"</span><span class="fu">:</span> <span class="st">"openbookqa"</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span> <span class="st">"science_reasoning"</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"question"</span><span class="fu">:</span> <span class="st">"Which option best explains the observation?"</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"choices"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"choice A"</span><span class="ot">,</span> <span class="st">"choice B"</span><span class="ot">,</span> <span class="st">"choice C"</span><span class="ot">,</span> <span class="st">"choice D"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"answer_index"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"answer_label"</span><span class="fu">:</span> <span class="st">"B"</span><span class="fu">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"prompt"</span><span class="fu">:</span> <span class="st">"Question: ..."</span><span class="fu">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"split"</span><span class="fu">:</span> <span class="st">"train"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="teacher-targets" class="level3">
+<h3 class="anchored" data-anchor-id="teacher-targets">Teacher targets</h3>
+<p>We generated repeated teacher samples from <code>Qwen/Qwen3.5-9B</code> on the 2,000-record Phase 1 subset with five samples per question. Modal answer, agreement confidence, and a representative justification are stored per record. Teacher statistics:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Statistic</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unique records</td>
+<td style="text-align: right;">2,000</td>
+</tr>
+<tr class="even">
+<td>Requested samples</td>
+<td style="text-align: right;">10,000</td>
+</tr>
+<tr class="odd">
+<td>Valid parsed samples</td>
+<td style="text-align: right;">9,914</td>
+</tr>
+<tr class="even">
+<td>Parse rate</td>
+<td style="text-align: right;">99.14%</td>
+</tr>
+<tr class="odd">
+<td>Modal teacher accuracy</td>
+<td style="text-align: right;">89.80%</td>
+</tr>
+<tr class="even">
+<td>Mean agreement confidence</td>
+<td style="text-align: right;">95.79%</td>
+</tr>
+<tr class="odd">
+<td>Unanimous records</td>
+<td style="text-align: right;">1,724</td>
+</tr>
+<tr class="even">
+<td>Unanimous rate</td>
+<td style="text-align: right;">86.20%</td>
+</tr>
+</tbody>
+</table>
+<p>Agreement confidence for a question <span class="math inline">\(x\)</span> with sampled labels <span class="math inline">\(a_1, \ldots, a_K\)</span> is the mode frequency:</p>
+<p><span class="math display">\[
+c_T(x) = \frac{1}{K}\sum_{k=1}^{K}\mathbf{1}[a_k = \hat{a}_T], \qquad \hat{a}_T = \operatorname{mode}(a_1, \ldots, a_K).
+\]</span></p>
+<p>Five samples quantize this value in increments of 0.2. That is a design constraint of the sampling budget, not of the analysis.</p>
+<hr>
+</section>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="model-choices" class="level3">
+<h3 class="anchored" data-anchor-id="model-choices">Model choices</h3>
+<p>The student is <code>Qwen/Qwen3.5-4B</code> and the teacher is <code>Qwen/Qwen3.5-9B</code>. Both use the <code>qwen3_5_disable_thinking</code> renderer to keep responses short and structured. LoRA rank 32 is used for all training runs.</p>
+</section>
+<section id="structured-output-contract" class="level3">
+<h3 class="anchored" data-anchor-id="structured-output-contract">Structured output contract</h3>
+<p>The student is trained to emit a single JSON object per question:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"answer"</span><span class="fu">:</span> <span class="st">"C"</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"confidence"</span><span class="fu">:</span> <span class="fl">0.8</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"justification"</span><span class="fu">:</span> <span class="st">"Option C follows from the causal relation stated in the prompt."</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"abstain"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The parser enforces four constraints: <code>answer</code> must be one of the option labels listed in the prompt, <code>confidence</code> must be a scalar in <code>[0, 1]</code>, <code>justification</code> must be one non-empty sentence, and <code>abstain</code> must be a JSON boolean. A missing or malformed field flips <code>schema_valid</code> to false and floors confidence to zero for the risk-coverage analysis.</p>
+</section>
+<section id="off-policy-distillation" class="level3">
+<h3 class="anchored" data-anchor-id="off-policy-distillation">Off-policy distillation</h3>
+<p>Fixed teacher completions are drawn from the modal Phase 1 samples. At every supervised position the teacher distribution is queried and the top 20 targets are retained. The student is trained against the resulting soft targets under the Tinker <code>train_off_policy</code> recipe:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> training.train_off_policy <span class="im">import</span> OffPolicyConfig, train_off_policy</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> OffPolicyConfig(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    conversation_file<span class="op">=</span><span class="st">"artifacts/training/teacher_numeric.jsonl"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    log_path<span class="op">=</span><span class="st">"artifacts/runs/off_policy"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    model_name<span class="op">=</span><span class="st">"Qwen/Qwen3.5-4B"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    teacher_model<span class="op">=</span><span class="st">"Qwen/Qwen3.5-9B"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">1e-4</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    lora_rank<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    n_teacher_targets<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    teacher_concurrency<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> train_off_policy(config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="on-policy-distillation" class="level3">
+<h3 class="anchored" data-anchor-id="on-policy-distillation">On-policy distillation</h3>
+<p>The on-policy recipe samples two rollouts per prompt, evaluates them under the teacher, and applies the reverse-KL update through Tinker’s <code>train_on_policy</code> recipe. Sixteen prompt groups are batched per step and each rollout is truncated at 192 output tokens.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> training.train_on_policy <span class="im">import</span> OnPolicyConfig, train_on_policy</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> OnPolicyConfig(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    prompt_file<span class="op">=</span><span class="st">"artifacts/training/prompts_on_policy.jsonl"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    log_path<span class="op">=</span><span class="st">"artifacts/runs/on_policy"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    model_name<span class="op">=</span><span class="st">"Qwen/Qwen3.5-4B"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    teacher_model<span class="op">=</span><span class="st">"Qwen/Qwen3.5-9B"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    kl_coefficient<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    rollouts_per_prompt<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    group_size<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    max_output_tokens<span class="op">=</span><span class="dv">192</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> train_on_policy(config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="post-hoc-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="post-hoc-calibration">Post-hoc calibration</h3>
+<p>A one-parameter temperature is fit on 1,000 validation predictions by searching 300 candidate values on a geometric grid between 0.25 and 4.0. The objective is validation multiclass NLL on the answer-token distribution. An abstention threshold is then selected to hit a target coverage of 0.80 on the same validation split. The fitted calibration object is applied to in-domain, OOD, and robustness splits without re-fitting.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_temperature(records, labels, grid<span class="op">=</span>np.geomspace(<span class="fl">0.25</span>, <span class="fl">4.0</span>, <span class="dv">300</span>)):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    best_t, best_nll <span class="op">=</span> <span class="fl">1.0</span>, <span class="bu">float</span>(<span class="st">"inf"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> grid:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        nll <span class="op">=</span> mean_nll_after_temperature(records, labels, t)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> nll <span class="op">&lt;</span> best_nll:</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            best_t, best_nll <span class="op">=</span> t, nll</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_t, best_nll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The three fitted temperatures on this run are 1.043 (base), 0.789 (off-policy), and 1.082 (on-policy). Only the off-policy distribution is under-confident enough on validation to receive a sharpening temperature below 1.0.</p>
+<hr>
+</section>
+</section>
+<section id="evaluation-protocol" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-protocol">Evaluation protocol</h2>
+<p>Every checkpoint is sampled with the same renderer, decoding configuration, parser, and record set. Two confidence sources are recorded per record: the verbal number the model prints inside its JSON, and a token-level answer probability computed by scoring each candidate answer label under an answer-only prompt and normalizing the resulting log-likelihoods:</p>
+<p><span class="math display">\[
+p(a_k \mid x) = \frac{\exp \log p_\theta(a_k \mid x)}{\sum_j \exp \log p_\theta(a_j \mid x)}.
+\]</span></p>
+<p>Metrics reported per split:</p>
+<ul>
+<li>Accuracy on parsed records; invalid records count as incorrect.</li>
+<li>Format validity (fraction of records that satisfy the schema).</li>
+<li>Expected calibration error on both confidence sources.</li>
+<li>Multiclass Brier and NLL on the answer distribution.</li>
+<li>Risk-coverage curve, AURC, and selective accuracy at the validation-selected threshold.</li>
+<li>Mean confidence on errors, as a direct read of overconfidence severity.</li>
+</ul>
+<p>The evaluation limit for this report is 250 records per split. This is a smoke-scale evaluation, not the full held-out set. Absolute numbers are subject to sampling noise at this size; relative comparisons between models on the same 250 records are the intended read.</p>
+<hr>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="in-domain-summary" class="level3">
+<h3 class="anchored" data-anchor-id="in-domain-summary">In-domain summary</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th style="text-align: right;">Acc</th>
+<th style="text-align: right;">Format</th>
+<th style="text-align: right;">Verbal ECE</th>
+<th style="text-align: right;">Token ECE (cal)</th>
+<th style="text-align: right;">Brier</th>
+<th style="text-align: right;">NLL</th>
+<th style="text-align: right;">AURC</th>
+<th style="text-align: right;">Mean conf on errors</th>
+<th style="text-align: right;">Selective acc @ 0.8 cov</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base</td>
+<td style="text-align: right;">0.880</td>
+<td style="text-align: right;">0.708</td>
+<td style="text-align: right;">0.231</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.189</td>
+<td style="text-align: right;">0.381</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.574</td>
+<td style="text-align: right;">0.959</td>
+</tr>
+<tr class="even">
+<td>Off-policy</td>
+<td style="text-align: right;">0.872</td>
+<td style="text-align: right;">0.840</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.405</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.568</td>
+<td style="text-align: right;">0.950</td>
+</tr>
+<tr class="odd">
+<td>On-policy</td>
+<td style="text-align: right;">0.884</td>
+<td style="text-align: right;">0.932</td>
+<td style="text-align: right;">0.118</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.183</td>
+<td style="text-align: right;">0.369</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.647</td>
+<td style="text-align: right;">0.967</td>
+</tr>
+</tbody>
+</table>
+<p>Three observations:</p>
+<ol type="1">
+<li>Accuracy moves inside noise. All three arms are within 1.2 points of each other on 250 records. This is the correct outcome for a distillation study: the point of the intervention is not to change the answer, it is to change how the model represents its confidence in the answer.</li>
+<li>Format validity is the metric that separates the recipes. Off-policy training raises validity from 0.708 to 0.840. On-policy training raises it to 0.932. The parser is the first consumer downstream of the model, so this is not a cosmetic gain.</li>
+<li>Verbal ECE drops from 0.231 to 0.118 under on-policy training. Most of this gain is the collapse of the schema-invalid bin, which was floored to zero confidence in the base checkpoint. Token-level ECE, which is not sensitive to schema failures, remains near 0.05 to 0.06 across all three arms.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/calibrate-qwen/model_comparison.png" class="img-fluid figure-img"></p>
+<figcaption>In-domain comparison across accuracy, format validity, ECE, and mean confidence on errors.</figcaption>
+</figure>
+</div>
+</section>
+<section id="reliability" class="level3">
+<h3 class="anchored" data-anchor-id="reliability">Reliability</h3>
+<p>The verbal confidence distribution is essentially bimodal. Records either land in the [0.0, 0.1] bin because the parser floored an invalid record to zero, or they land in the [0.9, 1.0] bin because the model wrote a confidence close to 1.0. Nothing sits in between.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th style="text-align: right;">Records in [0.0, 0.1]</th>
+<th style="text-align: right;">Accuracy in bin</th>
+<th style="text-align: right;">Records in [0.9, 1.0]</th>
+<th style="text-align: right;">Confidence in bin</th>
+<th style="text-align: right;">Accuracy in bin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.880</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: right;">0.956</td>
+<td style="text-align: right;">0.897</td>
+</tr>
+<tr class="even">
+<td>Off-policy</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.875</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">0.970</td>
+<td style="text-align: right;">0.871</td>
+</tr>
+<tr class="odd">
+<td>On-policy</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.786</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">0.968</td>
+<td style="text-align: right;">0.890</td>
+</tr>
+</tbody>
+</table>
+<p>The reliability diagram makes the same point visually. The upper bin is close to the diagonal for all three arms. The gap between the diagonal and the upper bin is 0.06 for base, 0.10 for off-policy, and 0.08 for on-policy. The primary driver of the verbal-ECE improvement is the disappearance of the schema-invalid cohort.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/calibrate-qwen/reliability_comparison.png" class="img-fluid figure-img"></p>
+<figcaption>Reliability diagrams for base, off-policy, and on-policy on the in-domain test split.</figcaption>
+</figure>
+</div>
+</section>
+<section id="risk-and-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="risk-and-coverage">Risk and coverage</h3>
+<p>At a validation-selected threshold of 0.868 for base, 0.845 for off-policy, and 0.891 for on-policy, all three arms exceed 95 percent selective accuracy on the in-domain test split. On-policy is the only recipe that both hits a higher answered coverage on the test split (0.736 vs 0.688 for base) and a higher selective accuracy (0.967 vs 0.959). The AURC values are close, and the small AURC increase for the trained arms is driven by the fact that a larger fraction of their predictions are considered under the curve.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/calibrate-qwen/risk_coverage_comparison.png" class="img-fluid figure-img"></p>
+<figcaption>Risk-coverage curves on the in-domain test split.</figcaption>
+</figure>
+</div>
+</section>
+<section id="out-of-domain-transfer" class="level3">
+<h3 class="anchored" data-anchor-id="out-of-domain-transfer">Out-of-domain transfer</h3>
+<p>CommonsenseQA is held out and never touched during training. All three arms lose 12 to 13 accuracy points from the in-domain to the OOD split. On-policy retains the lowest NLL and the lowest AURC on OOD, and it also carries the highest format validity into the new domain.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Domain</th>
+<th style="text-align: right;">Records</th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">ECE</th>
+<th style="text-align: right;">NLL</th>
+<th style="text-align: right;">AURC</th>
+<th style="text-align: right;">Format validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base</td>
+<td>In-domain</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.880</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.381</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.708</td>
+</tr>
+<tr class="even">
+<td>Base</td>
+<td>OOD</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.752</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">0.834</td>
+<td style="text-align: right;">0.117</td>
+<td style="text-align: right;">0.892</td>
+</tr>
+<tr class="odd">
+<td>Off-policy</td>
+<td>In-domain</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.872</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.405</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.840</td>
+</tr>
+<tr class="even">
+<td>Off-policy</td>
+<td>OOD</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.760</td>
+<td style="text-align: right;">0.104</td>
+<td style="text-align: right;">0.842</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">0.936</td>
+</tr>
+<tr class="odd">
+<td>On-policy</td>
+<td>In-domain</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.884</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.369</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.932</td>
+</tr>
+<tr class="even">
+<td>On-policy</td>
+<td>OOD</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.760</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.807</td>
+<td style="text-align: right;">0.101</td>
+<td style="text-align: right;">0.944</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/calibrate-qwen/domain_transfer.png" class="img-fluid figure-img"></p>
+<figcaption>Domain transfer for the three arms.</figcaption>
+</figure>
+</div>
+</section>
+<section id="option-order-robustness" class="level3">
+<h3 class="anchored" data-anchor-id="option-order-robustness">Option-order robustness</h3>
+<p>Each in-domain example is duplicated with two deterministic option permutations, producing 500 paired records per model. The evaluation joins base and perturbed predictions by parent identifier and compares the selected choice text, not the label:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th style="text-align: right;">Pairs</th>
+<th style="text-align: right;">Base acc on pairs</th>
+<th style="text-align: right;">Perturbed acc</th>
+<th style="text-align: right;"><span class="math inline">\(\Delta\)</span> acc</th>
+<th style="text-align: right;">Choice-text consistency</th>
+<th style="text-align: right;">Flip rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.880</td>
+<td style="text-align: right;">0.848</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">0.888</td>
+<td style="text-align: right;">0.112</td>
+</tr>
+<tr class="even">
+<td>Off-policy</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.872</td>
+<td style="text-align: right;">0.862</td>
+<td style="text-align: right;">-0.010</td>
+<td style="text-align: right;">0.916</td>
+<td style="text-align: right;">0.084</td>
+</tr>
+<tr class="odd">
+<td>On-policy</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.884</td>
+<td style="text-align: right;">0.852</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">0.894</td>
+<td style="text-align: right;">0.106</td>
+</tr>
+</tbody>
+</table>
+<p>Off-policy training produces the lowest flip rate. On-policy training does not close the robustness gap with the base checkpoint. This is a real difference between the recipes: fixed-target imitation appears to reduce sensitivity to option order, while student-sampled rollouts do not.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/calibrate-qwen/option_order_robustness.png" class="img-fluid figure-img"></p>
+<figcaption>Option-order robustness on paired records.</figcaption>
+</figure>
+</div>
+</section>
+<section id="per-source-breakdown" class="level3">
+<h3 class="anchored" data-anchor-id="per-source-breakdown">Per-source breakdown</h3>
+<p>The gains from on-policy training are concentrated on MMLU and ARC-Challenge. OpenBookQA is a small regression on both trained arms.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Source</th>
+<th style="text-align: right;">Records</th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">ECE</th>
+<th style="text-align: right;">AURC</th>
+<th style="text-align: right;">Format validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base</td>
+<td>arc_challenge</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.160</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td>Base</td>
+<td>mmlu</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">0.884</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.504</td>
+</tr>
+<tr class="odd">
+<td>Base</td>
+<td>openbookqa</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: right;">0.847</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.908</td>
+</tr>
+<tr class="even">
+<td>Off-policy</td>
+<td>arc_challenge</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0.913</td>
+<td style="text-align: right;">0.119</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.913</td>
+</tr>
+<tr class="odd">
+<td>Off-policy</td>
+<td>mmlu</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">0.899</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.752</td>
+</tr>
+<tr class="even">
+<td>Off-policy</td>
+<td>openbookqa</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: right;">0.827</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">0.939</td>
+</tr>
+<tr class="odd">
+<td>On-policy</td>
+<td>arc_challenge</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0.913</td>
+<td style="text-align: right;">0.087</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.870</td>
+</tr>
+<tr class="even">
+<td>On-policy</td>
+<td>mmlu</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">0.915</td>
+<td style="text-align: right;">0.087</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.907</td>
+</tr>
+<tr class="odd">
+<td>On-policy</td>
+<td>openbookqa</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: right;">0.837</td>
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.980</td>
+</tr>
+</tbody>
+</table>
+<p>The MMLU improvement in format validity is the largest single effect: 0.504 for the base to 0.907 for the on-policy checkpoint. The base model is not formatting MMLU responses correctly half the time. On-policy training does more to fix the JSON schema on MMLU than it does to fix any answer.</p>
+</section>
+<section id="a-qualitative-sample" class="level3">
+<h3 class="anchored" data-anchor-id="a-qualitative-sample">A qualitative sample</h3>
+<p>The following prediction from the on-policy checkpoint illustrates how the calibration protocol interacts with the emitted JSON on an OpenBookQA record:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"question"</span><span class="fu">:</span> <span class="st">"People can touch something to see if it's"</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"choices"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"shiny"</span><span class="ot">,</span> <span class="st">"red"</span><span class="ot">,</span> <span class="st">"striped"</span><span class="ot">,</span> <span class="st">"wrinkled"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"gold"</span><span class="fu">:</span> <span class="st">"D"</span><span class="fu">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"raw_prediction"</span><span class="fu">:</span> <span class="st">"{</span><span class="ch">\"</span><span class="st">answer</span><span class="ch">\"</span><span class="st">:</span><span class="ch">\"</span><span class="st">D</span><span class="ch">\"</span><span class="st">,</span><span class="ch">\"</span><span class="st">confidence</span><span class="ch">\"</span><span class="st">:0.95,</span><span class="ch">\"</span><span class="st">justification</span><span class="ch">\"</span><span class="st">:</span><span class="ch">\"</span><span class="st">Touching is the primary sense used to detect texture, such as whether something is wrinkled, whereas the other options are visual properties.</span><span class="ch">\"</span><span class="st">,</span><span class="ch">\"</span><span class="st">abstain</span><span class="ch">\"</span><span class="st">:false}"</span><span class="fu">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"verbal_confidence"</span><span class="fu">:</span> <span class="fl">0.782</span><span class="fu">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"option_probabilities"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"A"</span><span class="fu">:</span> <span class="fl">0.196</span><span class="fu">,</span> <span class="dt">"B"</span><span class="fu">:</span> <span class="fl">0.018</span><span class="fu">,</span> <span class="dt">"C"</span><span class="fu">:</span> <span class="fl">0.004</span><span class="fu">,</span> <span class="dt">"D"</span><span class="fu">:</span> <span class="fl">0.782</span><span class="fu">},</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"abstain_after_calibration"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The model wrote <code>0.95</code> and <code>false</code>, but the token-level answer probability is 0.78. That value is below the fitted abstention threshold of 0.89, so the calibration layer flips <code>abstain</code> to true. Two-thirds of the mass is on <code>D</code>, but the tail on <code>A</code> is a fifth of the distribution. The calibration layer is doing exactly the job it was fitted for: it defers when the underlying distribution is not sharp enough, even when the printed number is confident.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/calibrate-qwen/sample_00ab635063402d63.png" class="img-fluid figure-img"></p>
+<figcaption>A per-record trace showing the sampled distribution over choices.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<section id="verbal-confidence-is-not-the-calibration-signal" class="level3">
+<h3 class="anchored" data-anchor-id="verbal-confidence-is-not-the-calibration-signal">Verbal confidence is not the calibration signal</h3>
+<p>Verbal ECE drops from 0.231 to 0.118 across the three arms, but the underlying calibration curve for the confident bin barely moves. The main effect is that on-policy training removes the schema-invalid cohort, which had been dumped into the zero-confidence bin. Anyone reporting verbal ECE alone is measuring format compliance as much as they are measuring calibration.</p>
+<p>The token-level answer probability behaves differently. It is a continuous quantity, it responds to temperature scaling, and it changes in ways that separate the recipes on the risk-coverage axis. This is the calibration signal a downstream selector should consume, not the verbal number the model prints.</p>
+</section>
+<section id="on-policy-training-buys-format-compliance" class="level3">
+<h3 class="anchored" data-anchor-id="on-policy-training-buys-format-compliance">On-policy training buys format compliance</h3>
+<p>Format validity is the metric that moves most under both recipes. Off-policy raises it from 0.708 to 0.840. On-policy raises it to 0.932. The MMLU per-source result is more extreme: 0.504 to 0.907. This is a real product effect. A router that has to decide whether to answer, defer, or escalate cannot do that without a valid JSON object. Both recipes deliver this, and on-policy delivers more of it.</p>
+<p>The mechanism is intuitive. Off-policy training shows the student a fixed target once, at teacher-drawn positions. On-policy training samples from the student’s own distribution, so any tokens the student produces that violate the schema receive a corrective KL gradient. If the student has a persistent tendency to omit a field, on-policy training visits that failure mode and updates it. Off-policy training does not.</p>
+</section>
+<section id="robustness-does-not-follow-the-same-ordering" class="level3">
+<h3 class="anchored" data-anchor-id="robustness-does-not-follow-the-same-ordering">Robustness does not follow the same ordering</h3>
+<p>Off-policy has the lowest option-order flip rate. On-policy does not. This is the one axis where fixed-target imitation appears to help more. The mechanism here is also intuitive: fixed teacher targets are stable in a way that student rollouts are not, and the student learns to reproduce the same content across positional variants. On-policy rollouts are stochastic. The student sees more variation, which improves format compliance and calibration, but does not by itself fix a sensitivity to option order.</p>
+<p>A combined recipe of teacher-completion SFT followed by on-policy distillation is on the experiment matrix and not run in this report. That recipe is the natural way to try to buy the robustness of the fixed-target regime and the format compliance of the on-policy regime in the same checkpoint.</p>
+</section>
+<section id="the-ood-gap-is-uniform" class="level3">
+<h3 class="anchored" data-anchor-id="the-ood-gap-is-uniform">The OOD gap is uniform</h3>
+<p>All three arms lose the same amount of accuracy on CommonsenseQA. Neither distillation recipe closes the OOD gap, and neither opens it further. On-policy retains the lowest OOD NLL and the lowest OOD AURC, which is consistent with the in-domain read that its confidence signal is doing more useful work than the verbal number would suggest.</p>
+<hr>
+</section>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<ul>
+<li><strong>Evaluation scale</strong>. Every split in this report is evaluated at 250 records. Confidence intervals on individual entries are wide. Relative comparisons on the same 250 records are the intended read; absolute accuracies should be treated as smoke-scale.</li>
+<li><strong>Missing arms</strong>. Hard-label SFT, teacher-completion SFT, and the SFT-then-on-policy chain are on the experiment matrix but not measured in this unified report.</li>
+<li><strong>Quantized teacher confidence</strong>. Teacher agreement confidence is derived from five samples and therefore quantized in increments of 0.2. This restricts the fidelity of any confidence target derived from teacher agreement.</li>
+<li><strong>Verbal ECE is a mixed metric</strong>. Because invalid outputs are floored to confidence zero, verbal ECE mixes calibration and format compliance. Token-level ECE is the cleaner signal.</li>
+<li><strong>Single seed</strong>. Each recipe is trained and evaluated with one seed. Variance across seeds is not reported here.</li>
+<li><strong>Same model family</strong>. Both student and teacher are Qwen 3.5. The cross-family transfer question is not addressed.</li>
+</ul>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>On-policy distillation from a 9B teacher into a 4B Qwen student improves the metrics that a downstream system consumes. Structured-output validity rises from 0.708 to 0.932. Verbal ECE drops from 0.231 to 0.118, mostly because the schema-invalid bin disappears. Selective accuracy at a fixed 80 percent validation coverage rises from 0.959 to 0.967. Off-policy distillation improves format validity but does not move calibration or error confidence. Off-policy is the only recipe that improves option-order robustness. Neither recipe closes the 12-point OOD gap on CommonsenseQA, though on-policy retains the lowest OOD NLL.</p>
+<p>The two recipes are not interchangeable and they are not strictly ordered. On-policy training buys format compliance and calibration. Off-policy training buys robustness to surface perturbation. The natural next experiment is the SFT-then-on-policy chain that is already staged in the repository, plus a rerun at full evaluation scale with multiple seeds.</p>
+<p>The full code, curated dataset, and unified report artifacts are available at <a href="https://github.com/ritwikraha/AutoRegressive-Bhasha/tree/main/calibrate_qwen"><code>AutoRegressive-Bhasha/calibrate_qwen</code></a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ritwikraha\.dev");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
