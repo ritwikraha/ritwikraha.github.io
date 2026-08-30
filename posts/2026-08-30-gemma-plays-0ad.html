@@ -9,7 +9,7 @@
 <meta name="author" content="Ritwik Raha">
 <meta name="dcterms.date" content="2026-08-30">
 
-<title>Running Gemma 4 as a commander in 0 A.D. – Ritwik Raha</title>
+<title>Running Gemma 4 as a Commander in a strategy game – Ritwik Raha</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Running Gemma 4 as a commander in 0 A.D.</h1>
+<h1 class="title">Running Gemma 4 as a Commander in a strategy game</h1>
 </div>
 
 
@@ -175,6 +175,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/age-of-llms/thousand-turn-match.gif" class="img-fluid figure-img"></p>
+<figcaption>Gemma commanding Sparta against PetraBot over 1,000 engine turns, recorded from the game’s own replay renderer.</figcaption>
+</figure>
+</div>
+<p>The question in this post comes from <a href="https://www.youtube.com/watch?v=lUn9tLlTQZY">Can LLM Agents Actually Play Strategy Games</a> by Lossfunk, and the experiment below is my attempt to answer it with a small model and a real game engine.</p>
 <p>I connected <code>google/gemma-4-E2B-it</code> to the real 0 A.D. Release 28 engine and let it command a Spartan civilization against the game’s built in PetraBot. The model lost both times. The interesting part is that the model never made an illegal move, and it still lost by a factor of more than two, because the interface I gave it could not express the move that wins.</p>
 <p>The code, the notebooks, the replays, and the videos are on the <a href="https://github.com/ritwikraha/markov-chainsaw/tree/age-of-llms/age-of-llms"><code>age-of-llms</code> branch</a> of markov-chainsaw.</p>
 <section id="how-one-decision-works" class="level2">
@@ -298,7 +305,7 @@ ul.task-list li input[type="checkbox"] {
 <video controls="" preload="metadata" width="100%" style="border-radius:6px">
 <source src="../assets/videos/age-of-llms/age_of_empires_with_gemma_gameplay.mp4" type="video/mp4">
 </video>
-<p>The second is the full 1,000 turn match, which ran for 599.8 simulated seconds and was fitted into 45 seconds of video.</p>
+<p>The second is the full 1,000 turn match, which ran for 599.8 simulated seconds and was fitted into 45 seconds of video. The animation at the top of the post is the same match at lower quality.</p>
 <video controls="" preload="metadata" width="100%" style="border-radius:6px">
 <source src="../assets/videos/age-of-llms/exp-rts-001-thousand-turn-match.mp4" type="video/mp4">
 </video>
