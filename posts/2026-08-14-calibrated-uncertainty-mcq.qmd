@@ -1,0 +1,496 @@
+---
+title: "Know When You Don't Know"
+author: "Ritwik Raha"
+date: "2026-08-14"
+tags: [calibration, distillation, on-policy, uncertainty, selective prediction, Qwen, Tinker]
+format:
+  html:
+    page-layout: article
+    toc: true
+    toc-depth: 2
+image: /assets/images/calibrate-qwen/model_comparison.png
+---
+
+## Abstract
+
+This report examines whether a compact 4B language model can be trained to answer multiple-choice questions, report a useful confidence value, and abstain when incorrect. Three checkpoints of `Qwen/Qwen3.5-4B` were compared under an identical sampler, parser, and calibration protocol: the pretrained base, a fixed-sequence off-policy distillation of a `Qwen3.5-9B` teacher, and an on-policy reverse-KL distillation of the same teacher. On a 250-record in-domain test split, on-policy distillation was the only recipe that improved structured-output validity (0.708 to 0.932), reduced verbal expected calibration error (0.231 to 0.118), and produced a higher selective accuracy at a fixed 80 percent validation coverage (0.959 to 0.967). Off-policy distillation improved format validity to 0.840 but left calibration and error confidence approximately unchanged. Accuracy on the held-out CommonsenseQA split degraded uniformly by 12 to 13 points across all three checkpoints. The on-policy checkpoint carried the smallest out-of-domain NLL penalty and was subsequently packaged as a merged model with a frozen calibration policy, published to Hugging Face as [`ritwikraha/calibrate-qwen-unified`](https://huggingface.co/ritwikraha/calibrate-qwen-unified). All figures were rendered from the unified report attached to the release.
+
+- Code: [`AutoRegressive-Bhasha/calibrate_qwen`](https://github.com/ritwikraha/AutoRegressive-Bhasha/tree/main/calibrate_qwen)
+- Dataset: [`ritwikraha/calibrate-qwen-curated`](https://huggingface.co/datasets/ritwikraha/calibrate-qwen-curated)
+- Model: [`ritwikraha/calibrate-qwen-unified`](https://huggingface.co/ritwikraha/calibrate-qwen-unified)
+
+---
+
+## Introduction
+
+A useful confidence signal on a language model is not the number the model prints inside a JSON field. It is a scalar that separates correct answers from incorrect ones, degrades gracefully out of domain, and remains stable when the surface form of the question is perturbed. Most instruction-tuned models emit a confidence value that fails at least one of these tests. The verbal number tends to saturate near unity with a persistence that can reasonably be described as devotional. That number does not track a hold-out risk-coverage curve. That number also changes when multiple-choice option order is shuffled, an operation that leaves the correct answer unchanged.
+
+The present study poses a narrow question. Given a 4B student and a 9B teacher from the same model family, can distillation transfer accuracy and a calibrated confidence signal into the student without breaking the structured output contract required by any downstream router? Two classical recipes are compared. The first is off-policy distillation on fixed teacher completions with soft targets at each supervised position. The second is on-policy distillation that samples from the student and applies a reverse KL to the teacher's distribution on the sampled tokens.
+
+Three arms are measured:
+
+1. **Base.** `Qwen/Qwen3.5-4B` with no fine-tuning.
+2. **Off-policy.** Fixed teacher completions with top-K teacher targets per position.
+3. **On-policy.** Student rollouts scored by the teacher under a reverse-KL update.
+
+The full model matrix described in the repository also contains hard-label SFT, teacher-completion SFT, and an SFT-then-on-policy chain. The unified report examined here covers the three arms above at a 250-record evaluation limit. The limit is acknowledged as an economic decision rather than a statistical one, and the reader is invited to hold the resulting numbers with correspondingly reduced enthusiasm.
+
+---
+
+## Background
+
+### The calibration failure mode
+
+For a classifier that outputs a probability $p$ on an event that occurs with frequency $q$, calibration is the property that $p$ approximates $q$. Expected calibration error partitions predictions into equal-width confidence bins and averages the gap between mean confidence and empirical accuracy in each bin:
+
+$$
+\operatorname{ECE} = \sum_{m=1}^{M}\frac{|B_m|}{N}\left|\operatorname{acc}(B_m) - \operatorname{conf}(B_m)\right|.
+$$
+
+Instruction-tuned language models tend to concentrate verbal confidence near unity. Verbal ECE measured on the base checkpoint below is 0.231, driven by two failure modes rather than one. The first is genuine overconfidence on wrong answers. The second is a schema failure: when the model omits the `abstain` field, the parser floors the recorded confidence to zero, and the record is deposited in the lowest bin at high accuracy. Both effects inflate ECE. Only the first is a calibration problem.
+
+### Off-policy versus on-policy distillation
+
+Off-policy distillation defines a fixed target sequence per prompt, then trains the student to match the teacher distribution at every position of that sequence. Let $\mathcal{V}_K$ denote the top-K teacher targets retained at position $t$. The loss is a token-level cross entropy against the teacher:
+
+$$
+\mathcal{L}_{\text{off}} = -\sum_{t}\sum_{v \in \mathcal{V}_K} p_T(v \mid x, y_{<t})\log p_S(v \mid x, y_{<t}).
+$$
+
+The target trajectory is drawn from the teacher, not the student. Whatever path the student prefers through the response is never observed by the training objective.
+
+On-policy distillation samples from the current student and evaluates the same tokens under the teacher. A reverse KL is applied on the student's own occupied distribution:
+
+$$
+\operatorname{KL}(p_S \Vert p_T) = \mathbb{E}_{y \sim p_S}\left[\log p_S(y \mid x) - \log p_T(y \mid x)\right].
+$$
+
+The gradient is computed on trajectories the student actually visits at inference time. The covariate-shift problem of off-policy imitation is addressed at the cost of additional teacher queries per training step.
+
+### Structured output as a first-class objective
+
+A model that emits an unparsable JSON object cannot be treated as a partial success. The parser cannot recover the answer, and the router cannot decide whether to defer. Format validity is therefore reported here on the same axis as accuracy. Invalid outputs are counted as incorrect predictions and assigned confidence zero for threshold analysis. This convention rewards recipes that satisfy the output contract as well as the accuracy target, and it declines to infer intent from ambient goodwill.
+
+### Pipeline overview
+
+The relationship between data, training, and evaluation is summarized in the following diagram.
+
+```text
+      Public MCQ sources
+   (ARC-C, OpenBookQA, MMLU, CommonsenseQA)
+                    |
+                    v
+        Normalization and stable IDs
+                    |
+                    v
+     Curation, deduplication, splitting
+              /     |      \
+             v      v       v
+      In-domain  OOD     Option-shuffled
+       (train,   (Common-  (2 permutations
+      val, test) senseQA)  per in-domain test)
+             |
+             v
+   Repeated Qwen3.5-9B teacher sampling
+             |
+             v
+  +----------+----------+-----------+
+  |          |          |           |
+  v          v          v           v
+Hard-  Teacher-   Off-policy   On-policy
+label  completion soft-target  reverse-KL
+SFT    SFT        distillation distillation
+  |          |          |           |
+  +----------+----------+-----------+
+                 |
+                 v
+         Structured sampling
+                 |
+                 v
+   Parser -> temperature fit -> threshold fit
+                 |
+                 v
+         Calibration and selective
+        prediction on held-out splits
+```
+
+---
+
+## Data
+
+### Sources and splits
+
+The training mixture is drawn from ARC-Challenge, OpenBookQA, and selected MMLU subjects. CommonsenseQA is reserved as an out-of-domain source. Held-out records from each training source form the in-domain test split. Two deterministic option-order permutations of each in-domain example form the robustness split.
+
+| Split | Records | Purpose |
+|---|---:|---|
+| Train | 9,134 | In-domain training mixture |
+| Phase 1 train | 2,000 | Economical pipeline and SFT validation |
+| Validation | 1,000 | Temperature and threshold fitting |
+| In-domain test | 1,163 | Held-out ARC, OpenBookQA, MMLU |
+| OOD test | 3,000 | Held-out CommonsenseQA |
+| Option-shuffled test | 2,326 | Two permutations per in-domain example |
+
+### Record schema
+
+Each record was serialized as a normalized JSON object with a stable identifier derived from the question and source. The identifier supports resume, cross-file joins, and parent-child relationships for perturbations.
+
+```json
+{
+  "id": "65e031c0d44323dc",
+  "source": "openbookqa",
+  "subject": "science_reasoning",
+  "question": "Which option best explains the observation?",
+  "choices": ["choice A", "choice B", "choice C", "choice D"],
+  "answer_index": 1,
+  "answer_label": "B",
+  "prompt": "Question: ...",
+  "split": "train"
+}
+```
+
+The curated splits were published to Hugging Face under four schema-compatible configurations.
+
+![The published dataset card on Hugging Face. Configurations are separated because the Hub applies a single feature schema per configuration; perturbation and teacher-metadata columns are intentional schema extensions.](/assets/images/calibrate-qwen/hf_dataset_page.png)
+
+### Teacher targets
+
+Repeated teacher samples were drawn from `Qwen/Qwen3.5-9B` on the 2,000-record Phase 1 subset with five samples per question. Modal answer, agreement confidence, and a representative justification were retained per record.
+
+| Statistic | Value |
+|---|---:|
+| Unique records | 2,000 |
+| Requested samples | 10,000 |
+| Valid parsed samples | 9,914 |
+| Parse rate | 99.14% |
+| Modal teacher accuracy | 89.80% |
+| Mean agreement confidence | 95.79% |
+| Unanimous records | 1,724 |
+| Unanimous rate | 86.20% |
+
+Agreement confidence for a question $x$ with sampled labels $a_1, \ldots, a_K$ is the mode frequency:
+
+$$
+c_T(x) = \frac{1}{K}\sum_{k=1}^{K}\mathbf{1}[a_k = \hat{a}_T], \qquad \hat{a}_T = \operatorname{mode}(a_1, \ldots, a_K).
+$$
+
+Five samples quantize this quantity in increments of 0.2. This is a property of the sampling budget rather than of the analysis, and is noted here for the reader who might otherwise be tempted to interpret three significant figures.
+
+---
+
+## Methods
+
+### Model choices
+
+The student is `Qwen/Qwen3.5-4B` and the teacher is `Qwen/Qwen3.5-9B`. Both use the `qwen3_5_disable_thinking` renderer to produce short structured responses. LoRA rank 32 was used across all training runs.
+
+### Structured output contract
+
+The student was trained to emit a single JSON object per question:
+
+```json
+{
+  "answer": "C",
+  "confidence": 0.8,
+  "justification": "Option C follows from the causal relation stated in the prompt.",
+  "abstain": false
+}
+```
+
+The parser enforces four constraints: `answer` must appear among the option labels listed in the prompt, `confidence` must be a scalar in $[0, 1]$, `justification` must be one non-empty sentence, and `abstain` must be a JSON boolean. Any missing or malformed field flips `schema_valid` to false and floors confidence to zero for the risk-coverage analysis. The parser has been observed to be uncooperative in this regard.
+
+### Off-policy distillation
+
+Fixed teacher completions were drawn from the modal Phase 1 samples. At every supervised position, the teacher distribution was queried and the top 20 targets were retained. Training was performed under the Tinker `train_off_policy` recipe.
+
+```python
+from training.train_off_policy import OffPolicyConfig, train_off_policy
+
+config = OffPolicyConfig(
+    conversation_file="artifacts/training/teacher_numeric.jsonl",
+    log_path="artifacts/runs/off_policy",
+    model_name="Qwen/Qwen3.5-4B",
+    teacher_model="Qwen/Qwen3.5-9B",
+    learning_rate=1e-4,
+    batch_size=16,
+    lora_rank=32,
+    n_teacher_targets=20,
+    teacher_concurrency=16,
+)
+await train_off_policy(config)
+```
+
+### On-policy distillation
+
+The on-policy recipe samples two rollouts per prompt, evaluates them under the teacher, and applies a reverse-KL update through Tinker's `train_on_policy` recipe. Sixteen prompt groups were batched per step and each rollout was truncated at 192 output tokens.
+
+```python
+from training.train_on_policy import OnPolicyConfig, train_on_policy
+
+config = OnPolicyConfig(
+    prompt_file="artifacts/training/prompts_on_policy.jsonl",
+    log_path="artifacts/runs/on_policy",
+    model_name="Qwen/Qwen3.5-4B",
+    teacher_model="Qwen/Qwen3.5-9B",
+    kl_coefficient=1.0,
+    rollouts_per_prompt=2,
+    group_size=16,
+    max_output_tokens=192,
+)
+await train_on_policy(config)
+```
+
+### Post-hoc calibration
+
+A one-parameter temperature was fit on 1,000 validation predictions by searching 300 candidate values on a geometric grid from 0.25 to 4.0. The objective was validation multiclass NLL on the answer-token distribution. An abstention threshold was then selected to hit a target coverage of 0.80 on the same validation split. The fitted calibration object was subsequently applied to in-domain, OOD, and robustness splits without refitting.
+
+```python
+def fit_temperature(records, labels, grid=np.geomspace(0.25, 4.0, 300)):
+    best_t, best_nll = 1.0, float("inf")
+    for t in grid:
+        nll = mean_nll_after_temperature(records, labels, t)
+        if nll < best_nll:
+            best_t, best_nll = t, nll
+    return best_t, best_nll
+```
+
+The three fitted temperatures for this run were 1.043 (base), 0.789 (off-policy), and 1.082 (on-policy). Only the off-policy distribution was sufficiently under-confident on validation to receive a sharpening temperature below unity.
+
+---
+
+## Evaluation protocol
+
+Each checkpoint was sampled with an identical renderer, decoding configuration, parser, and record set. Two confidence sources were recorded per record: the verbal number emitted inside the JSON payload, and a token-level answer probability computed by scoring each candidate answer label under an answer-only prompt and normalizing the resulting log-likelihoods:
+
+$$
+p(a_k \mid x) = \frac{\exp \log p_\theta(a_k \mid x)}{\sum_j \exp \log p_\theta(a_j \mid x)}.
+$$
+
+Reported per-split metrics are:
+
+- Accuracy on parsed records; invalid records were counted as incorrect.
+- Format validity as the fraction of records that satisfied the schema.
+- Expected calibration error on both confidence sources.
+- Multiclass Brier and NLL on the answer distribution.
+- Risk-coverage curve, AURC, and selective accuracy at the validation-selected threshold.
+- Mean confidence on errors, as a direct measurement of overconfidence severity.
+
+The evaluation limit for this report is 250 records per split. The setting was chosen for reasons of paid-compute economy. Absolute numbers are noisy at this size; relative comparisons between models evaluated on the same 250 records are the intended read.
+
+---
+
+## Results
+
+### In-domain summary
+
+| Model | Acc | Format | Verbal ECE | Token ECE (cal) | Brier | NLL | AURC | Mean conf on errors | Selective acc @ 0.8 cov |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Base | 0.880 | 0.708 | 0.231 | 0.055 | 0.189 | 0.381 | 0.039 | 0.574 | 0.959 |
+| Off-policy | 0.872 | 0.840 | 0.223 | 0.060 | 0.200 | 0.405 | 0.049 | 0.568 | 0.950 |
+| On-policy | 0.884 | 0.932 | 0.118 | 0.065 | 0.183 | 0.369 | 0.053 | 0.647 | 0.967 |
+
+Three observations are recorded:
+
+1. Accuracy moves within noise. All three arms lie within 1.2 percentage points of one another on 250 records. This is the intended outcome for a distillation study, since the point of the intervention was not to change the answer but to change how the model represents its confidence in that answer.
+2. Format validity is the metric on which the recipes separate. Off-policy training raised validity from 0.708 to 0.840. On-policy training raised it to 0.932. Because the parser is the first consumer downstream of the model, this is not a cosmetic result.
+3. Verbal ECE decreased from 0.231 to 0.118 under on-policy training. Most of the improvement was attributable to the disappearance of the schema-invalid cohort, whose confidence had been floored to zero in the base checkpoint. Token-level ECE, which is insensitive to schema failures, remained between 0.05 and 0.07 across all three arms.
+
+![In-domain comparison across accuracy, format validity, ECE, and mean confidence on errors.](/assets/images/calibrate-qwen/model_comparison.png)
+
+### Reliability
+
+The verbal-confidence distribution is essentially bimodal. Predictions either land in the [0.0, 0.1] bin because the parser floored an invalid record to zero, or in the [0.9, 1.0] bin because the model wrote a confidence value close to unity. The interior of the interval is largely unoccupied.
+
+| Model | Records in [0.0, 0.1] | Accuracy in bin | Records in [0.9, 1.0] | Confidence in bin | Accuracy in bin |
+|---|---:|---:|---:|---:|---:|
+| Base | 50 | 0.880 | 194 | 0.956 | 0.897 |
+| Off-policy | 40 | 0.875 | 210 | 0.970 | 0.871 |
+| On-policy | 14 | 0.786 | 236 | 0.968 | 0.890 |
+
+The reliability diagram makes the same point visually. The upper bin lies close to the diagonal for all three arms. The gap between the diagonal and the upper bin is 0.06 for base, 0.10 for off-policy, and 0.08 for on-policy. The primary driver of the verbal-ECE improvement is therefore the disappearance of the schema-invalid cohort, and not a meaningful sharpening of the confident bin itself. This distinction is stated at some length because it will not be obvious from the aggregate number alone.
+
+![Reliability diagrams for base, off-policy, and on-policy on the in-domain test split.](/assets/images/calibrate-qwen/reliability_comparison.png)
+
+### Risk and coverage
+
+At a validation-selected threshold of 0.868 for base, 0.845 for off-policy, and 0.891 for on-policy, all three arms exceeded 95 percent selective accuracy on the in-domain test split. On-policy was the only recipe to hit both a higher answered coverage on the test split (0.736 versus 0.688 for base) and a higher selective accuracy (0.967 versus 0.959). AURC values were close. The small AURC increase observed for the trained arms is attributable to a larger fraction of predictions being considered under the curve.
+
+![Risk-coverage curves on the in-domain test split.](/assets/images/calibrate-qwen/risk_coverage_comparison.png)
+
+### Out-of-domain transfer
+
+CommonsenseQA was held out and never observed during training. All three arms lost between 12 and 13 accuracy points from the in-domain to the OOD split. On-policy retained the lowest NLL and the lowest AURC on OOD, and additionally carried the highest format validity into the new domain.
+
+| Model | Domain | Records | Accuracy | ECE | NLL | AURC | Format validity |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Base | In-domain | 250 | 0.880 | 0.055 | 0.381 | 0.039 | 0.708 |
+| Base | OOD | 250 | 0.752 | 0.091 | 0.834 | 0.117 | 0.892 |
+| Off-policy | In-domain | 250 | 0.872 | 0.060 | 0.405 | 0.049 | 0.840 |
+| Off-policy | OOD | 250 | 0.760 | 0.104 | 0.842 | 0.112 | 0.936 |
+| On-policy | In-domain | 250 | 0.884 | 0.065 | 0.369 | 0.053 | 0.932 |
+| On-policy | OOD | 250 | 0.760 | 0.093 | 0.807 | 0.101 | 0.944 |
+
+![Domain transfer for the three arms.](/assets/images/calibrate-qwen/domain_transfer.png)
+
+### Option-order robustness
+
+Each in-domain example was duplicated with two deterministic option permutations, producing 500 paired records per model. The evaluation joins base and perturbed predictions by parent identifier and compares the selected choice text rather than the label.
+
+| Model | Pairs | Base acc on pairs | Perturbed acc | $\Delta$ acc | Choice-text consistency | Flip rate |
+|---|---:|---:|---:|---:|---:|---:|
+| Base | 500 | 0.880 | 0.848 | -0.032 | 0.888 | 0.112 |
+| Off-policy | 500 | 0.872 | 0.862 | -0.010 | 0.916 | 0.084 |
+| On-policy | 500 | 0.884 | 0.852 | -0.032 | 0.894 | 0.106 |
+
+Off-policy training produced the lowest flip rate. On-policy training did not close the robustness gap with the base checkpoint. The result is regarded as a genuine difference between the recipes: fixed-target imitation appears to reduce sensitivity to option order, whereas student-sampled rollouts do not.
+
+![Option-order robustness on paired records.](/assets/images/calibrate-qwen/option_order_robustness.png)
+
+### Per-source breakdown
+
+The gains from on-policy training were concentrated on MMLU and ARC-Challenge. OpenBookQA showed a small regression on both trained arms.
+
+| Model | Source | Records | Accuracy | ECE | AURC | Format validity |
+|---|---|---:|---:|---:|---:|---:|
+| Base | arc_challenge | 23 | 1.000 | 0.160 | 0.000 | 1.000 |
+| Base | mmlu | 129 | 0.884 | 0.042 | 0.049 | 0.504 |
+| Base | openbookqa | 98 | 0.847 | 0.074 | 0.038 | 0.908 |
+| Off-policy | arc_challenge | 23 | 0.913 | 0.119 | 0.008 | 0.913 |
+| Off-policy | mmlu | 129 | 0.899 | 0.081 | 0.057 | 0.752 |
+| Off-policy | openbookqa | 98 | 0.827 | 0.050 | 0.043 | 0.939 |
+| On-policy | arc_challenge | 23 | 0.913 | 0.087 | 0.006 | 0.870 |
+| On-policy | mmlu | 129 | 0.915 | 0.087 | 0.064 | 0.907 |
+| On-policy | openbookqa | 98 | 0.837 | 0.079 | 0.038 | 0.980 |
+
+The largest single effect is the MMLU format-validity improvement: 0.504 for base to 0.907 for on-policy. The base model was failing the schema on roughly half of its MMLU responses. On-policy training did substantially more to repair the JSON envelope than to alter the enclosed answer.
+
+### A qualitative sample
+
+The following prediction from the on-policy checkpoint illustrates how the calibration protocol interacts with the emitted JSON on an OpenBookQA record.
+
+```json
+{
+  "question": "People can touch something to see if it's",
+  "choices": ["shiny", "red", "striped", "wrinkled"],
+  "gold": "D",
+  "raw_prediction": "{\"answer\":\"D\",\"confidence\":0.95,\"justification\":\"Touching is the primary sense used to detect texture, such as whether something is wrinkled, whereas the other options are visual properties.\",\"abstain\":false}",
+  "verbal_confidence": 0.782,
+  "option_probabilities": {"A": 0.196, "B": 0.018, "C": 0.004, "D": 0.782},
+  "abstain_after_calibration": true
+}
+```
+
+The verbal fields declared 0.95 and `false`. The token-level answer probability was 0.782. That value is below the fitted abstention threshold of 0.891, so the calibration layer overrode `abstain` to true. Roughly two-thirds of the mass sat on `D`, and the tail on `A` remained sizeable. The calibration layer performed the function for which it was fitted: deferral when the underlying distribution is insufficiently sharp, irrespective of the number the model chose to print.
+
+![A per-record trace of the sampled distribution over choices.](/assets/images/calibrate-qwen/sample_00ab635063402d63.png)
+
+---
+
+## Publication
+
+The on-policy checkpoint was selected as the release candidate based on the combination of highest in-domain accuracy, highest structured-output validity, lowest multiclass NLL, and highest selective accuracy at the fixed 80 percent validation coverage. The release was produced by the notebook [`05_publish_unified_checkpoint.ipynb`](https://github.com/ritwikraha/AutoRegressive-Bhasha/blob/main/calibrate_qwen/notebooks/05_publish_unified_checkpoint.ipynb) and published to Hugging Face at [`ritwikraha/calibrate-qwen-unified`](https://huggingface.co/ritwikraha/calibrate-qwen-unified).
+
+![The published model card on Hugging Face. The release is a merged 5B-parameter model in BF16 with a chat template attached, tagged for text generation, on-policy distillation, confidence calibration, and selective prediction.](/assets/images/calibrate-qwen/hf_model_page.png)
+
+### Notebook procedure
+
+The publication pipeline was structured as a sequence of small, verifiable stages. Each stage is described below with a minimum of decoration.
+
+**1. Environment and credentials.** A fresh Colab runtime was provisioned with approximately 25 GiB of free disk. `tinker`, `tinker-cookbook`, `huggingface_hub`, `transformers`, `peft`, `accelerate`, and `safetensors` were installed. Two secrets, `TINKER_API_KEY` and `HF_WRITE_ACCESS`, were read from the Colab Secrets panel. No credential values are present in the notebook source.
+
+**2. Checkpoint selection and TTL removal.** The Tinker sampler-weight path corresponding to the on-policy run was declared as `SOURCE_CHECKPOINT`. The Tinker service was queried to confirm that the checkpoint's declared base model matched `Qwen/Qwen3.5-4B`. The checkpoint's time-to-live was subsequently set to `None`. This step was included on the observation that expired checkpoints are difficult to publish.
+
+```python
+service_client = tinker.ServiceClient()
+rest_client = service_client.create_rest_client()
+checkpoint_info = rest_client.get_weights_info_by_tinker_path(SOURCE_CHECKPOINT).result()
+assert checkpoint_info.base_model == BASE_MODEL
+rest_client.set_checkpoint_ttl_from_tinker_path(
+    SOURCE_CHECKPOINT, ttl_seconds=None
+).result()
+```
+
+**3. Report ingestion and release-worthiness assertions.** The unified evaluation report was loaded from Drive when available, and from an embedded verified snapshot otherwise. Four assertions were then evaluated in sequence to confirm that the on-policy row remained the maximum on accuracy, the maximum on format validity, the minimum on multiclass NLL, and the maximum on selective accuracy. The publication pipeline was configured to refuse to proceed when any of these predicates failed.
+
+**4. Release-metadata construction.** Four artifacts were then constructed and written to a publication staging directory: (a) a `calibration_config.json` recording the fitted temperature, abstention threshold, target coverage, and fit-split identifier; (b) a `structured_output_schema.json` file expressing the JSON output contract; (c) an `evaluation_summary.json` file transcribing the on-policy row of the unified report along with OOD and robustness figures; and (d) a `calibration.py` helper that implements temperature scaling and threshold-based abstention as ordinary Python functions. Compact report evidence was copied alongside these files.
+
+**5. Merge and export.** Because `EXPORT_FORMAT` was set to `'merged'`, the Tinker adapter was downloaded from the sampler-weight path and merged with `Qwen/Qwen3.5-4B` using the low-memory shard strategy in `tinker_cookbook.weights.build_hf_model`. The resulting directory contained standard `transformers` files together with the four publication artifacts. Existence of `config.json`, `README.md`, `calibration_config.json`, `evaluation_summary.json`, and at least one `*.safetensors` file was verified before upload.
+
+```python
+weights.build_hf_model(
+    base_model=BASE_MODEL,
+    adapter_path=str(TINKER_ADAPTER_DIR),
+    output_path=str(MERGED_MODEL_DIR),
+    trust_remote_code=True,
+    merge_strategy='shard',
+)
+```
+
+**6. Upload and post-upload verification.** The staged directory was uploaded via `tinker_cookbook.weights.publish_to_hf_hub`. The published repository was subsequently re-read through `HfApi.model_info` and the presence of the required file set was asserted. `calibration_config.json` was downloaded from the Hub and its `temperature` and `abstention_threshold` fields were compared to the local values with `math.isclose`. Any deviation would have failed the notebook.
+
+**7. Optional local smoke test.** Because `RUN_LOCAL_SMOKE_TEST` was disabled by default, no local generation was performed. The merged model was expected to be loadable through `AutoModelForCausalLM.from_pretrained` and to emit a schema-valid response to the shipped system prompt on a canonical prompt. The reader is invited to verify this claim independently.
+
+### Consumption
+
+For downstream consumers, the recommended loading path was as follows.
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("ritwikraha/calibrate-qwen-unified")
+model = AutoModelForCausalLM.from_pretrained(
+    "ritwikraha/calibrate-qwen-unified",
+    device_map="auto",
+    torch_dtype="auto",
+    trust_remote_code=True,
+)
+```
+
+The calibration policy shipped alongside the weights was intended to be treated as a first-class artifact. The `calibration.py` helper, when applied to option probabilities obtained from the model, produces a decision object with `answer`, `confidence`, `abstain`, and the full temperature-scaled option distribution. Consumers who cannot score options at inference time may fall back to the verbal confidence, at the cost of the phenomena documented earlier in this report.
+
+---
+
+## Discussion
+
+### Verbal confidence is not the calibration signal
+
+Verbal ECE decreased from 0.231 to 0.118 across the three arms. The underlying calibration curve for the confident bin moved by comparatively little. The dominant effect was that on-policy training removed the schema-invalid cohort, whose zero-confidence records had inflated the reported number. A study that reports verbal ECE alone is therefore measuring format compliance as well as calibration, and the two contributions cannot be separated without the token-level breakdown reported here.
+
+The token-level answer probability behaves differently. It is a continuous quantity, it responds to temperature scaling, and it changes in ways that separate the recipes on the risk-coverage axis. This is the calibration signal a downstream selector should consume. The verbal number the model prints is not.
+
+### On-policy training buys format compliance
+
+Format validity was the metric that moved most under both recipes. Off-policy raised it from 0.708 to 0.840. On-policy raised it to 0.932. The MMLU per-source result is more extreme: 0.504 to 0.907. This is a real product effect. A router that must decide whether to answer, defer, or escalate cannot do so without a valid JSON object. Both recipes deliver the object. On-policy delivers more of it.
+
+The mechanism is intuitive. Off-policy training exposes the student to a fixed target once, at teacher-drawn positions. On-policy training samples from the student's own distribution, so any tokens the student produces that violate the schema receive a corrective KL gradient. When the student exhibits a persistent tendency to omit a field, on-policy training visits that failure mode and updates it. Off-policy training does not.
+
+### Robustness does not follow the same ordering
+
+Off-policy produced the lowest option-order flip rate. On-policy did not. This is the one axis on which fixed-target imitation appears to help more. The mechanism is again intuitive: fixed teacher targets are stable in a way that student rollouts are not, and the student learns to reproduce the same content across positional variants. On-policy rollouts are stochastic. The student is exposed to more variation, which improves format compliance and calibration but does not by itself repair sensitivity to option order.
+
+A combined recipe of teacher-completion SFT followed by on-policy distillation is present on the experiment matrix and was not evaluated in this report. That recipe is the natural way to attempt to buy the robustness of the fixed-target regime and the format compliance of the on-policy regime in the same checkpoint.
+
+### The OOD gap is uniform
+
+All three arms lost approximately the same amount of accuracy on CommonsenseQA. Neither distillation recipe closed the OOD gap, and neither opened it further. On-policy retained the lowest OOD NLL and the lowest OOD AURC, which is consistent with the in-domain observation that its confidence signal is doing more useful work than the verbal number would otherwise suggest.
+
+---
+
+## Limitations
+
+- **Evaluation scale.** Every split in this report was evaluated at 250 records. Confidence intervals on individual entries are correspondingly wide. Relative comparisons on the same 250 records are the intended read; absolute accuracies should be treated as smoke-scale, and confused for benchmark estimates only in violation of the guidance provided.
+- **Missing arms.** Hard-label SFT, teacher-completion SFT, and the SFT-then-on-policy chain remain unmeasured in this unified report.
+- **Quantized teacher confidence.** Teacher agreement confidence was derived from five samples and is therefore quantized in increments of 0.2. This restricts the fidelity of any confidence target derived from teacher agreement.
+- **Verbal ECE is a mixed metric.** Because invalid outputs were floored to zero confidence, verbal ECE conflates calibration with format compliance. Token-level ECE is the cleaner signal.
+- **Single seed.** Each recipe was trained and evaluated at one seed. Cross-seed variance was not measured.
+- **Same model family.** Both student and teacher were drawn from Qwen 3.5. Cross-family transfer was not addressed.
+
+---
+
+## Conclusion
+
+On-policy distillation from a 9B teacher into a 4B Qwen student was found to improve the metrics a downstream system actually consumes. Structured-output validity rose from 0.708 to 0.932. Verbal ECE decreased from 0.231 to 0.118, an improvement largely attributable to the disappearance of the schema-invalid cohort. Selective accuracy at a fixed 80 percent validation coverage rose from 0.959 to 0.967. Off-policy distillation improved format validity but produced no meaningful change in calibration or error confidence, while remaining the only recipe to reduce option-order flip rate. Neither recipe closed the 12-point OOD gap on CommonsenseQA, though on-policy retained the lowest OOD NLL.
+
+The two recipes are not interchangeable, and they are not strictly ordered. On-policy training was observed to buy format compliance and calibration. Off-policy training was observed to buy robustness to surface perturbation. The natural next experiment is the SFT-then-on-policy chain that is already staged in the repository, together with a rerun at full evaluation scale and multiple seeds.
+
+The selected checkpoint was merged with its calibration policy and published as [`ritwikraha/calibrate-qwen-unified`](https://huggingface.co/ritwikraha/calibrate-qwen-unified). The full source, curated dataset, and evaluation artifacts are available at [`AutoRegressive-Bhasha/calibrate_qwen`](https://github.com/ritwikraha/AutoRegressive-Bhasha/tree/main/calibrate_qwen).
