@@ -1,5 +1,5 @@
 ---
-title: "Running Gemma 4 as a commander in 0 A.D."
+title: "Running Gemma 4 as a Commander in a strategy game"
 author: "Ritwik Raha"
 date: "2026-08-30"
 tags: [LLM agents, reinforcement learning, 0 A.D., Gemma, RTS, evaluation]
@@ -8,8 +8,15 @@ format:
     page-layout: article
     toc: true
     toc-depth: 2
-image: /assets/images/age-of-llms/action-space.svg
+image: /assets/images/age-of-llms/thousand-turn-match.gif
 ---
+
+![Gemma commanding Sparta against PetraBot over 1,000 engine turns, recorded from the game's own replay renderer.](/assets/images/age-of-llms/thousand-turn-match.gif)
+
+The question in this post comes from
+[Can LLM Agents Actually Play Strategy Games](https://www.youtube.com/watch?v=lUn9tLlTQZY)
+by Lossfunk, and the experiment below is my attempt to answer it with a small model and
+a real game engine.
 
 I connected `google/gemma-4-E2B-it` to the real 0 A.D. Release 28 engine and let it
 command a Spartan civilization against the game's built in PetraBot. The model lost
@@ -87,7 +94,8 @@ decision run.
 </video>
 
 The second is the full 1,000 turn match, which ran for 599.8 simulated seconds and was
-fitted into 45 seconds of video.
+fitted into 45 seconds of video. The animation at the top of the post is the same match
+at lower quality.
 
 <video controls preload="metadata" width="100%" style="border-radius:6px">
   <source src="/assets/videos/age-of-llms/exp-rts-001-thousand-turn-match.mp4" type="video/mp4">
